@@ -1,0 +1,91 @@
+[[feature]]
+kind = "lang"
+flag = "const_constructor"
+stable_since = "1.40.0"
+desc_short = "calling constructor functions in `const fn`"
+
+[[feature]]
+flag = "float_to_from_bytes"
+kind = "stdlib"
+stable_since = "1.40.0"
+desc_short = "{float} ↔ bytes conversion"
+items = [
+    "f32::to_ne_bytes", "f32::to_le_bytes", "f32::to_be_bytes",
+    "f32::from_ne_bytes", "f32::from_le_bytes", "f32::from_be_bytes",
+
+    "f64::to_ne_bytes", "f64::to_le_bytes", "f64::to_be_bytes",
+    "f64::from_ne_bytes", "f64::from_le_bytes", "f64::from_be_bytes",
+]
+
+[[feature]]
+flag = "int_to_from_bytes"
+kind = "stdlib"
+stable_since = "1.32.0"
+desc_short = "{integer} ↔ bytes conversion"
+items = [
+    "i8::to_ne_bytes", "i8::to_le_bytes", "i8::to_be_bytes",
+    "i8::from_ne_bytes", "i8::from_le_bytes", "i8::from_be_bytes",
+
+    "i16::to_ne_bytes", "i16::to_le_bytes", "i16::to_be_bytes",
+    "i16::from_ne_bytes", "i16::from_le_bytes", "i16::from_be_bytes",
+
+    "i32::to_ne_bytes", "i32::to_le_bytes", "i32::to_be_bytes",
+    "i32::from_ne_bytes", "i32::from_le_bytes", "i32::from_be_bytes",
+
+    "i64::to_ne_bytes", "i64::to_le_bytes", "i64::to_be_bytes",
+    "i64::from_ne_bytes", "i64::from_le_bytes", "i64::from_be_bytes",
+
+    "i128::to_ne_bytes", "i128::to_le_bytes", "i128::to_be_bytes",
+    "i128::from_ne_bytes", "i128::from_le_bytes", "i128::from_be_bytes",
+
+    "isize::to_ne_bytes", "isize::to_le_bytes", "isize::to_be_bytes",
+    "isize::from_ne_bytes", "isize::from_le_bytes", "isize::from_be_bytes",
+
+    "u8::to_ne_bytes", "u8::to_le_bytes", "u8::to_be_bytes",
+    "u8::from_ne_bytes", "u8::from_le_bytes", "u8::from_be_bytes",
+
+    "u16::to_ne_bytes", "u16::to_le_bytes", "u16::to_be_bytes",
+    "u16::from_ne_bytes", "u16::from_le_bytes", "u16::from_be_bytes",
+
+    "u32::to_ne_bytes", "u32::to_le_bytes", "u32::to_be_bytes",
+    "u32::from_ne_bytes", "u32::from_le_bytes", "u32::from_be_bytes",
+
+    "u64::to_ne_bytes", "u64::to_le_bytes", "u64::to_be_bytes",
+    "u64::from_ne_bytes", "u64::from_le_bytes", "u64::from_be_bytes",
+
+    "u128::to_ne_bytes", "u128::to_le_bytes", "u128::to_be_bytes",
+    "u128::from_ne_bytes", "u128::from_le_bytes", "u128::from_be_bytes",
+
+    "usize::to_ne_bytes", "usize::to_le_bytes", "usize::to_be_bytes",
+    "usize::from_ne_bytes", "usize::from_le_bytes", "usize::from_be_bytes",
+]
+
+[[feature]]
+flag = "underscore_lifetimes"
+kind = "lang"
+stable_since = "1.26.0"
+desc_short = "placeholder lifetimes (`'_`)"
+
+[[feature]]
+flag = "compile_error"
+kind = "stdlib"
+stable_since = "1.20.0"
+desc_short = "the `compile_error!` macro"
+
+[[feature]]
+flag = "no_std"
+kind = "lang"
+stable_since = "1.6.0"
+desc_short = "`#![no_std]`"
+
+[[feature]]
+flag = "if_let"
+kind = "lang"
+desc_short = "`if let` expressions"
+stable_since = "1.0.0"
+
+[[feature]]
+flag = "while_let"
+kind = "lang"
+desc_short = "`while let` expressions"
+stable_since = "1.0.0"

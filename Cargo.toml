@@ -1,0 +1,16 @@
+[package]
+name = "rust-features-yew"
+version = "0.1.0"
+authors = ["Jonas Platte <jplatte+git@posteo.de>"]
+edition = "2018"
+
+#[lib]
+#crate-type = ["cdylib"]
+
+[dependencies]
+yew = "0.11.0"
+
+[build-dependencies]
+serde = { version = "1.0.104", features = ["derive"] }
+toml = "0.5.5"
+quote = "1.0.2"

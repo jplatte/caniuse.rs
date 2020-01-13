@@ -1,0 +1,3 @@
+edition = "2018"
+use_small_heuristics = "Max"
+merge_imports = true
