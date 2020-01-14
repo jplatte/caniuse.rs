@@ -38,6 +38,7 @@ impl Component for App {
         } else {
             let mut features =
                 FEATURES.iter().filter(|f| f.matches(&self.current_search_term)).map(|f| {
+                    // TODO: Show feature flag name
                     html! {
                         <li>
                             <span class="desc">{f.desc_short}</span>

@@ -29,7 +29,8 @@ pub enum FeatureKind {
 
 impl Feature {
     pub fn matches(&self, search_term: &str) -> bool {
-        // TODO: return Option<Span>, fuzzy matching
+        // TODO(1): match on flag, items
+        // TODO(2): return Option<Span>, fuzzy matching
         self.desc_short.find(search_term).is_some()
     }
 }
