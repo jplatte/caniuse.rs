@@ -28,11 +28,35 @@ pub enum FeatureKind {
 }
 
 impl Feature {
-    pub fn matches(&self, search_term: &str) -> bool {
-        // TODO(1): match on flag, items
-        // TODO(2): return Option<Span>, fuzzy matching
-        self.desc_short.find(search_term).is_some()
+    pub fn matches(&self, search_term: &str) -> Option<Match> {
+        // TODO: fuzzy matching
+        let len = search_term.len();
+
+        let mut res = Match::default();
+        res.flag_span = self.flag.and_then(|f| f.find(search_term).map(|start| span(start, len)));
+        res.desc_span = self.desc_short.find(search_term).map(|start| span(start, len));
+        res.item_spans =
+            self.items.iter().map(|i| i.find(search_term).map(|start| span(start, len))).collect();
+
+        if res.flag_span.is_some() || res.desc_span.is_some() || !res.item_spans.is_empty() {
+            Some(res)
+        } else {
+            None
+        }
     }
+}
+
+#[derive(Clone, Debug, Default)]
+pub struct Match {
+    flag_span: Option<Span>,
+    desc_span: Option<Span>,
+    item_spans: Vec<Option<Span>>,
+}
+
+pub type Span = std::ops::Range<usize>;
+
+fn span(start: usize, len: usize) -> Span {
+    Span { start, end: start + len }
 }
 
 include!(concat!(env!("OUT_DIR"), "/features.rs"));

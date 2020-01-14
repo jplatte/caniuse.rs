@@ -36,13 +36,15 @@ impl Component for App {
         let content = if self.current_search_term.is_empty() {
             html! { <a href="list.html">{"Full list"}</a> }
         } else {
-            let mut features =
-                FEATURES.iter().filter(|f| f.matches(&self.current_search_term)).map(|f| {
+            let mut features = FEATURES
+                .iter()
+                .filter(|f| f.matches(&self.current_search_term).is_some())
+                .map(|f| {
                     // TODO: Show feature flag name
                     html! {
                         <li>
                             <span class="desc">{f.desc_short}</span>
-                            <span class="since">{"Rust "}{f.stable_since}</span>
+                            <span class="since">{"Rust"} {f.stable_since}</span>
                         </li>
                     }
                 });
