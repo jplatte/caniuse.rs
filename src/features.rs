@@ -38,7 +38,10 @@ impl Feature {
         res.item_spans =
             self.items.iter().map(|i| i.find(search_term).map(|start| span(start, len))).collect();
 
-        if res.flag_span.is_some() || res.desc_span.is_some() || !res.item_spans.is_empty() {
+        if res.flag_span.is_some()
+            || res.desc_span.is_some()
+            || res.item_spans.iter().any(|s| s.is_some())
+        {
             Some(res)
         } else {
             None
@@ -48,9 +51,9 @@ impl Feature {
 
 #[derive(Clone, Debug, Default)]
 pub struct Match {
-    flag_span: Option<Span>,
-    desc_span: Option<Span>,
-    item_spans: Vec<Option<Span>>,
+    pub flag_span: Option<Span>,
+    pub desc_span: Option<Span>,
+    pub item_spans: Vec<Option<Span>>,
 }
 
 pub type Span = std::ops::Range<usize>;

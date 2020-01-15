@@ -1,0 +1,94 @@
+:root {
+    --bg-color: #fff;
+    --box-bg: #f5f5f5;
+    --text-color: #333;
+    --text-muted-color: #666;
+    --link-hover-color: #4f4f4f;
+
+    --green: #1F741F;
+    --highlight-color: #2C6D6D;
+    --highlight-color-2: #4F8787;
+
+    --max-page-width: 768px;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg-color: #353535;
+        --box-bg: #2a2a2a;
+        --text-color: #fff;
+        --text-muted-color: #999;
+        --link-hover-color: #ccc;
+
+        --green: #3B913B;
+        --highlight-color: #77A4A4;
+        --highlight-color-2: #4C8585;
+    }
+}
+
+html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+body {
+    color: var(--text-color);
+    background: var(--bg-color);
+}
+
+.page {
+    max-width: var(--max-page-width);
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+a {
+    color: var(--text-color);
+}
+
+a:hover {
+    color: var(--link-hover-color);
+    transition: color .2s;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+}
+
+.feature-box {
+    background: var(--box-bg);
+    margin: 1rem 0;
+    padding: .5rem;
+}
+
+.feature {
+    position: relative;
+}
+
+.desc {
+    margin: 0 0 .5rem;
+}
+
+.flag {
+    color: var(--text-muted-color);
+    margin: .5rem 0;
+}
+
+.since {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: var(--green);
+}
+
+.match {
+    color: var(--highlight-color);
+}
+
+.flag .match {
+    color: var(--highlight-color-2);
+}
