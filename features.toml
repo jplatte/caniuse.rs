@@ -1,28 +1,28 @@
-[[feature]]
+[[features]]
 desc_short = "calling constructor functions in `const fn`"
 kind = "lang"
 flag = "const_constructor"
 stable_since = "1.40.0"
 
-[[feature]]
+[[features]]
 desc_short = "`#![non_exhaustive]`"
 kind = "lang"
 flag = "non_exhaustive"
 stable_since = "1.40.0"
 
-[[feature]]
+[[features]]
 desc_short = "macro invocations in `extern {}` blocks"
 kind = "lang"
 flag = "macros_in_extern"
 stable_since = "1.40.0"
 
-[[feature]]
+[[features]]
 desc_short = "`#[cfg(doctest)]`"
 kind = "lang"
 flag = "cfg_doctest"
 stable_since = "1.40.0"
 
-[[feature]]
+[[features]]
 desc_short = "{float} ↔ bytes conversion"
 flag = "float_to_from_bytes"
 kind = "stdlib"
@@ -35,7 +35,7 @@ items = [
     "f64::from_ne_bytes", "f64::from_le_bytes", "f64::from_be_bytes",
 ]
 
-[[feature]]
+[[features]]
 desc_short = "`is_power_of_two` as `const fn`"
 kind = "stdlib"
 stable_since = "1.40.0"
@@ -48,55 +48,55 @@ items = [
     "usize::is_power_of_two",
 ]
 
-[[feature]]
+[[features]]
 desc_short = "async / .await"
 flag = "async_await"
 kind = "lang"
 stable_since = "1.39.0"
 
-[[feature]]
+[[features]]
 desc_short = "`Vec::new` as `const fn`"
 kind = "stdlib"
 stable_since = "1.39.0"
 
-[[feature]]
+[[features]]
 desc_short = "`String::new` as `const fn`"
 kind = "stdlib"
 stable_since = "1.39.0"
 
-[[feature]]
+[[features]]
 desc_short = "`LinkedList::new` as `const fn`"
 kind = "stdlib"
 stable_since = "1.39.0"
 
-[[feature]]
+[[features]]
 desc_short = "`str::len` as `const fn`"
 kind = "stdlib"
 stable_since = "1.39.0"
 
-[[feature]]
+[[features]]
 desc_short = "`[T]::len` as `const fn`"
 kind = "stdlib"
 stable_since = "1.39.0"
 
-[[feature]]
+[[features]]
 desc_short = "`str::as_bytes` as `const fn`"
 kind = "stdlib"
 stable_since = "1.39.0"
 
-[[feature]]
+[[features]]
 desc_short = "euclidean division & modulo"
 flag = "euclidean_division"
 kind = "stdlib"
 stable_since = "1.38.0"
 
-[[feature]]
+[[features]]
 desc_short = "`const _: TYPE = VALUE`"
 flag = "underscore_const_names"
 kind = "lang"
 stable_since = "1.37.0"
 
-[[feature]]
+[[features]]
 desc_short = "`overflowing_neg` as `const fn`"
 kind = "stdlib"
 stable_since = "1.34.0"
@@ -115,7 +115,7 @@ items = [
     "usize::overflowing_neg",
 ]
 
-[[feature]]
+[[features]]
 desc_short = "`wrapping_neg` as `const fn`"
 kind = "stdlib"
 stable_since = "1.34.0"
@@ -134,7 +134,7 @@ items = [
     "usize::wrapping_neg",
 ]
 
-[[feature]]
+[[features]]
 desc_short = "{integer} ↔ bytes conversion"
 flag = "int_to_from_bytes"
 kind = "stdlib"
@@ -177,38 +177,38 @@ items = [
     "usize::from_ne_bytes", "usize::from_le_bytes", "usize::from_be_bytes",
 ]
 
-[[feature]]
+[[features]]
 desc_short = "placeholder lifetimes (`'_`)"
 flag = "underscore_lifetimes"
 kind = "lang"
 stable_since = "1.26.0"
 
-[[feature]]
+[[features]]
 desc_short = "128 bit integer types"
 flag = "i128_type"
 kind = "lang"
 stable_since = "1.26.0"
 items = ["i128", "u128"]
 
-[[feature]]
+[[features]]
 desc_short = "the `compile_error!` macro"
 flag = "compile_error"
 kind = "stdlib"
 stable_since = "1.20.0"
 
-[[feature]]
+[[features]]
 desc_short = "`#![no_std]`"
 flag = "no_std"
 kind = "lang"
 stable_since = "1.6.0"
 
-[[feature]]
+[[features]]
 desc_short = "`if let` expressions"
 flag = "if_let"
 kind = "lang"
 stable_since = "1.0.0"
 
-[[feature]]
+[[features]]
 desc_short = "`while let` expressions"
 flag = "while_let"
 kind = "lang"

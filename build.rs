@@ -1,5 +1,6 @@
 use std::{
     env,
+    error::Error,
     fmt::{self, Debug, Display},
     fs::{self, File},
     io::{BufWriter, Write},
@@ -7,17 +8,18 @@ use std::{
 };
 
 use quote::{format_ident, quote};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
+use tera::{Context, Tera};
 
-#[derive(Clone, Debug, Deserialize)]
-struct FeatureFile {
-    feature: Vec<Feature>,
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct FeatureList {
+    features: Vec<Feature>,
 }
 
 /// A "feature", as tracked by this app. Can be a nightly Rust feature, a
 /// stabilized API, or anything else that one version of Rust (deliberately)
 /// supports while a previous one didn't support it.
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 struct Feature {
     /// Feature flag name, for things that were previously or are still Rust
     /// nightly features with such a thing (`#![feature(...)]`)
@@ -36,7 +38,7 @@ struct Feature {
     // TODO: Long description (pbbly with markdown)
 }
 
-#[derive(Copy, Clone, Debug, Deserialize)]
+#[derive(Copy, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "lowercase")]
 enum FeatureKind {
     /// A language feature
@@ -51,18 +53,28 @@ impl quote::IdentFragment for FeatureKind {
     }
 }
 
-fn main() {
+fn main() -> Result<(), Box<dyn Error>> {
     println!("cargo:rerun-if-changed=features.toml");
+    println!("cargo:rerun-if-changed=templates/index.html");
+    println!("cargo:rerun-if-changed=templates/list.html");
+    println!("cargo:rerun-if-changed=templates/skel.html");
 
-    let features_raw = fs::read("features.toml").unwrap();
-    let feature_file: FeatureFile = toml::from_slice(&features_raw).unwrap();
+    let features_raw = fs::read("features.toml")?;
+    let feature_list: FeatureList = toml::from_slice(&features_raw)?;
 
-    // TODO: Also generate static/list.html
+    let tera = Tera::new("templates/*")?;
+    fs::write("static/index.html", tera.render("index.html", &Context::new())?)?;
+    fs::write(
+        "static/list.html",
+        tera.render("list.html", &Context::from_serialize(&feature_list)?)?,
+    )?;
 
     let out_dir = env::var("OUT_DIR").unwrap();
     let out_path = Path::new(&out_dir).join("features.rs");
-    let mut out = BufWriter::new(File::create(out_path).unwrap());
-    write!(out, "{}", generate_features_array(&feature_file.feature)).unwrap();
+    let mut out = BufWriter::new(File::create(out_path)?);
+    write!(out, "{}", generate_features_array(&feature_list.features))?;
+
+    Ok(())
 }
 
 fn generate_features_array(features: &[Feature]) -> impl Display {
