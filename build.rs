@@ -31,6 +31,8 @@ struct Feature {
     version: String,
     /// Short description to identify the feature
     desc_short: String,
+    /// Stabilization PR id (https://github.com/rust-lang/rust/pull/{id})
+    stabilization_pr_id: Option<u64>,
     /// Language items (functions, structs, modules) that are part of this
     /// feature (unless this feature is exactly one item and that item is
     /// already used as desc_short)
@@ -56,6 +58,7 @@ impl quote::IdentFragment for FeatureKind {
 
 fn main() -> Result<(), Box<dyn Error>> {
     println!("cargo:rerun-if-changed=features.toml");
+    println!("cargo:rerun-if-changed=versions.toml");
     println!("cargo:rerun-if-changed=templates/index.html");
     println!("cargo:rerun-if-changed=templates/nightly.html");
     println!("cargo:rerun-if-changed=templates/skel.html");

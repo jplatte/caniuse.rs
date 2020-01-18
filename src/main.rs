@@ -47,7 +47,9 @@ impl Component for App {
 
         html! {
             <main class="page">
+                {"Can I use "}
                 <input type="search" oninput=self.link.callback(|e: InputData| Msg::Search(e.value)) />
+                {" ?"}
                 <ul class="feature-list">{ features }</ul>
             </main>
         }

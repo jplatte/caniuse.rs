@@ -1,5 +1,5 @@
 [[features]]
-desc_short = "calling constructor functions in `const fn`"
+desc_short = "constructor functions in `const fn`"
 kind = "lang"
 flag = "const_constructor"
 version = "1.40.0"
@@ -15,9 +15,13 @@ desc_short = "macro invocations in `extern {}` blocks"
 kind = "lang"
 flag = "macros_in_extern"
 version = "1.40.0"
+stabilization_pr_id = 63931
 
-#[[features]]
-#desc_short = "use function-like procedural macros in type position"
+[[features]]
+desc_short = "function-like procedural macros in type position"
+kind = "lang"
+version = "1.40.0"
+stabilization_pr_id = 63931
 
 [[features]]
 desc_short = "proc-macros that generate `macro_rules!` macros"
