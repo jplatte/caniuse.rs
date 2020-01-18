@@ -1,8 +1,8 @@
 /// A "feature", as tracked by this app. Can be a nightly Rust feature, a
 /// stabilized API, or anything else that one version of Rust (deliberately)
 /// supports while a previous one didn't support it.
-#[derive(Clone, Debug)]
-pub struct Feature {
+#[derive(Copy, Clone, Debug)]
+pub struct FeatureData {
     /// Feature flag name, for things that were previously or are still Rust
     /// nightly features with such a thing (`#![feature(...)]`)
     pub flag: Option<&'static str>,
@@ -28,7 +28,7 @@ pub enum FeatureKind {
     StdLib,
 }
 
-impl Feature {
+impl FeatureData {
     pub fn matches(&self, search_term: &str) -> Option<Match> {
         // TODO: fuzzy matching
         let len = search_term.len();

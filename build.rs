@@ -91,7 +91,7 @@ fn generate_features_array(features: &[Feature]) -> impl Display {
         let items = &feature.items;
 
         quote! {
-            Feature {
+            FeatureData {
                 flag: #flag,
                 kind: FeatureKind::#kind,
                 version: #version,
@@ -102,6 +102,6 @@ fn generate_features_array(features: &[Feature]) -> impl Display {
     });
 
     quote! {
-        pub const FEATURES: &[Feature] = &[#(#features),*];
+        pub const FEATURES: &[FeatureData] = &[#(#features),*];
     }
 }
