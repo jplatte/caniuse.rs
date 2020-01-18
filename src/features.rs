@@ -13,6 +13,12 @@ pub struct FeatureData {
     pub version: &'static str,
     /// Short description to identify the feature
     pub desc_short: &'static str,
+    /// Implementation PR id (https://github.com/rust-lang/rust/pull/{id})
+    ///
+    /// Only for small features that were implemented in one PR.
+    pub impl_pr_id: Option<u64>,
+    /// Stabilization PR id (https://github.com/rust-lang/rust/pull/{id})
+    pub stabilization_pr_id: Option<u64>,
     /// Language items (functions, structs, modules) that are part of this
     /// feature (unless this feature is exactly one item and that item is
     /// already used as desc_short)

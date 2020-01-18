@@ -38,6 +38,8 @@ impl Component for FullFeature {
             None => html! {},
         };
 
+        // TODO: maybe_impl_pr_link, maybe_stabilization_pr_link
+
         let items = if f.items.is_empty() {
             html! {}
         } else {

@@ -27,11 +27,13 @@ stabilization_pr_id = 63931
 desc_short = "proc-macros that generate `macro_rules!` macros"
 kind = "lang"
 version = "1.40.0"
+stabilization_pr_id = 64035
 
 [[features]]
 desc_short = "`meta` pattern matcher in `macro_rules!` for modern attribute syntax"
 kind = "lang"
 version = "1.40.0"
+impl_pr_id = 63674
 
 [[features]]
 desc_short = "`#[cfg(doctest)]`"
@@ -56,6 +58,7 @@ items = [
 desc_short = "`is_power_of_two` as `const fn`"
 kind = "stdlib"
 version = "1.40.0"
+impl_pr_id = 65092
 items = [
     "u8::is_power_of_two",
     "u16::is_power_of_two",

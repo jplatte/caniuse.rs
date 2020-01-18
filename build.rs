@@ -7,7 +7,8 @@ use std::{
     path::Path,
 };
 
-use quote::{format_ident, quote};
+use proc_macro2::TokenStream;
+use quote::{format_ident, quote, ToTokens};
 use serde::{Deserialize, Serialize};
 use tera::{Context, Tera};
 
@@ -31,6 +32,10 @@ struct Feature {
     version: String,
     /// Short description to identify the feature
     desc_short: String,
+    /// Implementation PR id (https://github.com/rust-lang/rust/pull/{id})
+    ///
+    /// Only for small features that were implemented in one PR.
+    impl_pr_id: Option<u64>,
     /// Stabilization PR id (https://github.com/rust-lang/rust/pull/{id})
     stabilization_pr_id: Option<u64>,
     /// Language items (functions, structs, modules) that are part of this
@@ -81,12 +86,11 @@ fn main() -> Result<(), Box<dyn Error>> {
 
 fn generate_features_array(features: &[Feature]) -> impl Display {
     let features = features.iter().map(|feature| {
-        let flag = match &feature.flag {
-            Some(f) => quote! { Some(#f) },
-            None => quote! { None },
-        };
+        let flag = option_literal(&feature.flag);
         let kind = format_ident!("{}", &feature.kind);
         let version = &feature.version;
+        let impl_pr_id = option_literal(&feature.impl_pr_id);
+        let stabilization_pr_id = option_literal(&feature.stabilization_pr_id);
         let desc_short = &feature.desc_short;
         let items = &feature.items;
 
@@ -96,6 +100,8 @@ fn generate_features_array(features: &[Feature]) -> impl Display {
                 kind: FeatureKind::#kind,
                 version: #version,
                 desc_short: #desc_short,
+                impl_pr_id: #impl_pr_id,
+                stabilization_pr_id: #stabilization_pr_id,
                 items: &[#(#items),*],
             }
         }
@@ -103,5 +109,12 @@ fn generate_features_array(features: &[Feature]) -> impl Display {
 
     quote! {
         pub const FEATURES: &[FeatureData] = &[#(#features),*];
+    }
+}
+
+fn option_literal<T: ToTokens>(opt: &Option<T>) -> TokenStream {
+    match opt {
+        Some(lit) => quote! { Some(#lit) },
+        None => quote! { None },
     }
 }
