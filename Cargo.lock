@@ -132,6 +132,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "10004c15deb332055f7a4a208190aed362cf9a7c2f6ab70a305fba50e1105f38"
 
 [[package]]
+name = "caniuse-rs"
+version = "0.1.0"
+dependencies = [
+ "quote",
+ "serde",
+ "stdweb",
+ "tera",
+ "toml",
+ "yew",
+]
+
+[[package]]
 name = "cc"
 version = "1.0.50"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -450,18 +462,6 @@ name = "regex-syntax"
 version = "0.6.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e734e891f5b408a29efbf8309e656876276f49ab6a6ac208600b4419bd893d90"
-
-[[package]]
-name = "rust-features-yew"
-version = "0.1.0"
-dependencies = [
- "quote",
- "serde",
- "stdweb",
- "tera",
- "toml",
- "yew",
-]
 
 [[package]]
 name = "rustc-demangle"

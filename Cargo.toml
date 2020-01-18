@@ -1,5 +1,5 @@
 [package]
-name = "rust-features-yew"
+name = "caniuse-rs"
 version = "0.1.0"
 authors = ["Jonas Platte <jplatte+git@posteo.de>"]
 edition = "2018"
