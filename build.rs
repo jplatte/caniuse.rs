@@ -26,8 +26,9 @@ struct Feature {
     flag: Option<String>,
     /// What kind of feature this is (language or standard library)
     kind: FeatureKind,
-    /// The Rust version that stabilized this feature
-    stable_since: String,
+    /// The Rust version that stabilized this feature (or "nightly" if it's
+    /// not stabilized and only available on the nightly channel)
+    version: String,
     /// Short description to identify the feature
     desc_short: String,
     /// Language items (functions, structs, modules) that are part of this
@@ -56,18 +57,16 @@ impl quote::IdentFragment for FeatureKind {
 fn main() -> Result<(), Box<dyn Error>> {
     println!("cargo:rerun-if-changed=features.toml");
     println!("cargo:rerun-if-changed=templates/index.html");
-    println!("cargo:rerun-if-changed=templates/list.html");
+    println!("cargo:rerun-if-changed=templates/nightly.html");
     println!("cargo:rerun-if-changed=templates/skel.html");
 
     let features_raw = fs::read("features.toml")?;
     let feature_list: FeatureList = toml::from_slice(&features_raw)?;
 
     let tera = Tera::new("templates/*")?;
-    fs::write("static/index.html", tera.render("index.html", &Context::new())?)?;
-    fs::write(
-        "static/list.html",
-        tera.render("list.html", &Context::from_serialize(&feature_list)?)?,
-    )?;
+    let ctx = Context::from_serialize(&feature_list)?;
+    fs::write("static/index.html", tera.render("index.html", &ctx)?)?;
+    fs::write("static/nightly.html", tera.render("nightly.html", &ctx)?)?;
 
     let out_dir = env::var("OUT_DIR").unwrap();
     let out_path = Path::new(&out_dir).join("features.rs");
@@ -84,7 +83,7 @@ fn generate_features_array(features: &[Feature]) -> impl Display {
             None => quote! { None },
         };
         let kind = format_ident!("{}", &feature.kind);
-        let stable_since = &feature.stable_since;
+        let version = &feature.version;
         let desc_short = &feature.desc_short;
         let items = &feature.items;
 
@@ -92,7 +91,7 @@ fn generate_features_array(features: &[Feature]) -> impl Display {
             Feature {
                 flag: #flag,
                 kind: FeatureKind::#kind,
-                stable_since: #stable_since,
+                version: #version,
                 desc_short: #desc_short,
                 items: &[#(#items),*],
             }

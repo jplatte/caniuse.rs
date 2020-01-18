@@ -1,5 +1,6 @@
 use std::mem;
 
+use stdweb::web::{document, IParentNode};
 use yew::{html, Component, ComponentLink, Html, InputData, ShouldRender};
 
 mod features;
@@ -33,22 +34,61 @@ impl Component for App {
     }
 
     fn view(&self) -> Html {
-        let content = if self.current_search_term.is_empty() {
-            html! { <a href="list.html">{"Full list"}</a> }
+        let features = if self.current_search_term.is_empty() {
+            let mut list = FEATURES.iter().map(|f| view_feature(f));
+            html! { { for list } }
         } else {
-            let mut features = FEATURES
+            let mut list = FEATURES
                 .iter()
                 .filter_map(|f| f.matches(&self.current_search_term).map(|m| (f, m)))
                 .map(|(f, m)| view_matched_feature(f, m));
-            html! { <ul class="feature-list">{ for features }</ul> }
+            html! { { for list } }
         };
 
         html! {
             <main class="page">
                 <input type="search" oninput=self.link.callback(|e: InputData| Msg::Search(e.value)) />
-                {content}
+                <ul class="feature-list">{ features }</ul>
             </main>
         }
+    }
+}
+
+fn view_feature(f: &Feature) -> Html {
+    let maybe_flag = match f.flag {
+        Some(f) => html! {
+            <div class="flag">{"Feature flag: "}{f}</div>
+        },
+        None => html! {},
+    };
+
+    let items = if f.items.is_empty() {
+        html! {}
+    } else {
+        html! { {view_items(f.items)} }
+    };
+
+    html! {
+        <li class="feature-box">
+            <div class="feature">
+                <h3 class="desc">{f.desc_short}</h3>
+                {maybe_flag}
+                <span class="version stable">{"Rust "}{f.version}</span>
+                {items}
+            </div>
+        </li>
+    }
+}
+
+fn view_items(items: &[&str]) -> Html {
+    let mut items = items.iter().map(|i| html! { <li>{i}</li> });
+    html! {
+        <details>
+            <summary>{"Items"}</summary>
+            <ul>
+                { for items }
+            </ul>
+        </details>
     }
 }
 
@@ -78,7 +118,7 @@ fn view_matched_feature(f: &Feature, m: Match) -> Html {
     let items = if f.items.is_empty() {
         html! {}
     } else {
-        html! { <ul>{view_items(f.items, &m.item_spans)}</ul> }
+        html! { <ul>{view_matched_items(f.items, &m.item_spans)}</ul> }
     };
 
     html! {
@@ -86,14 +126,14 @@ fn view_matched_feature(f: &Feature, m: Match) -> Html {
             <div class="feature">
                 <h3 class="desc">{desc}</h3>
                 {maybe_flag}
-                <span class="since">{"Rust "}{f.stable_since}</span>
+                <span class="version stable">{"Rust "}{f.version}</span>
                 {items}
             </div>
         </li>
     }
 }
 
-fn view_items(items: &[&str], item_spans: &[Option<Span>]) -> Html {
+fn view_matched_items(items: &[&str], item_spans: &[Option<Span>]) -> Html {
     let mut res = items.iter().zip(item_spans).filter_map(|(item, span)| {
         span.as_ref().map(|s| {
             html! {
@@ -122,5 +162,8 @@ fn view_text_with_match(text: &str, s: Span) -> Html {
 }
 
 fn main() {
-    yew::start_app::<App>();
+    yew::initialize();
+    let page = document().query_selector("main").unwrap().unwrap();
+    yew::App::<App>::new().mount(page);
+    yew::run_loop();
 }

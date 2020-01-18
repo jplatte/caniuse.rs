@@ -12,7 +12,7 @@
     --max-page-width: 768px;
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
     :root {
         --bg-color: #353535;
         --box-bg: #2a2a2a;
@@ -78,10 +78,13 @@ a:hover {
     margin: .5rem 0;
 }
 
-.since {
+.version {
     position: absolute;
     top: 0;
     right: 0;
+}
+
+.stable {
     color: var(--green);
 }
 

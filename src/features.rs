@@ -8,8 +8,9 @@ pub struct Feature {
     pub flag: Option<&'static str>,
     /// What kind of feature this is (language or standard library)
     pub kind: FeatureKind,
-    /// The Rust version that stabilized this feature
-    pub stable_since: &'static str,
+    /// The Rust version that stabilized this feature (or "nightly" if it's
+    /// not stabilized and only available on the nightly channel
+    pub version: &'static str,
     /// Short description to identify the feature
     pub desc_short: &'static str,
     /// Language items (functions, structs, modules) that are part of this

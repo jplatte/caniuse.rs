@@ -8,6 +8,7 @@ edition = "2018"
 #crate-type = ["cdylib"]
 
 [dependencies]
+stdweb = "0.4.20"
 yew = "0.11.0"
 
 [build-dependencies]
