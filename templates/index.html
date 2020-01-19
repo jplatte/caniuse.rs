@@ -15,7 +15,9 @@
         <li class="feature-box">
             <div class="feature">
                 <h3 class="desc">{{ feat.desc_short }}</h3>
-                {% if feat.flag %}<div class="flag">Feature flag: {{ feat.flag }}</div>{% endif %}
+                {% if feat.flag %}
+                <div class="flag">Feature flag: {{ feat.flag }}</div>
+                {% endif %}
                 <span class="version stable">Rust {{ feat.version }}</span>
                 {% if feat.items | length != 0 %}
                 <details>

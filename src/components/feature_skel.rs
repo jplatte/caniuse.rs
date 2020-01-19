@@ -21,7 +21,7 @@ impl Component for FeatureSkel {
     }
 
     fn update(&mut self, _: Self::Message) -> ShouldRender {
-        false
+        true
     }
 
     fn view(&self) -> Html {

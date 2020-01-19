@@ -1,6 +1,6 @@
 use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
-use crate::{components::FeatureSkel, FeatureData};
+use crate::{components::FeatureSkel, util::view_text, FeatureData};
 
 #[derive(Clone, Properties)]
 pub struct Props {
@@ -29,11 +29,11 @@ impl Component for Feature {
             None => return html! {}, // meh
         };
 
-        let desc = html! { {f.desc_short} };
+        let desc = html! { {view_text(f.desc_short)} };
 
         let maybe_flag = match f.flag {
             Some(f) => html! {
-                <div class="flag">{"Feature flag: "}{f}</div>
+                <div class="flag">{"Feature flag: "}{view_text(f)}</div>
             },
             None => html! {},
         };

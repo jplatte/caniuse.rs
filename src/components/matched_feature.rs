@@ -2,7 +2,8 @@ use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
 use crate::{
     components::FeatureSkel,
-    features::{FeatureData, Match, Span},
+    features::{FeatureData, Match},
+    util::{view_text_with_matches, Span},
 };
 
 #[derive(Clone, Properties)]
@@ -24,7 +25,7 @@ impl Component for MatchedFeature {
     }
 
     fn update(&mut self, _: Self::Message) -> ShouldRender {
-        false
+        true
     }
 
     fn view(&self) -> Html {
@@ -34,24 +35,14 @@ impl Component for MatchedFeature {
         };
         let m = &self.props.match_;
 
-        let desc = match m.desc_span.clone() {
-            Some(s) => view_text_with_match(f.desc_short, s),
-            None => html! { {f.desc_short} },
-        };
+        let desc = view_text_with_matches(f.desc_short, &m.desc_spans);
 
         let maybe_flag = match f.flag {
-            Some(f) => {
-                let val = match m.flag_span.clone() {
-                    Some(s) => view_text_with_match(f, s),
-                    None => html! { {f} },
-                };
-
-                html! {
-                    <div class="flag">{"Feature flag: "}{val}</div>
-                }
-            }
+            Some(f) => html! {
+                <div class="flag">{"Feature flag: "}{view_text_with_matches(f, &m.flag_spans)}</div>
+            },
             None => {
-                assert!(m.flag_span.is_none());
+                assert!(m.flag_spans.is_empty());
                 html! {}
             }
         };
@@ -72,30 +63,18 @@ impl Component for MatchedFeature {
     }
 }
 
-fn view_matched_items(items: &[&str], item_spans: &[Option<Span>]) -> Html {
-    let mut res = items.iter().zip(item_spans).filter_map(|(item, span)| {
-        span.as_ref().map(|s| {
-            html! {
-                <li>{view_text_with_match(item, s.clone())}</li>
-            }
-        })
-    });
+fn view_matched_items(items: &[&str], item_spans: &[Vec<Span>]) -> Html {
+    let mut res = items
+        .iter()
+        .zip(item_spans)
+        .filter(|(_, spans)| !spans.is_empty())
+        .map(|(item, spans)| html! { <li>{view_text_with_matches(item, &spans)}</li> });
 
-    let more_items_indicator = if item_spans.iter().any(|s| s.is_none()) {
+    let more_items_indicator = if item_spans.iter().any(|s| s.is_empty()) {
         html! { <li>{"…"}</li> }
     } else {
         html! {}
     };
 
     html! { <>{ for res }{more_items_indicator}</> }
-}
-
-fn view_text_with_match(text: &str, s: Span) -> Html {
-    html! {
-        <>
-            {&text[..s.start]}
-            <span class="match">{&text[s.clone()]}</span>
-            {&text[s.end..]}
-        </>
-    }
 }

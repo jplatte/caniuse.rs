@@ -71,6 +71,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let features_raw = fs::read("features.toml")?;
     let feature_list: FeatureList = toml::from_slice(&features_raw)?;
 
+    // TODO: Add a filter that replaces `` by <code></code>
     let tera = Tera::new("templates/*")?;
     let ctx = Context::from_serialize(&feature_list)?;
     fs::write("static/index.html", tera.render("index.html", &ctx)?)?;

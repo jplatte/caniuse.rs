@@ -1,3 +1,5 @@
+use crate::util::{text_matches, Span};
+
 /// A "feature", as tracked by this app. Can be a nightly Rust feature, a
 /// stabilized API, or anything else that one version of Rust (deliberately)
 /// supports while a previous one didn't support it.
@@ -35,19 +37,27 @@ pub enum FeatureKind {
 }
 
 impl FeatureData {
-    pub fn matches(&self, search_term: &str) -> Option<Match> {
-        // TODO: fuzzy matching
-        let len = search_term.len();
+    pub fn matches(&self, search_query: &str) -> Option<Match> {
+        // TODO: Split on non-alphanumeric characters instead
+        let search_terms: Vec<_> = search_query.split_whitespace().collect();
 
         let mut res = Match::default();
-        res.flag_span = self.flag.and_then(|f| f.find(search_term).map(|start| span(start, len)));
-        res.desc_span = self.desc_short.find(search_term).map(|start| span(start, len));
-        res.item_spans =
-            self.items.iter().map(|i| i.find(search_term).map(|start| span(start, len))).collect();
+        res.flag_spans = self.flag.map(|f| text_matches(f, &search_terms)).unwrap_or_default();
+        res.desc_spans = text_matches(self.desc_short, &search_terms);
+        res.item_spans = self.items.iter().map(|i| text_matches(i, &search_terms)).collect();
 
-        if res.flag_span.is_some()
-            || res.desc_span.is_some()
-            || res.item_spans.iter().any(|s| s.is_some())
+        use stdweb::console;
+        console!(
+            log,
+            self.desc_short,
+            !res.flag_spans.is_empty(),
+            !res.desc_spans.is_empty(),
+            res.item_spans.iter().any(|s| !s.is_empty())
+        );
+
+        if !res.flag_spans.is_empty()
+            || !res.desc_spans.is_empty()
+            || res.item_spans.iter().any(|s| !s.is_empty())
         {
             Some(res)
         } else {
@@ -58,15 +68,9 @@ impl FeatureData {
 
 #[derive(Clone, Debug, Default)]
 pub struct Match {
-    pub flag_span: Option<Span>,
-    pub desc_span: Option<Span>,
-    pub item_spans: Vec<Option<Span>>,
-}
-
-pub type Span = std::ops::Range<usize>;
-
-fn span(start: usize, len: usize) -> Span {
-    Span { start, end: start + len }
+    pub flag_spans: Vec<Span>,
+    pub desc_spans: Vec<Span>,
+    pub item_spans: Vec<Vec<Span>>,
 }
 
 include!(concat!(env!("OUT_DIR"), "/features.rs"));

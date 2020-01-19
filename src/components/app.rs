@@ -28,7 +28,7 @@ impl Component for App {
         match msg {
             Msg::Search(mut term) => {
                 mem::swap(&mut self.current_search_term, &mut term);
-                self.current_search_term != term
+                true
             }
         }
     }
@@ -41,7 +41,7 @@ impl Component for App {
             let mut list = FEATURES
                 .iter()
                 .filter_map(|f| f.matches(&self.current_search_term).map(|m| (f, m)))
-                .map(|(f, m)| html! { <MatchedFeature data=Some(*f) match_={m} /> });
+                .map(|(f, m)| html! { <MatchedFeature data=Some(*f) match_=m /> });
             html! { { for list } }
         };
 
