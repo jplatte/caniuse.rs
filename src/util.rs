@@ -3,7 +3,7 @@ use yew::{
     Html,
 };
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Span {
     start: usize,
     len: usize,
@@ -41,6 +41,9 @@ pub fn text_matches(text: &str, search_terms: &[&str]) -> Vec<Span> {
         }
     }
 
+    // Don't use unstable_sort because docs say it's slower for sequences of
+    // concatenated sorted lists, which is exactly what we have here.
+    res.sort();
     res
 }
 
@@ -48,7 +51,8 @@ pub fn view_text(text: &str) -> Html {
     view_text_with_matches(text, &[])
 }
 
-// Does search match highlighting as well as replacing `` by <code></code>
+// Does search match highlighting as well as replacing `` by <code></code>.
+// Requires the spans to be sorted.
 pub fn view_text_with_matches(mut text: &str, mut spans: &[Span]) -> Html {
     fn list_to_node(list: VList) -> VNode {
         if list.len() == 1 {
