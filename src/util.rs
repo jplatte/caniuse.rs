@@ -72,7 +72,7 @@ pub fn view_text_with_matches(mut text: &str, mut spans: &[Span]) -> Html {
     let mut codetag_open = false;
 
     loop {
-        let backtick_pos = text.find('@');
+        let backtick_pos = text.find('`');
         let next_highlight = spans.first().copied();
 
         let (op, idx) = match (backtick_pos, next_highlight) {
@@ -123,6 +123,7 @@ pub fn view_text_with_matches(mut text: &str, mut spans: &[Span]) -> Html {
                 let mut tag = Box::new(VTag::new("span"));
                 tag.add_class("match");
                 tag.add_child(text[..len].into());
+                innermost.add_child(VNode::VTag(tag));
                 text = &text[len..];
                 span_offset += len;
                 spans = &spans[1..];

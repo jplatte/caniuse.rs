@@ -24,6 +24,11 @@ impl Component for FeatureSkel {
         true
     }
 
+    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+        self.props = props;
+        true
+    }
+
     fn view(&self) -> Html {
         html! {
             <li class="feature-box">

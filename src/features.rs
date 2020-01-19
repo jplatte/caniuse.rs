@@ -46,15 +46,6 @@ impl FeatureData {
         res.desc_spans = text_matches(self.desc_short, &search_terms);
         res.item_spans = self.items.iter().map(|i| text_matches(i, &search_terms)).collect();
 
-        use stdweb::console;
-        console!(
-            log,
-            self.desc_short,
-            !res.flag_spans.is_empty(),
-            !res.desc_spans.is_empty(),
-            res.item_spans.iter().any(|s| !s.is_empty())
-        );
-
         if !res.flag_spans.is_empty()
             || !res.desc_spans.is_empty()
             || res.item_spans.iter().any(|s| !s.is_empty())

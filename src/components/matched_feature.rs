@@ -28,6 +28,11 @@ impl Component for MatchedFeature {
         true
     }
 
+    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+        self.props = props;
+        true
+    }
+
     fn view(&self) -> Html {
         let f = match self.props.data {
             Some(data) => data,
