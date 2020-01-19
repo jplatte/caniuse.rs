@@ -19,6 +19,13 @@ pub fn text_matches(text: &str, search_terms: &[&str]) -> Vec<Span> {
     // TODO: fuzzy matching
     let mut res = Vec::new();
     for term in search_terms {
+        if term.contains('`') {
+            // ` is used for code blocks in the text and can currently not be escaped (there should
+            // also be no reason to allow for that in the future). To stop it matching on ` (which
+            // are converted to code blocks after this search), we have this special case.
+            return Vec::new();
+        }
+
         match text.find(term) {
             Some(start) => {
                 res.push(Span { start, len: term.len() });
