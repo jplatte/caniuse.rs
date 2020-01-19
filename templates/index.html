@@ -10,28 +10,5 @@
 <!-- most searched? -->
 
 <main class="page">
-    <ul class="feature-list">
-        {% for feat in features %}
-        <li class="feature-box">
-            <div class="feature">
-                <h3 class="desc">{{ feat.desc_short }}</h3>
-                {% if feat.flag %}
-                <div class="flag">Feature flag: {{ feat.flag }}</div>
-                {% endif %}
-                <span class="version stable">Rust {{ feat.version }}</span>
-                {% if feat.items | length != 0 %}
-                <details>
-                    <summary>Items</summary>
-                    <ul>
-                        {% for item in feat.items %}
-                        <li>{{ item }}</li>
-                        {% endfor %}
-                    </ul>
-                </details>
-                {% endif %}
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
 </main>
 {% endblock content %}

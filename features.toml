@@ -1,51 +1,63 @@
-[[features]]
+[unstable]
+features = [] # TODO
+
+[[versions]]
+number = "1.42.0"
+channel = "nightly"
+gh_milestone_id = 69
+features = [] # TODO
+
+[[versions]]
+number = "1.41.0"
+channel = "beta"
+gh_milestone_id = 68
+features = [] # TODO
+
+[[versions]]
+number = "1.40.0"
+blog_post = "https://blog.rust-lang.org/2019/12/19/Rust-1.40.0.html"
+gh_milestone_id = 67
+
+[[versions.features]]
 desc_short = "constructor functions in `const fn`"
 kind = "lang"
 flag = "const_constructor"
-version = "1.40.0"
 
-[[features]]
+[[versions.features]]
 desc_short = "`#![non_exhaustive]`"
 kind = "lang"
 flag = "non_exhaustive"
-version = "1.40.0"
 
-[[features]]
+[[versions.features]]
 desc_short = "macro invocations in `extern {}` blocks"
 kind = "lang"
 flag = "macros_in_extern"
-version = "1.40.0"
 stabilization_pr_id = 63931
 
-[[features]]
+[[versions.features]]
 desc_short = "function-like procedural macros in type position"
 kind = "lang"
-version = "1.40.0"
 stabilization_pr_id = 63931
 
-[[features]]
+[[versions.features]]
 desc_short = "proc-macros that generate `macro_rules!` macros"
 kind = "lang"
-version = "1.40.0"
 stabilization_pr_id = 64035
 
-[[features]]
+[[versions.features]]
 desc_short = "`meta` pattern matcher in `macro_rules!` for modern attribute syntax"
 kind = "lang"
-version = "1.40.0"
 impl_pr_id = 63674
 
-[[features]]
+[[versions.features]]
 desc_short = "`#[cfg(doctest)]`"
 kind = "lang"
 flag = "cfg_doctest"
-version = "1.40.0"
 
-[[features]]
+[[versions.features]]
 desc_short = "{float} ↔ bytes conversion"
 flag = "float_to_from_bytes"
 kind = "stdlib"
-version = "1.40.0"
 items = [
     "f32::to_ne_bytes", "f32::to_le_bytes", "f32::to_be_bytes",
     "f32::from_ne_bytes", "f32::from_le_bytes", "f32::from_be_bytes",
@@ -54,10 +66,9 @@ items = [
     "f64::from_ne_bytes", "f64::from_le_bytes", "f64::from_be_bytes",
 ]
 
-[[features]]
+[[versions.features]]
 desc_short = "`is_power_of_two` as `const fn`"
 kind = "stdlib"
-version = "1.40.0"
 impl_pr_id = 65092
 items = [
     "u8::is_power_of_two",
@@ -68,58 +79,114 @@ items = [
     "usize::is_power_of_two",
 ]
 
-[[features]]
+[[versions.features]]
+desc_short = "`BTreeMap::get_key_value`"
+kind = "stdlib"
+
+[[versions.features]]
+desc_short = "`HashMap::get_key_value`"
+kind = "stdlib"
+
+[[versions.features]]
+desc_short = "`Option::as_deref_mut`"
+kind = "stdlib"
+
+[[versions.features]]
+desc_short = "`Option::as_deref`"
+kind = "stdlib"
+
+[[versions.features]]
+desc_short = "`Option::flatten`"
+kind = "stdlib"
+
+[[versions.features]]
+desc_short = "`UdpSocket::peer_addr`"
+kind = "stdlib"
+
+[[versions.features]]
+desc_short = "`mem::take`"
+kind = "stdlib"
+
+[[versions.features]]
+desc_short = "`slice::repeat`"
+kind = "stdlib"
+
+[[versions.features]]
+desc_short = "`todo!`"
+kind = "stdlib"
+
+[[versions]]
+number = "1.39.0"
+blog_post = "https://blog.rust-lang.org/2019/11/07/Rust-1.39.0.html"
+gh_milestone_id = 66
+
+[[versions.features]]
 desc_short = "async / .await"
 flag = "async_await"
 kind = "lang"
-version = "1.39.0"
 
-[[features]]
+[[versions.features]]
 desc_short = "`Vec::new` as `const fn`"
 kind = "stdlib"
-version = "1.39.0"
 
-[[features]]
+[[versions.features]]
 desc_short = "`String::new` as `const fn`"
 kind = "stdlib"
-version = "1.39.0"
 
-[[features]]
+[[versions.features]]
 desc_short = "`LinkedList::new` as `const fn`"
 kind = "stdlib"
-version = "1.39.0"
 
-[[features]]
+[[versions.features]]
 desc_short = "`str::len` as `const fn`"
 kind = "stdlib"
-version = "1.39.0"
 
-[[features]]
+[[versions.features]]
 desc_short = "`[T]::len` as `const fn`"
 kind = "stdlib"
-version = "1.39.0"
 
-[[features]]
+[[versions.features]]
 desc_short = "`str::as_bytes` as `const fn`"
 kind = "stdlib"
-version = "1.39.0"
 
-[[features]]
+[[versions]]
+number = "1.38.0"
+blog_post = "https://blog.rust-lang.org/2019/09/26/Rust-1.38.0.html"
+gh_milestone_id = 65
+
+[[versions.features]]
 desc_short = "euclidean division & modulo"
 flag = "euclidean_division"
 kind = "stdlib"
-version = "1.38.0"
 
-[[features]]
+[[versions]]
+number = "1.37.0"
+blog_post = "https://blog.rust-lang.org/2019/08/15/Rust-1.37.0.html"
+gh_milestone_id = 64
+
+[[versions.features]]
 desc_short = "`const _: TYPE = VALUE`"
 flag = "underscore_const_names"
 kind = "lang"
-version = "1.37.0"
 
-[[features]]
+[[versions]]
+number = "1.36.0"
+blog_post = "https://blog.rust-lang.org/2019/07/04/Rust-1.36.0.html"
+gh_milestone_id = 62
+features = [] # TODO
+
+[[versions]]
+number = "1.35.0"
+blog_post = "https://blog.rust-lang.org/2019/05/23/Rust-1.35.0.html"
+gh_milestone_id = 61
+features = [] # TODO
+
+[[versions]]
+number = "1.34.0"
+
+[[versions.features]]
 desc_short = "`overflowing_neg` as `const fn`"
 kind = "stdlib"
-version = "1.34.0"
 items = [
     "i8::overflowing_neg",
     "i16::overflowing_neg",
@@ -135,10 +202,9 @@ items = [
     "usize::overflowing_neg",
 ]
 
-[[features]]
+[[versions.features]]
 desc_short = "`wrapping_neg` as `const fn`"
 kind = "stdlib"
-version = "1.34.0"
 items = [
     "i8::wrapping_neg",
     "i16::wrapping_neg",
@@ -154,11 +220,13 @@ items = [
     "usize::wrapping_neg",
 ]
 
-[[features]]
+[[versions]]
+number = "1.32.0"
+
+[[versions.features]]
 desc_short = "{integer} ↔ bytes conversion"
 flag = "int_to_from_bytes"
 kind = "stdlib"
-version = "1.32.0"
 items = [
     "i8::to_ne_bytes", "i8::to_le_bytes", "i8::to_be_bytes",
     "i8::from_ne_bytes", "i8::from_le_bytes", "i8::from_be_bytes",
@@ -197,39 +265,45 @@ items = [
     "usize::from_ne_bytes", "usize::from_le_bytes", "usize::from_be_bytes",
 ]
 
-[[features]]
+[[versions]]
+number = "1.26.0"
+
+[[versions.features]]
 desc_short = "placeholder lifetimes (`'_`)"
 flag = "underscore_lifetimes"
 kind = "lang"
-version = "1.26.0"
 
-[[features]]
+[[versions.features]]
 desc_short = "128 bit integer types"
 flag = "i128_type"
 kind = "lang"
-version = "1.26.0"
 items = ["i128", "u128"]
 
-[[features]]
+[[versions]]
+number = "1.20.0"
+
+[[versions.features]]
 desc_short = "the `compile_error!` macro"
 flag = "compile_error"
 kind = "stdlib"
-version = "1.20.0"
 
-[[features]]
+[[versions]]
+number = "1.6.0"
+
+[[versions.features]]
 desc_short = "`#![no_std]`"
 flag = "no_std"
 kind = "lang"
-version = "1.6.0"
 
-[[features]]
+[[versions]]
+number = "1.0.0"
+
+[[versions.features]]
 desc_short = "`if let` expressions"
 flag = "if_let"
 kind = "lang"
-version = "1.0.0"
 
-[[features]]
+[[versions.features]]
 desc_short = "`while let` expressions"
 flag = "while_let"
 kind = "lang"
-version = "1.0.0"

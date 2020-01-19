@@ -1,7 +1,7 @@
 use std::{
     env,
     error::Error,
-    fmt::{self, Debug, Display},
+    fmt::{self, Debug},
     fs::{self, File},
     io::{BufWriter, Write},
     path::Path,
@@ -14,6 +14,19 @@ use tera::{Context, Tera};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 struct FeatureList {
+    unstable: UnstableFeatureList,
+    versions: Vec<VersionedFeatureList>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct UnstableFeatureList {
+    features: Vec<Feature>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct VersionedFeatureList {
+    /// Rust version number, e.g. "1.0.0"
+    number: String,
     features: Vec<Feature>,
 }
 
@@ -27,9 +40,6 @@ struct Feature {
     flag: Option<String>,
     /// What kind of feature this is (language or standard library)
     kind: FeatureKind,
-    /// The Rust version that stabilized this feature (or "nightly" if it's
-    /// not stabilized and only available on the nightly channel)
-    version: String,
     /// Short description to identify the feature
     desc_short: String,
     /// Implementation PR id (https://github.com/rust-lang/rust/pull/{id})
@@ -63,7 +73,6 @@ impl quote::IdentFragment for FeatureKind {
 
 fn main() -> Result<(), Box<dyn Error>> {
     println!("cargo:rerun-if-changed=features.toml");
-    println!("cargo:rerun-if-changed=versions.toml");
     println!("cargo:rerun-if-changed=templates/index.html");
     println!("cargo:rerun-if-changed=templates/nightly.html");
     println!("cargo:rerun-if-changed=templates/skel.html");
@@ -80,16 +89,24 @@ fn main() -> Result<(), Box<dyn Error>> {
     let out_dir = env::var("OUT_DIR").unwrap();
     let out_path = Path::new(&out_dir).join("features.rs");
     let mut out = BufWriter::new(File::create(out_path)?);
-    write!(out, "{}", generate_features_array(&feature_list.features))?;
+
+    let all_features = feature_list.unstable.features.iter().map(|f| ("nightly", f)).chain(
+        feature_list.versions.iter().flat_map(|version| {
+            let number: &str = &version.number;
+            version.features.iter().map(move |f| (number, f))
+        }),
+    );
+    write!(out, "{}", generate_features_array(all_features))?;
 
     Ok(())
 }
 
-fn generate_features_array(features: &[Feature]) -> impl Display {
-    let features = features.iter().map(|feature| {
+fn generate_features_array<'a>(
+    features: impl Iterator<Item = (&'a str, &'a Feature)>,
+) -> TokenStream {
+    let features = features.map(|(version, feature)| {
         let flag = option_literal(&feature.flag);
         let kind = format_ident!("{}", &feature.kind);
-        let version = &feature.version;
         let impl_pr_id = option_literal(&feature.impl_pr_id);
         let stabilization_pr_id = option_literal(&feature.stabilization_pr_id);
         let desc_short = &feature.desc_short;
