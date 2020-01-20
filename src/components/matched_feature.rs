@@ -40,7 +40,7 @@ impl Component for MatchedFeature {
         };
         let m = &self.props.match_;
 
-        let desc = view_text_with_matches(f.desc_short, &m.desc_spans);
+        let title = view_text_with_matches(f.title, &m.title_spans);
 
         let maybe_flag = match f.flag {
             Some(f) => html! {
@@ -59,7 +59,7 @@ impl Component for MatchedFeature {
         };
 
         html! {
-            <FeatureSkel desc=desc>
+            <FeatureSkel title=title>
                 {maybe_flag}
                 <span class="version stable">{"Rust "}{f.version}</span>
                 {items}

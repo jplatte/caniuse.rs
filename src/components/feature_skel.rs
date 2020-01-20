@@ -5,7 +5,7 @@ use yew::{
 #[derive(Clone, Properties)]
 pub struct Props {
     pub children: Children,
-    pub desc: Html,
+    pub title: Html,
 }
 
 pub struct FeatureSkel {
@@ -33,7 +33,7 @@ impl Component for FeatureSkel {
         html! {
             <li class="feature-box">
                 <div class="feature">
-                    <h3 class="desc">{self.props.desc.clone()}</h3>
+                    <h3 class="title">{self.props.title.clone()}</h3>
                     { self.props.children.render() }
                 </div>
             </li>

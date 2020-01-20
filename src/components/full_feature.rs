@@ -29,7 +29,7 @@ impl Component for FullFeature {
             None => return html! {}, // meh
         };
 
-        let desc = html! { {f.desc_short} };
+        let title = html! { {f.title} };
 
         let maybe_flag = match f.flag {
             Some(f) => html! {
@@ -47,7 +47,7 @@ impl Component for FullFeature {
         };
 
         html! {
-            <FeatureSkel desc=desc>
+            <FeatureSkel title=title>
                 {maybe_flag}
                 <span class="version stable">{"Rust "}{f.version}</span>
                 {items}

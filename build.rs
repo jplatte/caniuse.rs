@@ -37,13 +37,15 @@ struct VersionedFeatureList {
 /// supports while a previous one didn't support it.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 struct Feature {
+    /// Short description to identify the feature
+    title: String,
+    /// Description of the feature, if the title is not descriptive enough
+    description: Option<String>,
     /// Feature flag name, for things that were previously or are still Rust
     /// nightly features with such a thing (`#![feature(...)]`)
     flag: Option<String>,
     /// What kind of feature this is (language or standard library)
     kind: FeatureKind,
-    /// Short description to identify the feature
-    desc_short: String,
     /// Implementation PR id (https://github.com/rust-lang/rust/pull/{id})
     ///
     /// Only for small features that were implemented in one PR.
@@ -52,10 +54,9 @@ struct Feature {
     stabilization_pr_id: Option<u64>,
     /// Language items (functions, structs, modules) that are part of this
     /// feature (unless this feature is exactly one item and that item is
-    /// already used as desc_short)
+    /// already used as the title)
     #[serde(default)]
     items: Vec<String>,
-    // TODO: Long description (pbbly with markdown)
 }
 
 #[derive(Copy, Clone, Debug, Deserialize, Serialize)]
@@ -107,19 +108,21 @@ fn generate_features_array<'a>(
     features: impl Iterator<Item = (&'a str, &'a Feature)>,
 ) -> TokenStream {
     let features = features.map(|(version, feature)| {
+        let title = &feature.title;
+        let description = option_literal(&feature.description);
         let flag = option_literal(&feature.flag);
         let kind = format_ident!("{}", &feature.kind);
         let impl_pr_id = option_literal(&feature.impl_pr_id);
         let stabilization_pr_id = option_literal(&feature.stabilization_pr_id);
-        let desc_short = &feature.desc_short;
         let items = &feature.items;
 
         quote! {
             FeatureData {
+                title: #title,
+                description: #description,
                 flag: #flag,
                 kind: FeatureKind::#kind,
                 version: #version,
-                desc_short: #desc_short,
                 impl_pr_id: #impl_pr_id,
                 stabilization_pr_id: #stabilization_pr_id,
                 items: &[#(#items),*],
