@@ -121,15 +121,21 @@ gh_milestone_id = 66
 
 [[versions.features]]
 title = "async / .await"
-description = "async fn, `async move {}` blocks and calling `.await` on async expressions"
 flag = "async_await"
 kind = "lang"
+items = ["async fn", "async move { ... }", ".await"]
 
 [[versions.features]]
 title = "conditional compilation of function arguments"
-description = "`#[cfg(...)]` and `#[cfg_attr(...)]` outer attributes on function arguments"
 kind = "lang"
 stabilization_pr_id = 64010
+items = ["#[cfg(...)]", "#[cfg_attr(...)]"]
+
+[[versions.features]]
+title = "lint control attributes on function arguments"
+kind = "lang"
+stabilization_pr_id = 64010
+items = ["#[allow(...)]", "#[warn(...)]", "#[deny(...)]", "#[forbid(...)]"]
 
 [[versions.features]]
 title = "shared references to bind-by-move patterns in `match` arms' guards"
