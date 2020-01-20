@@ -1,17 +1,16 @@
 [unstable]
-features = [] # TODO
+
+#[[unstable.features]]
 
 [[versions]]
 number = "1.42.0"
 channel = "nightly"
 gh_milestone_id = 69
-features = [] # TODO
 
 [[versions]]
 number = "1.41.0"
 channel = "beta"
 gh_milestone_id = 68
-features = [] # TODO
 
 [[versions]]
 number = "1.40.0"
@@ -197,13 +196,11 @@ kind = "lang"
 number = "1.36.0"
 blog_post = "https://blog.rust-lang.org/2019/07/04/Rust-1.36.0.html"
 gh_milestone_id = 62
-features = [] # TODO
 
 [[versions]]
 number = "1.35.0"
 blog_post = "https://blog.rust-lang.org/2019/05/23/Rust-1.35.0.html"
 gh_milestone_id = 61
-features = [] # TODO
 
 [[versions]]
 number = "1.34.0"

@@ -20,6 +20,7 @@ struct FeatureList {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 struct UnstableFeatureList {
+    #[serde(default)]
     features: Vec<Feature>,
 }
 
@@ -27,6 +28,7 @@ struct UnstableFeatureList {
 struct VersionedFeatureList {
     /// Rust version number, e.g. "1.0.0"
     number: String,
+    #[serde(default)]
     features: Vec<Feature>,
 }
 
