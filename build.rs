@@ -39,8 +39,6 @@ struct VersionedFeatureList {
 struct Feature {
     /// Short description to identify the feature
     title: String,
-    /// Description of the feature, if the title is not descriptive enough
-    description: Option<String>,
     /// Feature flag name, for things that were previously or are still Rust
     /// nightly features with such a thing (`#![feature(...)]`)
     flag: Option<String>,
@@ -109,7 +107,6 @@ fn generate_features_array<'a>(
 ) -> TokenStream {
     let features = features.map(|(version, feature)| {
         let title = &feature.title;
-        let description = option_literal(&feature.description);
         let flag = option_literal(&feature.flag);
         let kind = format_ident!("{}", &feature.kind);
         let impl_pr_id = option_literal(&feature.impl_pr_id);
@@ -119,7 +116,6 @@ fn generate_features_array<'a>(
         quote! {
             FeatureData {
                 title: #title,
-                description: #description,
                 flag: #flag,
                 kind: FeatureKind::#kind,
                 version: #version,
