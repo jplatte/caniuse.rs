@@ -106,6 +106,11 @@ fn generate_features_array<'a>(
     features: impl Iterator<Item = (&'a str, &'a Feature)>,
 ) -> TokenStream {
     let features = features.map(|(version, feature)| {
+        assert!(
+            !feature.items.iter().any(|i| i.contains('`')),
+            "items are always wrapped in code blocks and should not contain any '`'.",
+        );
+
         let title = &feature.title;
         let flag = option_literal(&feature.flag);
         let kind = format_ident!("{}", &feature.kind);

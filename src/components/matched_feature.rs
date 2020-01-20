@@ -69,11 +69,9 @@ impl Component for MatchedFeature {
 }
 
 fn view_matched_items(items: &[&str], item_spans: &[Vec<Span>]) -> Html {
-    let mut res = items
-        .iter()
-        .zip(item_spans)
-        .filter(|(_, spans)| !spans.is_empty())
-        .map(|(item, spans)| html! { <li>{view_text_with_matches(item, &spans)}</li> });
+    let mut res = items.iter().zip(item_spans).filter(|(_, spans)| !spans.is_empty()).map(
+        |(item, spans)| html! { <li><code>{view_text_with_matches(item, &spans)}</code></li> },
+    );
 
     let more_items_indicator = if item_spans.iter().any(|s| s.is_empty()) {
         html! { <li>{"…"}</li> }

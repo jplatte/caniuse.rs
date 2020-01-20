@@ -55,7 +55,7 @@ impl Component for Feature {
 }
 
 fn view_items(items: &[&str]) -> Html {
-    let mut items = items.iter().map(|i| html! { <li>{i}</li> });
+    let mut items = items.iter().map(|i| html! { <li><code>{i}</code></li> });
     html! {
         <details>
             <summary>{"Items"}</summary>
