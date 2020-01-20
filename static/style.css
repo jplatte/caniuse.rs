@@ -35,6 +35,7 @@ html {
 }
 
 body {
+    font-family: 'sans-serif';
     color: var(--text-color);
     background: var(--bg-color);
 }
