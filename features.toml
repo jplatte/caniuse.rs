@@ -122,8 +122,20 @@ gh_milestone_id = 66
 
 [[versions.features]]
 desc_short = "async / .await"
+desc_long = "async fn, `async move {}` blocks and calling `.await` on async expressions"
 flag = "async_await"
 kind = "lang"
+
+[[versions.features]]
+desc_short = "conditional compilation of function arguments"
+desc_long = "`#[cfg(...)]` and `#[cfg_attr(...)]` outer attributes on function arguments"
+kind = "lang"
+stabilization_pr_id = 64010
+
+[[versions.features]]
+desc_short = "shared references to bind-by-move patterns in `match` arms' guards"
+kind = "lang"
+stabilization_pr_id = 63118
 
 [[versions.features]]
 desc_short = "`Vec::new` as `const fn`"
@@ -147,6 +159,18 @@ kind = "stdlib"
 
 [[versions.features]]
 desc_short = "`str::as_bytes` as `const fn`"
+kind = "stdlib"
+
+[[versions.features]]
+desc_short = "`Pin::into_inner`"
+kind = "stdlib"
+
+[[versions.features]]
+desc_short = "`Instant::checked_duration_since`"
+kind = "stdlib"
+
+[[versions.features]]
+desc_short = "`Instant::saturating_duration_since`"
 kind = "stdlib"
 
 [[versions]]
