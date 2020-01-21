@@ -8,10 +8,11 @@ mod components {
     mod feature_skel;
     mod full_feature;
     mod matched_feature;
+    mod support_indicator;
 
     pub use self::{
         app::App, feature::Feature, feature_skel::FeatureSkel, full_feature::FullFeature,
-        matched_feature::MatchedFeature,
+        matched_feature::MatchedFeature, support_indicator::SupportIndicator,
     };
 }
 

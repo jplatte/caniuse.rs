@@ -51,10 +51,10 @@ impl Component for FullFeature {
             html! { {view_items(f.items)} }
         };
 
+        // Use FeatureSkel at all?
         html! {
             <FeatureSkel title=title>
                 {maybe_flag}
-                <span class="version stable">{"Rust "}{f.version}</span>
                 {items}
             </FeatureSkel>
         }

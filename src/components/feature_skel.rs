@@ -2,10 +2,13 @@ use yew::{
     html, Children, Component, ComponentLink, Html, Properties, Renderable as _, ShouldRender,
 };
 
+use crate::components::SupportIndicator;
+
 #[derive(Clone, Properties)]
 pub struct Props {
     pub children: Children,
     pub title: Html,
+    pub version: &'static str,
 }
 
 pub struct FeatureSkel {
@@ -21,7 +24,7 @@ impl Component for FeatureSkel {
     }
 
     fn update(&mut self, _: Self::Message) -> ShouldRender {
-        true
+        false
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {
@@ -36,6 +39,7 @@ impl Component for FeatureSkel {
                     <h3 class="title">{self.props.title.clone()}</h3>
                     { self.props.children.render() }
                 </div>
+                <SupportIndicator version=self.props.version /*ctx=support_ctx*/ />
             </li>
         }
     }

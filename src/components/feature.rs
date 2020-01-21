@@ -45,9 +45,8 @@ impl Component for Feature {
         };
 
         html! {
-            <FeatureSkel title=title>
+            <FeatureSkel title=title version=f.version>
                 {maybe_flag}
-                <span class="version stable">{"Rust "}{f.version}</span>
                 {items}
             </FeatureSkel>
         }
