@@ -54,7 +54,7 @@ kind = "lang"
 flag = "cfg_doctest"
 
 [[versions.features]]
-title = "{float} ↔ bytes conversion"
+title = "float ↔ bytes conversion"
 flag = "float_to_from_bytes"
 kind = "stdlib"
 items = [
@@ -184,6 +184,11 @@ blog_post = "https://blog.rust-lang.org/2019/09/26/Rust-1.38.0.html"
 gh_milestone_id = 65
 
 [[versions.features]]
+title = "#[global_allocator] inside submodules"
+kind = "lang"
+impl_pr_id = 62735
+
+[[versions.features]]
 title = "euclidean division & modulo"
 flag = "euclidean_division"
 kind = "stdlib"
@@ -251,7 +256,7 @@ items = [
 number = "1.32.0"
 
 [[versions.features]]
-title = "{integer} ↔ bytes conversion"
+title = "integer ↔ bytes conversion"
 flag = "int_to_from_bytes"
 kind = "stdlib"
 items = [
