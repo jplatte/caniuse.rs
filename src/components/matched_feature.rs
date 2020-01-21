@@ -3,7 +3,7 @@ use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 use crate::{
     components::FeatureSkel,
     features::{FeatureData, Match},
-    util::{view_text_with_matches, Span},
+    util::{view_text_with_matches, Span, Void},
 };
 
 #[derive(Clone, Properties)]
@@ -17,15 +17,15 @@ pub struct MatchedFeature {
 }
 
 impl Component for MatchedFeature {
-    type Message = ();
+    type Message = Void;
     type Properties = Props;
 
     fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
         Self { props }
     }
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
-        true
+    fn update(&mut self, void: Self::Message) -> ShouldRender {
+        match void {}
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {

@@ -3,6 +3,8 @@ use yew::{
     Html,
 };
 
+pub enum Void {}
+
 #[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Span {
     start: usize,

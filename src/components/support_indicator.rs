@@ -1,5 +1,7 @@
 use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
+use crate::util::Void;
+
 pub struct SupportIndicator {
     props: Props,
 }
@@ -10,15 +12,15 @@ pub struct Props {
 }
 
 impl Component for SupportIndicator {
-    type Message = ();
+    type Message = Void;
     type Properties = Props;
 
     fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
         Self { props }
     }
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
-        false
+    fn update(&mut self, void: Self::Message) -> ShouldRender {
+        match void {}
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {

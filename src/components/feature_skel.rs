@@ -2,7 +2,7 @@ use yew::{
     html, Children, Component, ComponentLink, Html, Properties, Renderable as _, ShouldRender,
 };
 
-use crate::components::SupportIndicator;
+use crate::{components::SupportIndicator, util::Void};
 
 #[derive(Clone, Properties)]
 pub struct Props {
@@ -16,15 +16,15 @@ pub struct FeatureSkel {
 }
 
 impl Component for FeatureSkel {
-    type Message = ();
+    type Message = Void;
     type Properties = Props;
 
     fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
         Self { props }
     }
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
-        false
+    fn update(&mut self, void: Self::Message) -> ShouldRender {
+        match void {}
     }
 
     fn change(&mut self, props: Self::Properties) -> ShouldRender {

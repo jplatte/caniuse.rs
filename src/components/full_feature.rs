@@ -1,6 +1,10 @@
 use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
-use crate::{components::FeatureSkel, util::view_text, FeatureData};
+use crate::{
+    components::FeatureSkel,
+    util::{view_text, Void},
+    FeatureData,
+};
 
 #[derive(Clone, Properties)]
 pub struct Props {
@@ -12,15 +16,15 @@ pub struct FullFeature {
 }
 
 impl Component for FullFeature {
-    type Message = ();
+    type Message = Void;
     type Properties = Props;
 
     fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
         Self { props }
     }
 
-    fn update(&mut self, _: Self::Message) -> ShouldRender {
-        false
+    fn update(&mut self, void: Self::Message) -> ShouldRender {
+        match void {}
     }
 
     fn view(&self) -> Html {
