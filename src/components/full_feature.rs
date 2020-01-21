@@ -1,6 +1,6 @@
 use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
-use crate::{components::FeatureSkel, FeatureData};
+use crate::{components::FeatureSkel, util::view_text, FeatureData};
 
 #[derive(Clone, Properties)]
 pub struct Props {
@@ -32,9 +32,14 @@ impl Component for FullFeature {
         let title = html! { {f.title} };
 
         let maybe_flag = match f.flag {
-            Some(f) => html! {
-                <div class="flag">{"Feature flag: "}{f}</div>
-            },
+            Some(flag) => {
+                let text = html! { <>{"Feature flag: "}{view_text(flag)}</> };
+                if f.version == "nightly" {
+                    html! { <div class="flag">{text}</div> }
+                } else {
+                    html! { <div class="flag muted">{text}{" (no longer needed)"}</div> }
+                }
+            }
             None => html! {},
         };
 

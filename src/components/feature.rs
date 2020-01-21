@@ -32,10 +32,10 @@ impl Component for Feature {
         let title = html! { {view_text(f.title)} };
 
         let maybe_flag = match f.flag {
-            Some(f) => html! {
-                <div class="flag">{"Feature flag: "}{view_text(f)}</div>
-            },
-            None => html! {},
+            Some(flag) if f.version == "nightly" => {
+                html! { <div class="flag">{"Feature flag: "}{view_text(flag)}</div> }
+            }
+            _ => html! {},
         };
 
         let items = if f.items.is_empty() {

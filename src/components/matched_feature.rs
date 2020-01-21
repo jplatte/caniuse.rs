@@ -43,9 +43,16 @@ impl Component for MatchedFeature {
         let title = view_text_with_matches(f.title, &m.title_spans);
 
         let maybe_flag = match f.flag {
-            Some(f) => html! {
-                <div class="flag">{"Feature flag: "}{view_text_with_matches(f, &m.flag_spans)}</div>
-            },
+            Some(flag) => {
+                let text = html! {
+                    <>{"Feature flag: "}{view_text_with_matches(flag, &m.flag_spans)}</>
+                };
+                if f.version == "nightly" {
+                    html! { <div class="flag">{text}</div> }
+                } else {
+                    html! { <div class="flag muted">{text}{" (no longer needed)"}</div> }
+                }
+            }
             None => {
                 assert!(m.flag_spans.is_empty());
                 html! {}
