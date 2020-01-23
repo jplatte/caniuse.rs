@@ -184,13 +184,124 @@ blog_post = "https://blog.rust-lang.org/2019/09/26/Rust-1.38.0.html"
 gh_milestone_id = 65
 
 [[versions.features]]
-title = "#[global_allocator] inside submodules"
+title = "`#[global_allocator]` inside submodules"
 kind = "lang"
 impl_pr_id = 62735
 
 [[versions.features]]
+title = "`#[deprecated]` on macros"
+kind = "lang"
+#_pr_id = 62042
+
+[[versions.features]]
+title = "`Clone` implementation for `ascii::EscapeDefault`"
+kind = "stdlib"
+#_pr_id = 63421
+
+[[versions.features]]
+title = "`Display` implementation for `ascii::EscapeDefault`"
+kind = "stdlib"
+#_pr_id = 63421
+
+[[versions.features]]
+title = "`Debug` implementation for `std::str::Chars`"
+kind = "stdlib"
+#_pr_id = 63000
+
+[[versions.features]]
+title = "`Unpin` implementations for pointers"
+kind = "stdlib"
+#_pr_id = 62583
+items = ["impl Unpin for *const T", "impl Unpin for *mut T"]
+
+[[versions.features]]
 title = "euclidean division & modulo"
 flag = "euclidean_division"
+kind = "stdlib"
+#_pr_id = 61884
+
+[[versions.features]]
+title = "`Clone` implementation for `thread::AccessError`"
+kind = "stdlib"
+#_pr_id = 61491
+
+[[versions.features]]
+title = "`Copy` implementation for `thread::AccessError`"
+kind = "stdlib"
+#_pr_id = 61491
+
+[[versions.features]]
+title = "`Eq` implementation for `thread::AccessError`"
+kind = "stdlib"
+#_pr_id = 61491
+
+[[versions.features]]
+title = "`Error` implementation for `thread::AccessError`"
+kind = "stdlib"
+#_pr_id = 61491
+
+[[versions.features]]
+title = "`PartialEq` implementation for `thread::AccessError`"
+kind = "stdlib"
+#_pr_id = 61491
+
+[[versions.features]]
+title = "`DoubleEndedIterator` implementation for `iter::StepBy`"
+kind = "stdlib"
+#_pr_id = 61457
+
+[[versions.features]]
+title = "`DoubleEndedIterator` implementation for `iter::Peekable`"
+kind = "stdlib"
+#_pr_id = 61457
+
+[[versions.features]]
+title = "`DoubleEndedIterator` implementation for `iter::Take`"
+kind = "stdlib"
+#_pr_id = 61457
+
+[[versions.features]]
+title = "`<*const T>::cast`"
+kind = "stdlib"
+
+[[versions.features]]
+title = "`<*mut T>::cast`"
+kind = "stdlib"
+
+[[versions.features]]
+title = "`Duration::as_secs_f32`"
+kind = "stdlib"
+
+[[versions.features]]
+title = "`Duration::as_secs_f64`"
+kind = "stdlib"
+
+[[versions.features]]
+title = "`Duration::div_f32`"
+kind = "stdlib"
+
+[[versions.features]]
+title = "`Duration::div_f64`"
+kind = "stdlib"
+
+[[versions.features]]
+title = "`Duration::from_secs_f32`"
+kind = "stdlib"
+
+[[versions.features]]
+title = "`Duration::from_secs_f64`"
+kind = "stdlib"
+
+[[versions.features]]
+title = "`Duration::mul_f32`"
+kind = "stdlib"
+
+[[versions.features]]
+title = "`Duration::mul_f64`"
+kind = "stdlib"
+
+[[versions.features]]
+title = "`any::type_name`"
 kind = "stdlib"
 
 [[versions]]
