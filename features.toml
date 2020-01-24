@@ -191,74 +191,74 @@ impl_pr_id = 62735
 [[versions.features]]
 title = "`#[deprecated]` on macros"
 kind = "lang"
-#_pr_id = 62042
+impl_pr_id = 62042
 
 [[versions.features]]
 title = "`Clone` implementation for `ascii::EscapeDefault`"
 kind = "stdlib"
-#_pr_id = 63421
+impl_pr_id = 63421
 
 [[versions.features]]
 title = "`Display` implementation for `ascii::EscapeDefault`"
 kind = "stdlib"
-#_pr_id = 63421
+impl_pr_id = 63421
 
 [[versions.features]]
 title = "`Debug` implementation for `std::str::Chars`"
 kind = "stdlib"
-#_pr_id = 63000
+impl_pr_id = 63000
 
 [[versions.features]]
 title = "`Unpin` implementations for pointers"
 kind = "stdlib"
-#_pr_id = 62583
+impl_pr_id = 62583
 items = ["impl Unpin for *const T", "impl Unpin for *mut T"]
 
 [[versions.features]]
 title = "euclidean division & modulo"
 flag = "euclidean_division"
 kind = "stdlib"
-#_pr_id = 61884
+stabilization_pr_id = 61884
 
 [[versions.features]]
 title = "`Clone` implementation for `thread::AccessError`"
 kind = "stdlib"
-#_pr_id = 61491
+impl_pr_id = 61491
 
 [[versions.features]]
 title = "`Copy` implementation for `thread::AccessError`"
 kind = "stdlib"
-#_pr_id = 61491
+impl_pr_id = 61491
 
 [[versions.features]]
 title = "`Eq` implementation for `thread::AccessError`"
 kind = "stdlib"
-#_pr_id = 61491
+impl_pr_id = 61491
 
 [[versions.features]]
 title = "`Error` implementation for `thread::AccessError`"
 kind = "stdlib"
-#_pr_id = 61491
+impl_pr_id = 61491
 
 [[versions.features]]
 title = "`PartialEq` implementation for `thread::AccessError`"
 kind = "stdlib"
-#_pr_id = 61491
+impl_pr_id = 61491
 
 [[versions.features]]
 title = "`DoubleEndedIterator` implementation for `iter::StepBy`"
 kind = "stdlib"
-#_pr_id = 61457
+impl_pr_id = 61457
 
 [[versions.features]]
 title = "`DoubleEndedIterator` implementation for `iter::Peekable`"
 kind = "stdlib"
-#_pr_id = 61457
+impl_pr_id = 61457
 
 [[versions.features]]
 title = "`DoubleEndedIterator` implementation for `iter::Take`"
 kind = "stdlib"
-#_pr_id = 61457
+impl_pr_id = 61457
 
 [[versions.features]]
 title = "`<*const T>::cast`"
@@ -310,22 +310,100 @@ blog_post = "https://blog.rust-lang.org/2019/08/15/Rust-1.37.0.html"
 gh_milestone_id = 64
 
 [[versions.features]]
-title = "`const _: TYPE = VALUE`"
+title = "conditional compilation of generic parameters"
+kind = "lang"
+impl_pr_id = 61547
+items = ["#[cfg(...)]", "#[cfg_attr(...)]"]
+
+[[versions.features]]
+title = "enum variants through a type alias"
+kind = "lang"
+stabilization_pr_id = 61682
+
+[[versions.features]]
+title = "`_` as an identifier for constants"
 flag = "underscore_const_names"
 kind = "lang"
+
+[[versions.features]]
+title = "`#[repr(align(X)]` on enums"
+flag = "repr_align_enum"
+kind = "lang"
+stabilization_pr_id = 61229
+
+[[versions.features]]
+title = "the `?` Kleene macro operator in the 2015 edition"
+kind = "lang"
+impl_pr_id = 60932
 
 [[versions]]
 number = "1.36.0"
 blog_post = "https://blog.rust-lang.org/2019/07/04/Rust-1.36.0.html"
 gh_milestone_id = 62
 
+[[versions.features]]
+title = "the `alloc` crate"
+flag = "alloc"
+kind = "lang"
+stabilization_pr_id = 59675
+
+[[versions.features]]
+title = "`hashbrown::HashMap` as the implementation of `HashMap`"
+kind = "lang"
+impl_pr_id = 58623
+
+[[versions.features]]
+title = "`Default` implementation for `io::Cursor`"
+kind = "stdlib"
+impl_pr_id = 60234
+
+[[versions.features]]
+title = "`BorrowMut<str>` implementation for `String`"
+kind = "stdlib"
+impl_pr_id = 60404
+
+[[versions.features]]
+title = "`From<&String>` implementation for `String`"
+kind = "stdlib"
+impl_pr_id = 59825
+
+[[versions.features]]
+title = "`mem::needs_drop` as `const fn`"
+flag = "const_needs_drop"
+kind = "stdlib"
+stabilization_pr_id = 60364
+
+[[versions.features]]
+title = "`NonNull::cast` as `const fn`"
+kind = "stdlib"
+impl_pr_id = 60244
+
+[[versions.features]]
+title = "`NonNull::dangling` as `const fn`"
+kind = "stdlib"
+impl_pr_id = 60244
+
 [[versions]]
 number = "1.35.0"
 blog_post = "https://blog.rust-lang.org/2019/05/23/Rust-1.35.0.html"
 gh_milestone_id = 61
 
+[[versions.features]]
+title = "closure to unsafe function pointer coercions"
+kind = "lang"
+impl_pr_id = 59580
+
 [[versions]]
 number = "1.34.0"
+
+[[versions.features]]
+title = "`#[deprecated = \"reason\"]` as a shorthand for `#[deprecated(note = \"reason\")]`"
+kind = "lang"
+
+[[versions.features]]
+title = "arbitrary token streams in procedural attribute macros"
+kind = "lang"
+items = ["#[attr{...}]", "#[attr[...]]", "#[attr(...)]"]
 
 [[versions.features]]
 title = "`overflowing_neg` as `const fn`"
