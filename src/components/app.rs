@@ -64,12 +64,12 @@ impl Component for App {
 
     fn view(&self) -> Html {
         let features = if self.current_search_terms.is_empty() {
-            let mut list = FEATURES.iter().map(|f| html! { <Feature data=Some(*f) /> });
+            let mut list = FEATURES.iter().map(|&f| html! { <Feature data=f /> });
             html! { { for list } }
         } else {
-            let mut list = self.current_search_results.iter().map(|f| {
+            let mut list = self.current_search_results.iter().map(|&f| {
                 let m = f.get_matches(&self.current_search_terms).expect("matching feature");
-                html! { <MatchedFeature data=Some(*f) match_=m /> }
+                html! { <MatchedFeature data=f match_=m /> }
             });
 
             html! { { for list } }

@@ -9,7 +9,9 @@ use crate::{
 
 #[derive(Clone, Properties)]
 pub struct Props {
-    pub data: Option<FeatureData>,
+    #[props(required)]
+    pub data: FeatureData,
+    #[props(required)]
     pub match_: Match,
 }
 
@@ -35,10 +37,7 @@ impl Component for MatchedFeature {
     }
 
     fn view(&self) -> Html {
-        let f = match self.props.data {
-            Some(data) => data,
-            None => return html! {}, // meh
-        };
+        let f = &self.props.data;
         let m = &self.props.match_;
 
         let title = view_text_with_matches(f.title, &m.title_spans);

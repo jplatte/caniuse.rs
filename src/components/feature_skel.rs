@@ -6,7 +6,9 @@ use crate::{components::SupportIndicator, util::Void};
 
 #[derive(Clone, Properties)]
 pub struct Props {
+    #[props(required)]
     pub children: Children,
+    #[props(required)]
     pub title: Html,
     pub version: &'static str,
 }
@@ -33,13 +35,19 @@ impl Component for FeatureSkel {
     }
 
     fn view(&self) -> Html {
+        let maybe_support_indicator = if self.props.version.is_empty() {
+            html! {}
+        } else {
+            html! { <SupportIndicator version=self.props.version /*ctx=support_ctx*/ /> }
+        };
+
         html! {
             <li class="feature-box">
                 <div class="feature">
                     <h3 class="title">{self.props.title.clone()}</h3>
                     { self.props.children.render() }
                 </div>
-                <SupportIndicator version=self.props.version /*ctx=support_ctx*/ />
+                {maybe_support_indicator}
             </li>
         }
     }

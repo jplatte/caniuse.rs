@@ -8,7 +8,8 @@ use crate::{
 
 #[derive(Clone, Properties)]
 pub struct Props {
-    pub data: Option<FeatureData>,
+    #[props(required)]
+    pub data: FeatureData,
 }
 
 pub struct FullFeature {
@@ -28,11 +29,7 @@ impl Component for FullFeature {
     }
 
     fn view(&self) -> Html {
-        let f = match self.props.data {
-            Some(data) => data,
-            None => return html! {}, // meh
-        };
-
+        let f = &self.props.data;
         let title = html! { {f.title} };
 
         let maybe_flag = match f.flag {
