@@ -3,58 +3,9 @@ use yew::{
     Html,
 };
 
+use crate::search::Span;
+
 pub enum Void {}
-
-#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Span {
-    start: usize,
-    len: usize,
-}
-
-impl Span {
-    fn end(self) -> usize {
-        self.start + self.len
-    }
-}
-
-pub fn text_matches(text: &str, search_terms: &[&str]) -> Vec<Span> {
-    // TODO: fuzzy matching
-    let mut res = Vec::new();
-    for term in search_terms {
-        if term.contains('`') {
-            // ` is used for code blocks in the text and can currently not be escaped (there should
-            // also be no reason to allow for that in the future). To stop it matching on ` (which
-            // are converted to code blocks after this search), we have this special case.
-            return Vec::new();
-        }
-
-        match text.find(term) {
-            Some(start) => {
-                res.push(Span { start, len: term.len() });
-            }
-            None => {
-                // One of the terms couldn't be found a single time => return no matches
-                return Vec::new();
-            }
-        }
-    }
-
-    // First match found for each search term, now find any remaining ones
-    for (i, term) in search_terms.iter().enumerate() {
-        // Continue searching after the first match
-        let mut idx = res[i].end();
-        while let Some(pos) = text[idx..].find(term) {
-            let span = Span { start: idx + pos, len: term.len() };
-            idx = span.end();
-            res.push(span);
-        }
-    }
-
-    // Don't use unstable_sort because docs say it's slower for sequences of
-    // concatenated sorted lists, which is exactly what we have here.
-    res.sort();
-    res
-}
 
 pub fn view_text(text: &str) -> Html {
     view_text_with_matches(text, &[])

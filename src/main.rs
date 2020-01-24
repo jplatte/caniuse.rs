@@ -1,6 +1,7 @@
 use stdweb::web::{document, IParentNode};
 
 mod features;
+mod search;
 mod util;
 mod components {
     mod app;

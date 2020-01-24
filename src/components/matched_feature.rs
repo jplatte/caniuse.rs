@@ -3,7 +3,8 @@ use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 use crate::{
     components::FeatureSkel,
     features::{FeatureData, Match},
-    util::{view_text_with_matches, Span, Void},
+    search::Span,
+    util::{view_text_with_matches, Void},
 };
 
 #[derive(Clone, Properties)]

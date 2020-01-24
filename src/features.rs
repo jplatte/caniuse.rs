@@ -1,4 +1,4 @@
-use crate::util::{text_matches, Span};
+use crate::search::{get_text_matches, Span};
 
 /// A "feature", as tracked by this app. Can be a nightly Rust feature, a
 /// stabilized API, or anything else that one version of Rust (deliberately)
@@ -36,18 +36,28 @@ pub enum FeatureKind {
 }
 
 impl FeatureData {
-    pub fn matches(&self, search_query: &str) -> Option<Match> {
-        // TODO: Split on non-alphanumeric characters instead
-        let search_terms: Vec<_> = search_query.split_whitespace().collect();
+    pub fn does_match(&self, search_terms: &[impl AsRef<str>]) -> bool {
+        for term in search_terms {
+            let term = term.as_ref();
+            if self.title.contains(term)
+                || self.flag.map(|f| f.contains(term)).unwrap_or(false)
+                || self.items.iter().any(|i| i.contains(term))
+            {
+                return true;
+            }
+        }
 
+        false
+    }
+
+    pub fn get_matches(&self, search_terms: &[impl AsRef<str>]) -> Option<Match> {
         let mut res = Match::default();
-        res.title_spans = text_matches(self.title, &search_terms);
-        res.flag_spans = self.flag.map(|f| text_matches(f, &search_terms)).unwrap_or_default();
-        res.item_spans = self.items.iter().map(|i| text_matches(i, &search_terms)).collect();
+        res.title_spans = get_text_matches(self.title, &search_terms);
+        res.flag_spans = self.flag.map(|f| get_text_matches(f, &search_terms)).unwrap_or_default();
+        res.item_spans = self.items.iter().map(|i| get_text_matches(i, &search_terms)).collect();
 
         if !res.title_spans.is_empty()
             || !res.flag_spans.is_empty()
-            || !res.desc_spans.is_empty()
             || res.item_spans.iter().any(|s| !s.is_empty())
         {
             Some(res)
@@ -61,7 +71,6 @@ impl FeatureData {
 pub struct Match {
     pub title_spans: Vec<Span>,
     pub flag_spans: Vec<Span>,
-    pub desc_spans: Vec<Span>,
     pub item_spans: Vec<Vec<Span>>,
 }
 
