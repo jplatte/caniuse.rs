@@ -1,87 +1,40 @@
-use yew::{html, Component, ComponentLink, Html, InputData, ShouldRender};
+use yew::{html, Component, ComponentLink, Html, ShouldRender};
 
 use crate::{
-    components::{Feature, MatchedFeature},
-    search::extract_search_terms,
-    FeatureData, FEATURES,
+    components::{FullFeature, Index},
+    features::FEATURES,
+    util::Void,
+    AppRoute,
 };
 
-pub struct App {
-    link: ComponentLink<Self>,
-    current_search_terms: Vec<String>,
-    current_search_results: Vec<FeatureData>,
-}
-
-pub enum Msg {
-    Search(String),
-}
+struct App;
 
 impl Component for App {
-    type Message = Msg;
+    type Message = Void;
     type Properties = ();
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-        App { link, current_search_terms: Vec::new(), current_search_results: Vec::new() }
+    fn create(_: Self::Properties, _: ComponentLink<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
-        match msg {
-            Msg::Search(query) => {
-                let search_terms = extract_search_terms(&query).unwrap_or_default();
-                let features_to_search = if !self.current_search_terms.is_empty()
-                    && self.current_search_terms.len() <= search_terms.len()
-                {
-                    let len = self.current_search_terms.len();
-
-                    if self.current_search_terms[..] == search_terms[..len]
-                        || (self.current_search_terms[..len - 1] == search_terms[..len - 1]
-                            && search_terms[len - 1]
-                                .starts_with(&self.current_search_terms[len - 1]))
-                    {
-                        &self.current_search_results
-                    } else {
-                        FEATURES
-                    }
-                } else {
-                    FEATURES
-                };
-
-                self.current_search_results = if search_terms.is_empty() {
-                    Vec::new()
-                } else {
-                    features_to_search
-                        .iter()
-                        .filter(|f| f.does_match(&search_terms))
-                        .copied()
-                        .collect()
-                };
-                self.current_search_terms = search_terms;
-
-                true
-            }
-        }
+    fn update(&mut self, _: Self::Message) -> ShouldRender {
+        false
     }
 
     fn view(&self) -> Html {
-        let features = if self.current_search_terms.is_empty() {
-            let mut list = FEATURES.iter().map(|&f| html! { <Feature data=f /> });
-            html! { { for list } }
-        } else {
-            let mut list = self.current_search_results.iter().map(|&f| {
-                let m = f.get_matches(&self.current_search_terms).expect("matching feature");
-                html! { <MatchedFeature data=f match_=m /> }
-            });
-
-            html! { { for list } }
-        };
+        type Router = yew_router::router::Router<AppRoute>;
+        let render_route = Router::render(|route| match route {
+            AppRoute::Index => html! { <Index /> },
+            AppRoute::Feature(name) => {
+                match FEATURES.iter().find(|f| f.flag.map(|flag| flag == name).unwrap_or(false)) {
+                    Some(&data) => html! { <FullFeature data=data /> },
+                    None => html! { {"error: feature not found!"} },
+                }
+            }
+        });
 
         html! {
-            <>
-                {"Can I use "}
-                <input type="search" oninput=self.link.callback(|e: InputData| Msg::Search(e.value)) />
-                {" ?"}
-                <ul class="feature-list">{ features }</ul>
-            </>
+            <Router render=render_route />
         }
     }
 }

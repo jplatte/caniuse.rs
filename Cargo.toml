@@ -10,6 +10,7 @@ edition = "2018"
 [dependencies]
 stdweb = "0.4.20"
 yew = "0.11.0"
+yew-router = "0.8.1"
 
 [build-dependencies]
 proc-macro2 = "1.0.8"
