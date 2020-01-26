@@ -23,10 +23,10 @@ pub use features::{FeatureData, FEATURES};
 
 #[derive(Clone, Debug, Switch)]
 pub enum AppRoute {
-    #[to("/")]
-    Index,
-    #[to("/features/{string}")]
+    #[to = "/features/{string}"]
     Feature(String),
+    #[to = "/"]
+    Index,
 }
 
 fn main() {
