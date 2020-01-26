@@ -14,8 +14,8 @@ mod components {
     mod support_indicator;
 
     pub use self::{
-        feature::Feature, feature_skel::FeatureSkel, full_feature::FullFeature, index::Index,
-        matched_feature::MatchedFeature, support_indicator::SupportIndicator,
+        app::App, feature::Feature, feature_skel::FeatureSkel, full_feature::FullFeature,
+        index::Index, matched_feature::MatchedFeature, support_indicator::SupportIndicator,
     };
 }
 
@@ -32,6 +32,6 @@ pub enum AppRoute {
 fn main() {
     yew::initialize();
     let page = document().query_selector("main").unwrap().unwrap();
-    yew::App::<components::Index>::new().mount(page);
+    yew::App::<components::App>::new().mount(page);
     yew::run_loop();
 }

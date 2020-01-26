@@ -7,7 +7,7 @@ use crate::{
     AppRoute,
 };
 
-struct App;
+pub struct App;
 
 impl Component for App {
     type Message = Void;
