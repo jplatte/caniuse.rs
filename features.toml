@@ -19,39 +19,42 @@ gh_milestone_id = 67
 
 [[versions.features]]
 title = "constructor functions in `const fn`"
-kind = "lang"
 flag = "const_constructor"
+kind = "lang"
 
 [[versions.features]]
 title = "`#![non_exhaustive]`"
-kind = "lang"
 flag = "non_exhaustive"
+kind = "lang"
 
 [[versions.features]]
 title = "macro invocations in `extern {}` blocks"
-kind = "lang"
 flag = "macros_in_extern"
+kind = "lang"
 stabilization_pr_id = 63931
 
 [[versions.features]]
 title = "function-like procedural macros in type position"
+slug = "type_proc_macros"
 kind = "lang"
 stabilization_pr_id = 63931
 
 [[versions.features]]
 title = "proc-macros that generate `macro_rules!` macros"
+slug = "proc_macro_generated_macro_rules"
 kind = "lang"
 stabilization_pr_id = 64035
 
 [[versions.features]]
 title = "`meta` pattern matcher in `macro_rules!` for modern attribute syntax"
+slug = "modern_meta_macro_pattern"
 kind = "lang"
 impl_pr_id = 63674
 
 [[versions.features]]
 title = "`#[cfg(doctest)]`"
-kind = "lang"
 flag = "cfg_doctest"
+kind = "lang"
 
 [[versions.features]]
 title = "float ↔ bytes conversion"
@@ -67,6 +70,7 @@ items = [
 
 [[versions.features]]
 title = "`is_power_of_two` as `const fn`"
+slug = "const_is_power_of_two"
 kind = "stdlib"
 impl_pr_id = 65092
 items = [
@@ -112,7 +116,11 @@ kind = "stdlib"
 
 [[versions.features]]
 title = "`todo!`"
+slug = "todo_macro"
 kind = "stdlib"
+impl_pr_id = 56348
+tracking_issue_id = 59277
+stabilization_pr_id = 61879
 
 [[versions]]
 number = "1.39.0"

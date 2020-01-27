@@ -42,12 +42,17 @@ struct Feature {
     /// Feature flag name, for things that were previously or are still Rust
     /// nightly features with such a thing (`#![feature(...)]`)
     flag: Option<String>,
+    /// Feature slug, used for the permalink. If a feature flag exists, this
+    /// can be omitted, then the flag is used for the permalink.
+    slug: Option<String>,
     /// What kind of feature this is (language or standard library)
     kind: FeatureKind,
     /// Implementation PR id (https://github.com/rust-lang/rust/pull/{id})
     ///
     /// Only for small features that were implemented in one PR.
     impl_pr_id: Option<u64>,
+    /// Tracking issue id (https://github.com/rust-lang/rust/issues/{id})
+    tracking_issue_id: Option<u64>,
     /// Stabilization PR id (https://github.com/rust-lang/rust/pull/{id})
     stabilization_pr_id: Option<u64>,
     /// Language items (functions, structs, modules) that are part of this
@@ -113,8 +118,10 @@ fn generate_features_array<'a>(
 
         let title = &feature.title;
         let flag = option_literal(&feature.flag);
+        let slug = option_literal(&feature.slug);
         let kind = format_ident!("{}", &feature.kind);
         let impl_pr_id = option_literal(&feature.impl_pr_id);
+        let tracking_issue_id = option_literal(&feature.tracking_issue_id);
         let stabilization_pr_id = option_literal(&feature.stabilization_pr_id);
         let items = &feature.items;
 
@@ -125,6 +132,7 @@ fn generate_features_array<'a>(
                 kind: FeatureKind::#kind,
                 version: #version,
                 impl_pr_id: #impl_pr_id,
+                tracking_issue_id: #tracking_issue_id,
                 stabilization_pr_id: #stabilization_pr_id,
                 items: &[#(#items),*],
             }
