@@ -84,34 +84,42 @@ items = [
 
 [[versions.features]]
 title = "`BTreeMap::get_key_value`"
+slug = "btreemap_get_key_value"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`HashMap::get_key_value`"
+slug = "hashmap_get_key_value"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`Option::as_deref_mut`"
+slug = "option_as_deref_mut"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`Option::as_deref`"
+slug = "option_as_deref"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`Option::flatten`"
+slug = "option_flatten"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`UdpSocket::peer_addr`"
+slug = "udpsocker_peer_addr"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`mem::take`"
+slug = "mem_take"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`slice::repeat`"
+slug = "slice_repeat"
 kind = "stdlib"
 
 [[versions.features]]
@@ -134,56 +142,70 @@ kind = "lang"
 items = ["async fn", "async move { ... }", ".await"]
 
 [[versions.features]]
-title = "conditional compilation of function arguments"
+title = "conditional compilation of function parameters"
+flag = "param_attrs"
+slug = "param_cfg_attrs"
 kind = "lang"
 stabilization_pr_id = 64010
 items = ["#[cfg(...)]", "#[cfg_attr(...)]"]
 
 [[versions.features]]
-title = "lint control attributes on function arguments"
+title = "lint control attributes on function parameters"
+flag = "param_attrs"
+slug = "param_lint_attrs"
 kind = "lang"
 stabilization_pr_id = 64010
 items = ["#[allow(...)]", "#[warn(...)]", "#[deny(...)]", "#[forbid(...)]"]
 
 [[versions.features]]
 title = "shared references to bind-by-move patterns in `match` arms' guards"
+flag = "bind_by_move_pattern_guards"
 kind = "lang"
 stabilization_pr_id = 63118
 
 [[versions.features]]
 title = "`Vec::new` as `const fn`"
+slug = "const_vec_new"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`String::new` as `const fn`"
+slug = "const_string_new"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`LinkedList::new` as `const fn`"
+slug = "const_linkedlist_new"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`str::len` as `const fn`"
+slug = "const_str_len"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`[T]::len` as `const fn`"
+slug = "const_slice_len"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`str::as_bytes` as `const fn`"
+slug = "const_str_as_bytes"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`Pin::into_inner`"
+slug = "pin_into_inner"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`Instant::checked_duration_since`"
+slug = "instant_checked_duration_since"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`Instant::saturating_duration_since`"
+slug = "instant_saturating_duration_since"
 kind = "stdlib"
 
 [[versions]]
@@ -193,31 +215,37 @@ gh_milestone_id = 65
 
 [[versions.features]]
 title = "`#[global_allocator]` inside submodules"
+slug = "global_allocator_in_submodules"
 kind = "lang"
 impl_pr_id = 62735
 
 [[versions.features]]
 title = "`#[deprecated]` on macros"
+slug = "deprecated_macros"
 kind = "lang"
 impl_pr_id = 62042
 
 [[versions.features]]
 title = "`Clone` implementation for `ascii::EscapeDefault`"
+slug = "ascii_escapedefault_clone"
 kind = "stdlib"
 impl_pr_id = 63421
 
 [[versions.features]]
 title = "`Display` implementation for `ascii::EscapeDefault`"
+slug = "ascii_escapedefault_display"
 kind = "stdlib"
 impl_pr_id = 63421
 
 [[versions.features]]
 title = "`Debug` implementation for `std::str::Chars`"
+slug = "str_chars_debug"
 kind = "stdlib"
 impl_pr_id = 63000
 
 [[versions.features]]
 title = "`Unpin` implementations for pointers"
+slug = "unpin_ptr"
 kind = "stdlib"
 impl_pr_id = 62583
 items = ["impl Unpin for *const T", "impl Unpin for *mut T"]
@@ -230,86 +258,101 @@ stabilization_pr_id = 61884
 
 [[versions.features]]
 title = "`Clone` implementation for `thread::AccessError`"
+slug = "thread_accesserror_clone"
 kind = "stdlib"
 impl_pr_id = 61491
 
 [[versions.features]]
 title = "`Copy` implementation for `thread::AccessError`"
+slug = "thread_accesserror_copy"
 kind = "stdlib"
 impl_pr_id = 61491
 
 [[versions.features]]
 title = "`Eq` implementation for `thread::AccessError`"
+slug = "thread_accesserror_eq"
 kind = "stdlib"
 impl_pr_id = 61491
 
 [[versions.features]]
 title = "`Error` implementation for `thread::AccessError`"
+slug = "thread_accesserror_error"
 kind = "stdlib"
 impl_pr_id = 61491
 
 [[versions.features]]
 title = "`PartialEq` implementation for `thread::AccessError`"
+slug = "thread_accesserror_partialeq"
 kind = "stdlib"
 impl_pr_id = 61491
 
 [[versions.features]]
 title = "`DoubleEndedIterator` implementation for `iter::StepBy`"
+slug = "iter_step_by_double_ended"
 kind = "stdlib"
 impl_pr_id = 61457
 
 [[versions.features]]
 title = "`DoubleEndedIterator` implementation for `iter::Peekable`"
+slug = "iter_peekable_double_ended"
 kind = "stdlib"
 impl_pr_id = 61457
 
 [[versions.features]]
 title = "`DoubleEndedIterator` implementation for `iter::Take`"
+slug = "iter_take_double_ended"
 kind = "stdlib"
 impl_pr_id = 61457
 
 [[versions.features]]
-title = "`<*const T>::cast`"
+title = "`cast` method on pointers"
+slug = "ptr_cast"
 kind = "stdlib"
-
-[[versions.features]]
-title = "`<*mut T>::cast`"
-kind = "stdlib"
+item = ["<*const T>::cast", "<*mut T>::cast"]
 
 [[versions.features]]
 title = "`Duration::as_secs_f32`"
+slug = "duration_as_secs_f32"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`Duration::as_secs_f64`"
+slug = "duration_as_secs_f64"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`Duration::div_f32`"
+slug = "duration_div_f32"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`Duration::div_f64`"
+slug = "duration_div_f64"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`Duration::from_secs_f32`"
+slug = "duration_from_secs_f32"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`Duration::from_secs_f64`"
+slug = "duration_from_secs_f64"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`Duration::mul_f32`"
+slug = "duration_mul_f32"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`Duration::mul_f64`"
+slug = "duration_mul_f64"
 kind = "stdlib"
 
 [[versions.features]]
 title = "`any::type_name`"
+slug = "any_type_name"
 kind = "stdlib"
 
 [[versions]]
@@ -319,12 +362,14 @@ gh_milestone_id = 64
 
 [[versions.features]]
 title = "conditional compilation of generic parameters"
+slug = "generic_param_cfg_attrs"
 kind = "lang"
 impl_pr_id = 61547
 items = ["#[cfg(...)]", "#[cfg_attr(...)]"]
 
 [[versions.features]]
 title = "enum variants through a type alias"
+slug = "type_alias_enum_variants"
 kind = "lang"
 stabilization_pr_id = 61682
 
@@ -341,6 +386,7 @@ stabilization_pr_id = 61229
 
 [[versions.features]]
 title = "the `?` Kleene macro operator in the 2015 edition"
+slug = "kleene_op_2015"
 kind = "lang"
 impl_pr_id = 60932
 
@@ -357,21 +403,25 @@ stabilization_pr_id = 59675
 
 [[versions.features]]
 title = "`hashbrown::HashMap` as the implementation of `HashMap`"
+slug = "hashbrown"
 kind = "lang"
 impl_pr_id = 58623
 
 [[versions.features]]
 title = "`Default` implementation for `io::Cursor`"
+slug = "io_cursor_default"
 kind = "stdlib"
 impl_pr_id = 60234
 
 [[versions.features]]
 title = "`BorrowMut<str>` implementation for `String`"
+slug = "string_borrow_mut_str"
 kind = "stdlib"
 impl_pr_id = 60404
 
 [[versions.features]]
 title = "`From<&String>` implementation for `String`"
+slug = "string_from_string_ref"
 kind = "stdlib"
 impl_pr_id = 59825
 
@@ -383,11 +433,13 @@ stabilization_pr_id = 60364
 
 [[versions.features]]
 title = "`NonNull::cast` as `const fn`"
+slug = "const_nonnull_cast"
 kind = "stdlib"
 impl_pr_id = 60244
 
 [[versions.features]]
 title = "`NonNull::dangling` as `const fn`"
+slug = "const_nonnull_dangling"
 kind = "stdlib"
 impl_pr_id = 60244
 
@@ -398,6 +450,7 @@ gh_milestone_id = 61
 
 [[versions.features]]
 title = "closure to unsafe function pointer coercions"
+slug = "coerce_closure_to_unsafe_fn_ptr"
 kind = "lang"
 impl_pr_id = 59580
 
@@ -406,15 +459,18 @@ number = "1.34.0"
 
 [[versions.features]]
 title = "`#[deprecated = \"reason\"]` as a shorthand for `#[deprecated(note = \"reason\")]`"
+slug = "deprecated_equals_reason"
 kind = "lang"
 
 [[versions.features]]
 title = "arbitrary token streams in procedural attribute macros"
+flag = "unrestricted_attribute_tokens"
 kind = "lang"
 items = ["#[attr{...}]", "#[attr[...]]", "#[attr(...)]"]
 
 [[versions.features]]
 title = "`overflowing_neg` as `const fn`"
+slug = "const_overflowing_neg"
 kind = "stdlib"
 items = [
     "i8::overflowing_neg",
@@ -433,6 +489,7 @@ items = [
 
 [[versions.features]]
 title = "`wrapping_neg` as `const fn`"
+slug = "const_wrapping_neg"
 kind = "stdlib"
 items = [
     "i8::wrapping_neg",
@@ -455,7 +512,10 @@ blog_post = "https://blog.rust-lang.org/2019/02/28/Rust-1.33.0.html"
 
 [[versions.features]]
 title = "`cfg(target_vendor)`"
+flag = "cfg_target_vendor"
 kind = "lang"
+impl_pr_id = 28612
+tracking_issue_id = 29718
 stabilization_pr_id = 57465
 
 [[versions]]

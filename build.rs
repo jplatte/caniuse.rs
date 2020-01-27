@@ -118,7 +118,11 @@ fn generate_features_array<'a>(
 
         let title = &feature.title;
         let flag = option_literal(&feature.flag);
-        let slug = option_literal(&feature.slug);
+        let slug = feature
+            .slug
+            .as_ref()
+            .or(feature.flag.as_ref())
+            .unwrap_or_else(|| panic!("feature '{}' needs a feature flag or slug", title));
         let kind = format_ident!("{}", &feature.kind);
         let impl_pr_id = option_literal(&feature.impl_pr_id);
         let tracking_issue_id = option_literal(&feature.tracking_issue_id);
@@ -129,6 +133,7 @@ fn generate_features_array<'a>(
             FeatureData {
                 title: #title,
                 flag: #flag,
+                slug: #slug,
                 kind: FeatureKind::#kind,
                 version: #version,
                 impl_pr_id: #impl_pr_id,

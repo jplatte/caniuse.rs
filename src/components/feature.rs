@@ -47,20 +47,13 @@ impl Component for Feature {
             html! { {view_items(f.items)} }
         };
 
-        let maybe_details = match f.flag {
-            Some(flag) => html! {
-                <RouterAnchor route=AppRoute::Feature(flag.into())>
-                    {"Details"}
-                </RouterAnchor>
-            },
-            None => html! {},
-        };
-
         html! {
             <FeatureSkel title=title version=f.version>
                 {maybe_flag}
                 {items}
-                {maybe_details}
+                <RouterAnchor route=AppRoute::Feature(f.slug.into())>
+                    {"Details"}
+                </RouterAnchor>
             </FeatureSkel>
         }
     }

@@ -10,6 +10,9 @@ pub struct FeatureData {
     /// Feature flag name, for things that were previously or are still Rust
     /// nightly features with such a thing (`#![feature(...)]`)
     pub flag: Option<&'static str>,
+    /// Feature slug, used for the permalink. If a feature flag exists, this
+    /// can be omitted, then the flag is used for the permalink.
+    pub slug: &'static str,
     /// What kind of feature this is (language or standard library)
     pub kind: FeatureKind,
     /// The Rust version that stabilized this feature (or "nightly" if it's
@@ -19,6 +22,8 @@ pub struct FeatureData {
     ///
     /// Only for small features that were implemented in one PR.
     pub impl_pr_id: Option<u64>,
+    /// Tracking issue id (https://github.com/rust-lang/rust/issues/{id})
+    pub tracking_issue_id: Option<u64>,
     /// Stabilization PR id (https://github.com/rust-lang/rust/pull/{id})
     pub stabilization_pr_id: Option<u64>,
     /// Language items (functions, structs, modules) that are part of this

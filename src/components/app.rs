@@ -25,12 +25,10 @@ impl Component for App {
         type Router = yew_router::router::Router<AppRoute>;
         let render_route = Router::render(|route| match route {
             AppRoute::Index => html! { <Index /> },
-            AppRoute::Feature(name) => {
-                match FEATURES.iter().find(|f| f.flag.map(|flag| flag == name).unwrap_or(false)) {
-                    Some(&data) => html! { <FullFeature data=data /> },
-                    None => html! { {"error: feature not found!"} },
-                }
-            }
+            AppRoute::Feature(slug) => match FEATURES.iter().find(|f| f.slug == slug) {
+                Some(&data) => html! { <FullFeature data=data /> },
+                None => html! { {"error: feature not found!"} },
+            },
         });
 
         html! {
