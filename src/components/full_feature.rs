@@ -44,7 +44,23 @@ impl Component for FullFeature {
             None => html! {},
         };
 
-        // TODO: maybe_impl_pr_link, maybe_stabilization_pr_link
+        let maybe_impl_pr_link = match f.impl_pr_id {
+            Some(pr_id) => html! {
+                <a href={format!("https://github.com/rust-lang/rust/pull/{}", pr_id)}>
+                    {"Implementation PR"}
+                </a>
+            },
+            None => html! {},
+        };
+
+        let maybe_stabilization_pr_link = match f.stabilization_pr_id {
+            Some(pr_id) => html! {
+                <a href={format!("https://github.com/rust-lang/rust/pull/{}", pr_id)}>
+                    {"Stabilization PR"}
+                </a>
+            },
+            None => html! {},
+        };
 
         let items = if f.items.is_empty() {
             html! {}
@@ -56,6 +72,8 @@ impl Component for FullFeature {
         html! {
             <FeatureSkel title=title>
                 {maybe_flag}
+                {maybe_impl_pr_link}
+                {maybe_stabilization_pr_link}
                 {items}
             </FeatureSkel>
         }
