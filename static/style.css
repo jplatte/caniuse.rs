@@ -107,6 +107,41 @@ code {
     color: var(--red);
 }
 
+.details {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: .4em;
+
+    /* a.details don't have a href attribute, but are still links */
+    cursor: pointer;
+}
+
+.details:hover {
+    text-decoration: underline;
+}
+
+.details::before {
+    content: '';
+    position: absolute;
+    top: .2em;
+    right: .2em;
+    bottom: .2em;
+    left: .2em;
+    background-color: var(--box-bg);
+    filter: blur(.2em);
+}
+
+.details span {
+    position: relative;
+    z-index: 1;
+}
+
+.feature:hover .details {
+    display: block;
+}
+
 .match {
     color: var(--highlight-color);
 }

@@ -51,8 +51,8 @@ impl Component for Feature {
             <FeatureSkel title=title version=f.version>
                 {maybe_flag}
                 {items}
-                <RouterAnchor route=AppRoute::Feature(f.slug.into())>
-                    {"Details"}
+                <RouterAnchor route=AppRoute::Feature(f.slug.into()) classes="details">
+                    <span>{"Details"}</span>
                 </RouterAnchor>
             </FeatureSkel>
         }
