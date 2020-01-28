@@ -593,9 +593,35 @@ blog_post = "https://blog.rust-lang.org/2016/07/07/Rust-1.10.html"
 number = "1.9.0"
 blog_post = "https://blog.rust-lang.org/2016/05/26/Rust-1.9.html"
 
+[[versions.features]]
+title = "`#[deprecated]`"
+flag = "deprecated"
+#_id = 29935
+
 [[versions]]
 number = "1.8.0"
 blog_post = "https://blog.rust-lang.org/2016/04/14/Rust-1.8.html"
+
+[[versions.features]]
+title = "assignment operator overloading"
+tracking_issue_id = 28235
+items = [
+    "ops::AddAssign",
+    "ops::BitAndAssign",
+    "ops::BitOrAssign",
+    "ops::BitXorAssign",
+    "ops::DivAssign",
+    "ops::MulAssign",
+    "ops::RemAssign",
+    "ops::ShlAssign",
+    "ops::ShrAssign",
+]
+
+[[versions.features]]
+title = "empty structs and enum variants with braces"
+flag = "braced_empty_structs"
+rfc_id = 218
+tracking_issue_id = 29720
 
 [[versions]]
 number = "1.7.0"
@@ -632,6 +658,39 @@ blog_post = "https://blog.rust-lang.org/2015/06/25/Rust-1.1.html"
 [[versions]]
 number = "1.0.0"
 blog_post = "https://blog.rust-lang.org/2015/05/15/Rust-1.0.html"
+
+[[versions.features]]
+title = "associated types in traits"
+flag = "associated_types"
+kind = "lang"
+
+[[versions.features]]
+title = "type parameter defaults"
+flag = "default_type_params"
+kind = "lang"
+
+#[[versions.features]]
+#flag = "globs"
+
+[[versions.features]]
+title = "`macro_rules!`"
+flag = "macro_rules"
+kind = "lang"
+
+[[versions.features]]
+title = "`&foo[a..b]` as slicing syntax"
+flag = "slicing_syntax"
+kind = "lang"
+
+[[versions.features]]
+title = "struct variants in enums"
+flag = "struct_variant"
+kind = "lang"
+
+[[versions.features]]
+title = "tuple indexing"
+flag = "tuple_indexing"
+kind = "lang"
 
 [[versions.features]]
 title = "`if let` expressions"
