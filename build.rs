@@ -8,7 +8,7 @@ use std::{
 };
 
 use proc_macro2::TokenStream;
-use quote::{format_ident, quote, ToTokens};
+use quote::{quote, ToTokens};
 use serde::{Deserialize, Serialize};
 use tera::{Context, Tera};
 
@@ -45,8 +45,6 @@ struct Feature {
     /// Feature slug, used for the permalink. If a feature flag exists, this
     /// can be omitted, then the flag is used for the permalink.
     slug: Option<String>,
-    /// What kind of feature this is (language or standard library)
-    kind: FeatureKind,
     /// Implementation PR id (https://github.com/rust-lang/rust/pull/{id})
     ///
     /// Only for small features that were implemented in one PR.
@@ -123,7 +121,6 @@ fn generate_features_array<'a>(
             .as_ref()
             .or(feature.flag.as_ref())
             .unwrap_or_else(|| panic!("feature '{}' needs a feature flag or slug", title));
-        let kind = format_ident!("{}", &feature.kind);
         let impl_pr_id = option_literal(&feature.impl_pr_id);
         let tracking_issue_id = option_literal(&feature.tracking_issue_id);
         let stabilization_pr_id = option_literal(&feature.stabilization_pr_id);
@@ -134,7 +131,6 @@ fn generate_features_array<'a>(
                 title: #title,
                 flag: #flag,
                 slug: #slug,
-                kind: FeatureKind::#kind,
                 version: #version,
                 impl_pr_id: #impl_pr_id,
                 tracking_issue_id: #tracking_issue_id,

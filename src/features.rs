@@ -13,8 +13,6 @@ pub struct FeatureData {
     /// Feature slug, used for the permalink. If a feature flag exists, this
     /// can be omitted, then the flag is used for the permalink.
     pub slug: &'static str,
-    /// What kind of feature this is (language or standard library)
-    pub kind: FeatureKind,
     /// The Rust version that stabilized this feature (or "nightly" if it's
     /// not stabilized and only available on the nightly channel
     pub version: &'static str,
@@ -30,14 +28,6 @@ pub struct FeatureData {
     /// feature (unless this feature is exactly one item and that item is
     /// already used as the title)
     pub items: &'static [&'static str],
-}
-
-#[derive(Copy, Clone, Debug)]
-pub enum FeatureKind {
-    /// A language feature
-    Lang,
-    /// A standard library (`core` / `std` / ...) feature
-    StdLib,
 }
 
 impl FeatureData {
