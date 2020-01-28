@@ -29,6 +29,7 @@ impl Component for App {
                 Some(&data) => html! { <FullFeature data=data /> },
                 None => html! { {"error: feature not found!"} },
             },
+            AppRoute::Version(_number) => html! { {"error: not implemented yet"} },
         });
 
         html! {
