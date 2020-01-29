@@ -53,6 +53,8 @@ struct Feature {
     tracking_issue_id: Option<u64>,
     /// Stabilization PR id (https://github.com/rust-lang/rust/pull/{id})
     stabilization_pr_id: Option<u64>,
+    /// Edition guide path (https://doc.rust-lang.org/edition-guide/{path})
+    edition_guide_path: Option<String>,
     /// Language items (functions, structs, modules) that are part of this
     /// feature (unless this feature is exactly one item and that item is
     /// already used as the title)
@@ -124,6 +126,7 @@ fn generate_features_array<'a>(
         let impl_pr_id = option_literal(&feature.impl_pr_id);
         let tracking_issue_id = option_literal(&feature.tracking_issue_id);
         let stabilization_pr_id = option_literal(&feature.stabilization_pr_id);
+        let edition_guide_path = option_literal(&feature.edition_guide_path);
         let items = &feature.items;
 
         quote! {
@@ -135,6 +138,7 @@ fn generate_features_array<'a>(
                 impl_pr_id: #impl_pr_id,
                 tracking_issue_id: #tracking_issue_id,
                 stabilization_pr_id: #stabilization_pr_id,
+                edition_guide_path: #edition_guide_path,
                 items: &[#(#items),*],
             }
         }
