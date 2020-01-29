@@ -561,21 +561,61 @@ blog_post = "https://blog.rust-lang.org/2017/06/08/Rust-1.18.html"
 number = "1.17.0"
 blog_post = "https://blog.rust-lang.org/2017/04/27/Rust-1.17.html"
 
+[[versions.features]]
+title = "elision of `'static` lifetimes in `static`s and `const`s"
+flag = "static_in_const"
+tracking_issue_id = 35897
+
+[[versions.features]]
+title = "field init shorthands (`x` for `x: x` in struct initializers)"
+flag = "field_init_shorthand"
+tracking_issue_id = 37340
+
+[[versions.features]]
+title = "recursive static items"
+flag = "static_recursion"
+tracking_issue_id = 29719
+
 [[versions]]
 number = "1.16.0"
 blog_post = "https://blog.rust-lang.org/2017/03/16/Rust-1.16.html"
+
+#[versions.features]
+#flag = "more_struct_aliases"
+#tracking_issue_id = 37544
 
 [[versions]]
 number = "1.15.0"
 blog_post = "https://blog.rust-lang.org/2017/02/02/Rust-1.15.html"
 
+#[[versions.features]]
+#flag = "item_like_imports"
+#rfc_id = 1560
+#tracking_issue_id = 35120
+
 [[versions]]
 number = "1.14.0"
 blog_post = "https://blog.rust-lang.org/2016/12/22/Rust-1.14.html"
 
+[[versions.features]]
+title = "`..` in tuple (struct) patterns"
+flag = "dotdot_in_tuple_patterns"
+tracking_issue_id = 33627
+
 [[versions]]
 number = "1.13.0"
 blog_post = "https://blog.rust-lang.org/2016/11/10/Rust-1.13.html"
+
+[[versions.features]]
+title = "`macro_rules!` macros in type position"
+flag = "type_macros"
+tracking_issue_id = 27245
+
+[[versions.features]]
+title = "the `?` operator"
+flag = "question_mark"
+tracking_issue_id = 31436
+edition_guide_path = "rust-2018/error-handling-and-panics/the-question-mark-operator-for-easier-error-handling.html"
 
 [[versions]]
 number = "1.12.0"
