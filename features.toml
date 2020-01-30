@@ -49,7 +49,7 @@ slug = "proc_macro_generated_macro_rules"
 stabilization_pr_id = 64035
 
 [[versions.features]]
-title = "`meta` pattern matcher in `macro_rules!` for modern attribute syntax"
+title = "the `meta` fragment specifier in `macro_rules!` for modern attribute syntax"
 slug = "modern_meta_macro_pattern"
 impl_pr_id = 63674
 
@@ -508,13 +508,43 @@ blog_post = "https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html"
 number = "1.30.0"
 blog_post = "https://blog.rust-lang.org/2018/10/25/Rust-1.30.0.html"
 
+[[versions.features]]
+title = "`foo.rs` as an alternative to `foo/mod.rs`"
+flag = "non_modrs_mods"
+tracking_issue_id = 44660
+
+[[versions.features]]
+title = "the `vis` fragment specifier in `macro_rules!`"
+flag = "macro_vis_matcher"
+tracking_issue_id = 41022
+
+[[versions.features]]
+title = "macro imports and reexports via the module system"
+flag = "use_extern_macro"
+tracking_issue_id = 35896
+
 [[versions]]
 number = "1.29.0"
 blog_post = "https://blog.rust-lang.org/2018/09/13/Rust-1.29.html"
 
+[[versions.features]]
+title = "procedural macros"
+flag = "proc_macro"
+tracking_issue_id = 38356
+
 [[versions]]
 number = "1.28.0"
 blog_post = "https://blog.rust-lang.org/2018/08/02/Rust-1.28.html"
+
+[[versions.features]]
+title = "`#[global_allocator]`"
+flag = "global_allocator"
+tracking_issue_id = 27389
+
+[[versions.features]]
+title = "`#[repr(transparent)]` on newtype structs"
+flag = "repr_transparent"
+tracking_issue_id = 43036
 
 [[versions]]
 number = "1.27.0"
@@ -536,11 +566,25 @@ title = "`#[target_feature(...)]`"
 slug = "target_feature"
 
 [[versions.features]]
-titel = "`dyn Trait` as a syntax for trait objects"
+title = "`dyn Trait` as a syntax for trait objects"
 flag = "dyn_trait"
 tracking_issue_id = 44662
 
-#must_use
+[[versions.features]]
+title = "`#[must_use]` on functions"
+flag = "fn_must_use"
+rfc_id = 1940
+tracking_issue_id = 43302
+
+[[versions.features]]
+title = "the `lifetime` fragment specifier in `macro_rules!`"
+flag = "macro_lifetime_matcher"
+tracking_issue_id = 34303
+
+[[versions.features]]
+title = "types implementing `Termination` as the return type for `#[test]`s"
+flag = "termination_trait_test"
+tracking_issue_id = 48854
 
 [[versions]]
 number = "1.26.0"
@@ -680,7 +724,7 @@ flag = "associated_consts"
 tracking_issue_id = 29646
 
 [[versions.features]]
-title = "the `compile_error!` macro"
+title = "`compile_error!`"
 flag = "compile_error"
 tracking_issue_id = 40872
 
