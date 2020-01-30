@@ -12,6 +12,11 @@ number = "1.41.0"
 channel = "beta"
 gh_milestone_id = 68
 
+[[versions.features]]
+title = "relaxed coherence rules"
+flag = "re_rebalance_coherence"
+tracking_issue_id = 55437
+
 [[versions]]
 number = "1.40.0"
 blog_post = "https://blog.rust-lang.org/2019/12/19/Rust-1.40.0.html"
@@ -20,14 +25,17 @@ gh_milestone_id = 67
 [[versions.features]]
 title = "constructor functions in `const fn`"
 flag = "const_constructor"
+stabilization_pr_id = 61456
 
 [[versions.features]]
 title = "`#![non_exhaustive]`"
 flag = "non_exhaustive"
+stabilization_pr_id = 44109
 
 [[versions.features]]
 title = "macro invocations in `extern {}` blocks"
 flag = "macros_in_extern"
+tracking_issue_id = 49476
 stabilization_pr_id = 63931
 
 [[versions.features]]
@@ -48,6 +56,7 @@ impl_pr_id = 63674
 [[versions.features]]
 title = "`#[cfg(doctest)]`"
 flag = "cfg_doctest"
+tracking_issue_id = 62210
 
 [[versions.features]]
 title = "float ↔ bytes conversion"
@@ -120,25 +129,27 @@ gh_milestone_id = 66
 [[versions.features]]
 title = "async / .await"
 flag = "async_await"
+tracking_issue_id = 50547
 items = ["async fn", "async move { ... }", ".await"]
 
 [[versions.features]]
-title = "conditional compilation of function parameters"
+title = "attributes on function parameters"
 flag = "param_attrs"
-slug = "param_cfg_attrs"
+tracking_issue_id = 60406
 stabilization_pr_id = 64010
-items = ["#[cfg(...)]", "#[cfg_attr(...)]"]
-
-[[versions.features]]
-title = "lint control attributes on function parameters"
-flag = "param_attrs"
-slug = "param_lint_attrs"
-stabilization_pr_id = 64010
-items = ["#[allow(...)]", "#[warn(...)]", "#[deny(...)]", "#[forbid(...)]"]
+items = [
+    "#[cfg(...)]",
+    "#[cfg_attr(...)]",
+    "#[allow(...)]",
+    "#[warn(...)]",
+    "#[deny(...)]",
+    "#[forbid(...)]",
+]
 
 [[versions.features]]
 title = "shared references to bind-by-move patterns in `match` arms' guards"
 flag = "bind_by_move_pattern_guards"
+tracking_issue_id = 15287
 stabilization_pr_id = 63118
 
 [[versions.features]]
@@ -318,6 +329,7 @@ stabilization_pr_id = 61682
 [[versions.features]]
 title = "`_` as an identifier for constants"
 flag = "underscore_const_names"
+tracking_issue_id = 54912
 
 [[versions.features]]
 title = "`#[repr(align(X)]` on enums"
@@ -488,7 +500,7 @@ items = [
     "usize::from_ne_bytes", "usize::from_le_bytes", "usize::from_be_bytes",
 ]
 
-[[version]]
+[[versions]]
 number = "1.31.0"
 blog_post = "https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html"
 
@@ -508,26 +520,127 @@ blog_post = "https://blog.rust-lang.org/2018/08/02/Rust-1.28.html"
 number = "1.27.0"
 blog_post = "https://blog.rust-lang.org/2018/06/21/Rust-1.27.html"
 
+[[versions.features]]
+title = "attributes on generic parameters"
+flag = "generic_param_attrs"
+rfc_id = 1327
+tracking_issue_id = 48848
+
+[[versions.features]]
+title = "`#[cfg(target_feature = \"...\")]`"
+flag = "cfg_target_feature"
+tracking_issue_id = 29717
+
+[[versions.features]]
+title = "`#[target_feature(...)]`"
+slug = "target_feature"
+
+[[versions.features]]
+titel = "`dyn Trait` as a syntax for trait objects"
+flag = "dyn_trait"
+tracking_issue_id = 44662
+
+#must_use
+
 [[versions]]
 number = "1.26.0"
 blog_post = "https://blog.rust-lang.org/2018/05/10/Rust-1.26.html"
 
 [[versions.features]]
-title = "placeholder lifetimes (`'_`)"
-flag = "underscore_lifetimes"
+title = "array indexing in constants"
+flag = "const_indexing"
+tracking_issue_id = 29947
+stabilization_pr_id = 46882
+
+[[versions.features]]
+title = "inclusive range syntax"
+flag = "inclusive_range_syntax"
+tracking_issue_id = 28237
+items = ["a..=b", "..=b"]
+
+[[versions.features]]
+title = "inclusive ranges in patterns"
+flag = "dotdoteq_in_patterns"
+rfc_id = 1192
+tracking_issue_id = 28237
+book_path = "ch18-03-pattern-syntax.html#matching-ranges-of-values-with-"
+items = ["a..=b", "..=b"]
+
+[[versions.features]]
+title = "types implementing `Termination` as the return type for `fn main()`"
+flag = "termination_trait"
+tracking_issue_id = 43301
+
+[[versions.features]]
+title = "`Clone` implementation for applicable closures"
+flag = "clone_closures"
+rfc_id = 2132
+tracking_issue_id = 44490
+
+[[versions.features]]
+title = "`Copy` implementation for applicable closures"
+flag = "copy_closures"
+rfc_id = 2132
+tracking_issue_id = 44490
+
+[[versions.features]]
+title = "`impl Trait` in function arguments"
+flag = "universal_impl_trait"
+tracking_issue_id = 34511
+
+[[versions.features]]
+title = "`impl Trait` in function return types"
+flag = "conservative_impl_trait"
+tracking_issue_id = 34511
 
 [[versions.features]]
 title = "128 bit integer types"
 flag = "i128_type"
+tracking_issue_id = 35118
 items = ["i128", "u128"]
+
+[[versions.features]]
+title = "default match binding modes"
+flag = "match_default_bindings"
+rfc_id = 2005
+stabilization_pr_id = 42640
+
+[[versions.features]]
+title = "placeholder lifetimes (`'_`)"
+flag = "underscore_lifetimes"
+stabilization_pr_id = 44524
 
 [[versions]]
 number = "1.25.0"
 blog_post = "https://blog.rust-lang.org/2018/03/29/Rust-1.25.html"
 
+[[versions.features]]
+title = "`#[repr(align(N))]`"
+flag = "repr_align"
+rfc_id = 1358
+tracking_issue_id = 33626
+stabilization_pr_id = 47006
+
+[[versions.features]]
+title = "`|` at the beginning of match arms"
+flag = "match_beginning_vert"
+rfc_id = 1925
+tracking_issue_id = 44101
+
+[[versions.features]]
+title = "nested groups in imports"
+flag = "use_nested_groups"
+rfc_id = 2128
+tracking_issue_id = 44494
+
 [[versions]]
 number = "1.24.0"
 blog_post = "https://blog.rust-lang.org/2018/02/15/Rust-1.24.html"
+
+[[versions.features]]
+title = "the sysV64 ABI on any platform"
+flag = "abi_sysv64"
+tracking_issue_id = 36167
 
 [[versions]]
 number = "1.23.0"
@@ -537,25 +650,77 @@ blog_post = "https://blog.rust-lang.org/2018/01/04/Rust-1.23.html"
 number = "1.22.0"
 blog_post = "https://blog.rust-lang.org/2017/11/22/Rust-1.22.html"
 
+[[versions.features]]
+title = "`Drop` types in constants"
+flag = "drop_types_in_const"
+rfc_id = 1440
+tracking_issue_id = 33156
+
 [[versions]]
 number = "1.21.0"
 blog_post = "https://blog.rust-lang.org/2017/10/12/Rust-1.21.html"
+
+#[[versions.features]]
+#flag = "rvalue_static_promotion"
+#rfc_id = 1414
+#tracking_issue_id = 38865
 
 [[versions]]
 number = "1.20.0"
 blog_post = "https://blog.rust-lang.org/2017/08/31/Rust-1.20.html"
 
 [[versions.features]]
+title = "attributes on struct literal fields"
+flag = "struct_field_attributes"
+tracking_issue_id = 38814
+
+[[versions.features]]
+title = "associated constants in `trait` and `impl` blocks"
+flag = "associated_consts"
+tracking_issue_id = 29646
+
+[[versions.features]]
 title = "the `compile_error!` macro"
 flag = "compile_error"
+tracking_issue_id = 40872
 
 [[versions]]
 number = "1.19.0"
 blog_post = "https://blog.rust-lang.org/2017/07/20/Rust-1.19.html"
 
+[[versions.features]]
+title = "`break` with a value inside `loop`s"
+flag = "loop_break_value"
+rfc_id = 1624
+tracking_issue_id = 37339
+stabilization_pr_id = 42016
+
+[[versions.features]]
+title = "numeric fields in struct expressions and patterns"
+flag = "relaxed_adts"
+tracking_issue_id = 35626
+
+[[versions.features]]
+title = "non-capturing closure to function pointer coercion"
+flag = "closure_to_fn_coercion"
+tracking_issue_id = 39817
+
 [[versions]]
 number = "1.18.0"
 blog_post = "https://blog.rust-lang.org/2017/06/08/Rust-1.18.html"
+
+[[versions.features]]
+title = "`pub(restricted)` visibilities"
+flag = "pub_restricted"
+rfc_id = 1422
+tracking_issue_id = 32409
+stabilization_pr_id = 40556
+items = ["pub(crate)", "pub(super)", "pub(in m)"]
+
+[[versions.features]]
+title = "`#![windows_subsystem]`"
+flag = "windows_subsystem"
+tracking_issue_id = 37499
 
 [[versions]]
 number = "1.17.0"
