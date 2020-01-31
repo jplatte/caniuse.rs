@@ -449,6 +449,43 @@ number = "1.33.0"
 blog_post = "https://blog.rust-lang.org/2019/02/28/Rust-1.33.0.html"
 
 [[versions.features]]
+title = "integer match exhaustiveness checking"
+flag = "exhaustive_integer_patterns"
+rfc_id = 2591
+tracking_issue_id = 50907
+
+[[versions.features]]
+title = "`use path as _;` and `extern crate c as _;`"
+flag = "underscore_imports"
+tracking_issue_id = 48216
+
+[[versions.features]]
+title = "`#[repr(packed(N))]` on structs"
+flag = "repr_packed"
+tracking_issue_id = 33158
+
+[[versions.features]]
+title = "irrefutable patterns in `if let` and `while let`"
+flag = "irrefutable_let_patterns"
+rfc_id = 2086
+tracking_issue_id = 44495
+
+[[versions.features]]
+title = "`const unsafe fn`s inside `unsafe` blocks in `const fn`"
+flag = "min_const_unsafe_fn"
+tracking_issue_id = 55607
+
+[[versions.features]]
+title = "let bindings, assignments and destructuring in `const fn`"
+flag = "const_let"
+tracking_issue_id = 48821
+
+[[versions.features]]
+title = "`#[cfg_attr(cfg, attr1, attr2, attr3)]`"
+flag = "cfg_attr_multi"
+tracking_issue_id = 54881
+
+[[versions.features]]
 title = "`cfg(target_vendor)`"
 flag = "cfg_target_vendor"
 impl_pr_id = 28612
@@ -458,6 +495,32 @@ stabilization_pr_id = 57465
 [[versions]]
 number = "1.32.0"
 blog_post = "https://blog.rust-lang.org/2019/01/17/Rust-1.32.0.html"
+
+[[versions.features]]
+title = "the `literal` fragment specifier in `macro_rules!`"
+flag = "macro_literal_matcher"
+tracking_issue_id = 35625
+
+[[versions.features]]
+title = "`?` as the Kleene \"at most one\" operator in `macro_rules!` in the 2018 edition"
+flag = "macro_at_most_once_rep"
+tracking_issue_id = 48075
+
+#[[versions.features]]
+#flag = "self_struct_ctor"
+#rfc_id = 2302
+#tracking_issue_id = 51994
+
+[[versions.features]]
+title = "`Self` in type definitions"
+flag = "self_in_typedefs"
+rfc_id = 2300
+tracking_issue_id = 49303
+
+[[versions.features]]
+title = "uniform paths (`use x::y;` as `use self::x::y;`)"
+flag = "uniform_paths"
+tracking_issue_id = 53130
 
 [[versions.features]]
 title = "integer ↔ bytes conversion"
@@ -504,6 +567,31 @@ items = [
 number = "1.31.0"
 blog_post = "https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html"
 
+[[versions.features]]
+title = "parentheses in patterns"
+flag = "pattern_parentheses"
+tracking_issue_id = 51087
+
+[[versions.features]]
+title = "`const fn`"
+flag = "min_const_fn"
+tracking_issue_id = 53555
+
+[[versions.features]]
+title = "scoped lints"
+flag = "tool_lints"
+tracking_issue_id = 44690
+
+[[versions.features]]
+title = "lifetime elision in `impl` headers"
+flag = "impl_header_lifetime_elision"
+tracking_issue_id = 158872
+
+[[versions.features]]
+title = "`extern crate foo as bar;`"
+flag = "extern_crate_item_prelude"
+tracking_issue_id = 55599
+
 [[versions]]
 number = "1.30.0"
 blog_post = "https://blog.rust-lang.org/2018/10/25/Rust-1.30.0.html"
@@ -522,6 +610,56 @@ tracking_issue_id = 41022
 title = "macro imports and reexports via the module system"
 flag = "use_extern_macro"
 tracking_issue_id = 35896
+
+[[versions.features]]
+title = "raw identifiers (`r#keyword`)"
+flag = "raw_identifiers"
+tracking_issue_id = 48589
+
+[[versions.features]]
+title = "tool-scoped attributes"
+flag = "tool_attributes"
+tracking_issue_id = 44690
+
+[[versions.features]]
+title = "multi-segment paths in attributes and derives"
+flag = "proc_macro_path_invoc"
+tracking_issue_id = 38356
+
+[[versions.features]]
+title = "non-string literals in attribute lists and values of key-value pairs"
+flag = "attr_literals"
+tracking_issue_id = 34981
+
+[[versions.features]]
+title = "outlives requirement inference"
+flag = "infer_outlives_requirements"
+rfc_id = 2093
+tracking_issue_id = 44493
+
+[[versions.features]]
+title = "`#[panic_handler]`"
+flag = "panic_handler"
+tracking_issue_id = 44489
+
+[[versions.features]]
+title = "`#[used]`"
+flag = "used"
+tracking_issue_id = 40289
+
+[[versions.features]]
+title = "`crate` in paths"
+flag = "crate_in_paths"
+tracking_issue_id = 45477
+
+[[versions.features]]
+title = "absolute paths as paths from other crates"
+flag = "extern_absolute_paths"
+tracking_issue_id = 44660
+
+#[[versions.features]]
+#flag = "extern_prelude"
+#tracking_issue_id = 44660
 
 [[versions]]
 number = "1.29.0"
