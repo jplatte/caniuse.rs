@@ -37,10 +37,8 @@ impl Component for MatchedFeature {
     }
 
     fn view(&self) -> Html {
-        let f = &self.props.data;
+        let f = self.props.data;
         let m = &self.props.match_;
-
-        let title = view_text_with_matches(f.title, &m.title_spans);
 
         let maybe_flag = match f.flag {
             Some(flag) => html! {
@@ -61,7 +59,7 @@ impl Component for MatchedFeature {
         };
 
         html! {
-            <FeatureSkel title=title channel=Some(f.channel) version=f.version>
+            <FeatureSkel feature=f title_matches=m.title_spans.clone()>
                 {maybe_flag}
                 {items}
             </FeatureSkel>

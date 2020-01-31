@@ -3,7 +3,7 @@ use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 use crate::{
     components::FeatureSkel,
     util::{view_text, Void},
-    AppRoute, FeatureData,
+    FeatureData,
 };
 
 #[derive(Clone, Properties)]
@@ -29,9 +29,7 @@ impl Component for Feature {
     }
 
     fn view(&self) -> Html {
-        type RouterAnchor = yew_router::components::RouterAnchor<AppRoute>;
-
-        let f = &self.props.data;
+        let f = self.props.data;
 
         let maybe_flag = match f.flag {
             Some(flag) if f.version.is_none() => {
@@ -47,12 +45,9 @@ impl Component for Feature {
         };
 
         html! {
-            <FeatureSkel title=view_text(f.title) channel=Some(f.channel) version=f.version>
+            <FeatureSkel feature=f>
                 {maybe_flag}
                 {items}
-                <RouterAnchor route=AppRoute::Feature(f.slug.into()) classes="details">
-                    <span>{"Details"}</span>
-                </RouterAnchor>
             </FeatureSkel>
         }
     }

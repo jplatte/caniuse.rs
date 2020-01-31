@@ -90,14 +90,15 @@ fn main() -> Result<(), Box<dyn Error>> {
     let out_path = Path::new(&out_dir).join("features.rs");
     let mut out = BufWriter::new(File::create(out_path)?);
 
-    let all_features =
-        feature_list.unstable.features.iter().map(|f| (Channel::Nightly, None, f)).chain(
-            feature_list.versions.iter().flat_map(|version| {
-                let channel = version.channel.unwrap_or(Channel::Stable);
-                let number: Option<&str> = Some(&version.number);
-                version.features.iter().map(move |f| (channel, number, f))
-            }),
-        );
+    let all_features = feature_list
+        .versions
+        .iter()
+        .flat_map(|version| {
+            let channel = version.channel.unwrap_or(Channel::Stable);
+            let number: Option<&str> = Some(&version.number);
+            version.features.iter().map(move |f| (channel, number, f))
+        })
+        .chain(feature_list.unstable.features.iter().map(|f| (Channel::Nightly, None, f)));
     write!(out, "{}", generate_features_array(all_features))?;
 
     Ok(())

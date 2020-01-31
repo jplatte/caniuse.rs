@@ -1,7 +1,6 @@
 use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
 use crate::{
-    components::FeatureSkel,
     util::{view_text, Void},
     FeatureData,
 };
@@ -60,14 +59,18 @@ impl Component for FullFeature {
             html! { {view_items(f.items)} }
         };
 
-        // Use FeatureSkel at all?
         html! {
-            <FeatureSkel title=view_text(f.title)>
-                {maybe_flag}
-                {maybe_impl_pr_link}
-                {maybe_stabilization_pr_link}
-                {items}
-            </FeatureSkel>
+            <li class="feature-box">
+                <div class="feature">
+                    <h3 class="title">
+                        {view_text(f.title)}
+                    </h3>
+                    {maybe_flag}
+                    {maybe_impl_pr_link}
+                    {maybe_stabilization_pr_link}
+                    {items}
+                </div>
+            </li>
         }
     }
 }

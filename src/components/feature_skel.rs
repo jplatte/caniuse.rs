@@ -2,16 +2,20 @@ use yew::{
     html, Children, Component, ComponentLink, Html, Properties, Renderable as _, ShouldRender,
 };
 
-use crate::{components::SupportIndicator, util::Void, Channel};
+use crate::{
+    components::SupportIndicator,
+    search::Span,
+    util::{view_text_with_matches, Void},
+    AppRoute, FeatureData,
+};
 
 #[derive(Clone, Properties)]
 pub struct Props {
     #[props(required)]
     pub children: Children,
     #[props(required)]
-    pub title: Html,
-    pub channel: Option<Channel>,
-    pub version: Option<&'static str>,
+    pub feature: FeatureData,
+    pub title_matches: Vec<Span>,
 }
 
 pub struct FeatureSkel {
@@ -36,25 +40,24 @@ impl Component for FeatureSkel {
     }
 
     fn view(&self) -> Html {
-        let maybe_support_indicator = if let Some(channel) = self.props.channel {
-            html! {
-                <SupportIndicator
-                    channel=channel
-                    version=self.props.version
-                    // ctx=support_ctx
-                    />
-            }
-        } else {
-            html! {}
-        };
+        type RouterAnchor = yew_router::components::RouterAnchor<AppRoute>;
+        let f = self.props.feature;
 
         html! {
             <li class="feature-box">
                 <div class="feature">
-                    <h3 class="title">{self.props.title.clone()}</h3>
+                    <h3 class="title">
+                        <RouterAnchor route=AppRoute::Feature(f.slug.into())>
+                            {view_text_with_matches(f.title, &self.props.title_matches)}
+                        </RouterAnchor>
+                    </h3>
                     { self.props.children.render() }
                 </div>
-                {maybe_support_indicator}
+                <SupportIndicator
+                    channel=f.channel
+                    version=f.version
+                    // ctx=support_ctx
+                    />
             </li>
         }
     }
