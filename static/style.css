@@ -99,11 +99,19 @@ code {
     padding: .6rem 0;
 }
 
-.supported {
+.stable {
     color: var(--green);
 }
 
-.unsupported {
+.beta {
+    color: var(--yellow);
+}
+
+.nightly {
+    color: var(--orange);
+}
+
+.none {
     color: var(--red);
 }
 

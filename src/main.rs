@@ -19,7 +19,7 @@ mod components {
     };
 }
 
-pub use features::{FeatureData, FEATURES};
+pub use features::{Channel, FeatureData, FEATURES};
 
 #[derive(Clone, Debug, Switch)]
 pub enum AppRoute {

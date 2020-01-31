@@ -2,7 +2,7 @@ use yew::{
     html, Children, Component, ComponentLink, Html, Properties, Renderable as _, ShouldRender,
 };
 
-use crate::{components::SupportIndicator, util::Void};
+use crate::{components::SupportIndicator, util::Void, Channel};
 
 #[derive(Clone, Properties)]
 pub struct Props {
@@ -10,7 +10,8 @@ pub struct Props {
     pub children: Children,
     #[props(required)]
     pub title: Html,
-    pub version: &'static str,
+    pub channel: Option<Channel>,
+    pub version: Option<&'static str>,
 }
 
 pub struct FeatureSkel {
@@ -35,10 +36,16 @@ impl Component for FeatureSkel {
     }
 
     fn view(&self) -> Html {
-        let maybe_support_indicator = if self.props.version.is_empty() {
-            html! {}
+        let maybe_support_indicator = if let Some(channel) = self.props.channel {
+            html! {
+                <SupportIndicator
+                    channel=channel
+                    version=self.props.version
+                    // ctx=support_ctx
+                    />
+            }
         } else {
-            html! { <SupportIndicator version=self.props.version /*ctx=support_ctx*/ /> }
+            html! {}
         };
 
         html! {

@@ -32,10 +32,9 @@ impl Component for Feature {
         type RouterAnchor = yew_router::components::RouterAnchor<AppRoute>;
 
         let f = &self.props.data;
-        let title = html! { {view_text(f.title)} };
 
         let maybe_flag = match f.flag {
-            Some(flag) if f.version == "nightly" => {
+            Some(flag) if f.version.is_none() => {
                 html! { <div class="flag">{"Feature flag: "}{view_text(flag)}</div> }
             }
             _ => html! {},
@@ -44,11 +43,11 @@ impl Component for Feature {
         let items = if f.items.is_empty() {
             html! {}
         } else {
-            html! { {view_items(f.items)} }
+            view_items(f.items)
         };
 
         html! {
-            <FeatureSkel title=title version=f.version>
+            <FeatureSkel title=view_text(f.title) channel=Some(f.channel) version=f.version>
                 {maybe_flag}
                 {items}
                 <RouterAnchor route=AppRoute::Feature(f.slug.into()) classes="details">

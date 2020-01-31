@@ -1,13 +1,13 @@
 use std::{
     env,
     error::Error,
-    fmt::{self, Debug},
+    fmt::Debug,
     fs::{self, File},
     io::{BufWriter, Write},
     path::Path,
 };
 
-use proc_macro2::TokenStream;
+use proc_macro2::{Ident, Span, TokenStream};
 use quote::{quote, ToTokens};
 use serde::{Deserialize, Serialize};
 use tera::{Context, Tera};
@@ -28,6 +28,7 @@ struct UnstableFeatureList {
 struct VersionedFeatureList {
     /// Rust version number, e.g. "1.0.0"
     number: String,
+    channel: Option<Channel>,
     #[serde(default)]
     features: Vec<Feature>,
 }
@@ -64,17 +65,10 @@ struct Feature {
 
 #[derive(Copy, Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "lowercase")]
-enum FeatureKind {
-    /// A language feature
-    Lang,
-    /// A standard library (`core` / `std` / ...) feature
-    StdLib,
-}
-
-impl quote::IdentFragment for FeatureKind {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        <Self as Debug>::fmt(self, f)
-    }
+enum Channel {
+    Stable,
+    Beta,
+    Nightly,
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -96,21 +90,23 @@ fn main() -> Result<(), Box<dyn Error>> {
     let out_path = Path::new(&out_dir).join("features.rs");
     let mut out = BufWriter::new(File::create(out_path)?);
 
-    let all_features = feature_list.unstable.features.iter().map(|f| ("nightly", f)).chain(
-        feature_list.versions.iter().flat_map(|version| {
-            let number: &str = &version.number;
-            version.features.iter().map(move |f| (number, f))
-        }),
-    );
+    let all_features =
+        feature_list.unstable.features.iter().map(|f| (Channel::Nightly, None, f)).chain(
+            feature_list.versions.iter().flat_map(|version| {
+                let channel = version.channel.unwrap_or(Channel::Stable);
+                let number: Option<&str> = Some(&version.number);
+                version.features.iter().map(move |f| (channel, number, f))
+            }),
+        );
     write!(out, "{}", generate_features_array(all_features))?;
 
     Ok(())
 }
 
 fn generate_features_array<'a>(
-    features: impl Iterator<Item = (&'a str, &'a Feature)>,
+    features: impl Iterator<Item = (Channel, Option<&'a str>, &'a Feature)>,
 ) -> TokenStream {
-    let features = features.map(|(version, feature)| {
+    let features = features.map(|(channel, version, feature)| {
         assert!(
             !feature.items.iter().any(|i| i.contains('`')),
             "items are always wrapped in code blocks and should not contain any '`'.",
@@ -121,8 +117,10 @@ fn generate_features_array<'a>(
         let slug = feature
             .slug
             .as_ref()
-            .or(feature.flag.as_ref())
+            .or_else(|| feature.flag.as_ref())
             .unwrap_or_else(|| panic!("feature '{}' needs a feature flag or slug", title));
+        let channel = Ident::new(&format!("{:?}", channel), Span::call_site());
+        let version = option_literal(&version);
         let impl_pr_id = option_literal(&feature.impl_pr_id);
         let tracking_issue_id = option_literal(&feature.tracking_issue_id);
         let stabilization_pr_id = option_literal(&feature.stabilization_pr_id);
@@ -134,6 +132,7 @@ fn generate_features_array<'a>(
                 title: #title,
                 flag: #flag,
                 slug: #slug,
+                channel: crate::Channel::#channel,
                 version: #version,
                 impl_pr_id: #impl_pr_id,
                 tracking_issue_id: #tracking_issue_id,
@@ -145,6 +144,7 @@ fn generate_features_array<'a>(
     });
 
     quote! {
+        #[allow(clippy::unreadable_literal)]
         pub const FEATURES: &[FeatureData] = &[#(#features),*];
     }
 }

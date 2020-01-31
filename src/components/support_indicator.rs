@@ -1,6 +1,6 @@
 use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
-use crate::util::Void;
+use crate::{util::Void, Channel};
 
 pub struct SupportIndicator {
     props: Props,
@@ -8,7 +8,10 @@ pub struct SupportIndicator {
 
 #[derive(Clone, Properties)]
 pub struct Props {
-    pub version: &'static str,
+    #[props(required)]
+    pub channel: Channel,
+    #[props(required)]
+    pub version: Option<&'static str>,
 }
 
 impl Component for SupportIndicator {
@@ -29,10 +32,17 @@ impl Component for SupportIndicator {
     }
 
     fn view(&self) -> Html {
-        if self.props.version == "nightly" {
-            html! { <div class="version unsupported">{"Rust "}{self.props.version}</div> }
-        } else {
-            html! { <div class="version supported">{"Rust "}{self.props.version}</div> }
+        match self.props.version {
+            None => html! { <div class="version none">{"Unstable"}</div> },
+            Some(v) => {
+                let classes = match self.props.channel {
+                    Channel::Nightly => "version nightly",
+                    Channel::Beta => "version beta",
+                    Channel::Stable => "version stable",
+                };
+
+                html! { <div class=classes>{"Rust "}{v}</div> }
+            }
         }
     }
 }

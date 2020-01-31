@@ -30,17 +30,9 @@ impl Component for FullFeature {
 
     fn view(&self) -> Html {
         let f = &self.props.data;
-        let title = html! { {f.title} };
 
         let maybe_flag = match f.flag {
-            Some(flag) => {
-                let text = html! { <>{"Feature flag: "}{view_text(flag)}</> };
-                if f.version == "nightly" {
-                    html! { <div class="flag">{text}</div> }
-                } else {
-                    html! { <div class="flag muted">{text}{" (no longer needed)"}</div> }
-                }
-            }
+            Some(flag) => html! { <div class="flag">{"Feature flag: "}{view_text(flag)}</div> },
             None => html! {},
         };
 
@@ -70,7 +62,7 @@ impl Component for FullFeature {
 
         // Use FeatureSkel at all?
         html! {
-            <FeatureSkel title=title>
+            <FeatureSkel title=view_text(f.title)>
                 {maybe_flag}
                 {maybe_impl_pr_link}
                 {maybe_stabilization_pr_link}
