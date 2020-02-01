@@ -1,8 +1,16 @@
-use yew::{html, Component, ComponentLink, Html, InputData, ShouldRender};
+use std::time::Duration;
+
+use stdweb::{js, unstable::TryInto};
+use yew::{
+    html,
+    services::timeout::{TimeoutService, TimeoutTask},
+    Component, ComponentLink, Html, InputData, ShouldRender,
+};
 
 use crate::{
     components::{Feature, MatchedFeature},
     search::extract_search_terms,
+    services::{ScrollService, ScrollTask},
     FeatureData, FEATURES,
 };
 
@@ -10,10 +18,15 @@ pub struct Index {
     link: ComponentLink<Self>,
     current_search_terms: Vec<String>,
     current_search_results: Vec<FeatureData>,
+    items_visible: usize,
+
+    _scroll_task: ScrollTask,
+    _timeout_task: TimeoutTask,
 }
 
 pub enum Msg {
     Search(String),
+    Update,
 }
 
 impl Component for Index {
@@ -21,7 +34,19 @@ impl Component for Index {
     type Properties = ();
 
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-        Self { link, current_search_terms: Vec::new(), current_search_results: Vec::new() }
+        let _scroll_task = ScrollService::new().register(link.callback(|_| Msg::Update));
+        let _timeout_task =
+            TimeoutService::new().spawn(Duration::from_secs(0), link.callback(|_| Msg::Update));
+
+        Self {
+            link,
+            current_search_terms: Vec::new(),
+            current_search_results: Vec::new(),
+            items_visible: 10,
+
+            _scroll_task,
+            _timeout_task,
+        }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
@@ -59,20 +84,36 @@ impl Component for Index {
 
                 true
             }
+            Msg::Update => {
+                let distance_to_bottom: f64 =
+                    js! { return document.body.scrollHeight - window.scrollY - window.innerHeight; }
+                    .try_into()
+                    .unwrap();
+
+                if distance_to_bottom < 120.0 {
+                    self.items_visible += 10;
+                    self._timeout_task = TimeoutService::new()
+                        .spawn(Duration::from_secs(0), self.link.callback(|_| Msg::Update));
+
+                    true
+                } else {
+                    false
+                }
+            }
         }
     }
 
     fn view(&self) -> Html {
         let features = if self.current_search_terms.is_empty() {
-            let mut list = FEATURES.iter().map(|&f| html! { <Feature data=f /> });
-            html! { { for list } }
+            let list = FEATURES.iter().map(|&f| html! { <Feature data=f /> });
+            html! { { for list.take(self.items_visible) } }
         } else {
-            let mut list = self.current_search_results.iter().map(|&f| {
+            let list = self.current_search_results.iter().map(|&f| {
                 let m = f.get_matches(&self.current_search_terms).expect("matching feature");
                 html! { <MatchedFeature data=f match_=m /> }
             });
 
-            html! { { for list } }
+            html! { { for list.take(self.items_visible) } }
         };
 
         html! {

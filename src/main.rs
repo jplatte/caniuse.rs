@@ -18,6 +18,11 @@ mod components {
         index::Index, matched_feature::MatchedFeature, support_indicator::SupportIndicator,
     };
 }
+mod services {
+    pub mod scroll;
+
+    pub use scroll::{ScrollService, ScrollTask};
+}
 
 pub use features::{Channel, FeatureData, FEATURES};
 
