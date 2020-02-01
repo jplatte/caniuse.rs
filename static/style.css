@@ -6,9 +6,10 @@
     --text-muted-color: #666;
     --link-hover-color: #4f4f4f;
 
-    --green: #1F741F;
-    --highlight-color: #2C6D6D;
-    --highlight-color-2: #4F8787;
+    --green: #1f741f;
+    --yellow: #d4d405;
+    --highlight-color: #2C6d6d;
+    --highlight-color-2: #4f8787;
 
     --max-page-width: 768px;
 }
@@ -22,9 +23,10 @@
         --text-muted-color: #999;
         --link-hover-color: #ccc;
 
-        --green: #3B913B;
-        --highlight-color: #77A4A4;
-        --highlight-color-2: #4C8585;
+        --green: #16b416;
+        --yellow: #d4d400;
+        --highlight-color: #77a4a4;
+        --highlight-color-2: #4c8585;
     }
 }
 
