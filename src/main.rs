@@ -19,9 +19,8 @@ mod components {
     };
 }
 mod services {
+    pub mod resize;
     pub mod scroll;
-
-    pub use scroll::{ScrollService, ScrollTask};
 }
 
 pub use features::{Channel, FeatureData, FEATURES};

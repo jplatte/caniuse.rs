@@ -10,7 +10,10 @@ use yew::{
 use crate::{
     components::{Feature, MatchedFeature},
     search::extract_search_terms,
-    services::{ScrollService, ScrollTask},
+    services::{
+        resize::{ResizeService, ResizeTask},
+        scroll::{ScrollService, ScrollTask},
+    },
     FeatureData, FEATURES,
 };
 
@@ -21,6 +24,7 @@ pub struct Index {
     items_visible: usize,
 
     _scroll_task: ScrollTask,
+    _resize_task: ResizeTask,
     _timeout_task: TimeoutTask,
 }
 
@@ -35,6 +39,7 @@ impl Component for Index {
 
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         let _scroll_task = ScrollService::new().register(link.callback(|_| Msg::Update));
+        let _resize_task = ResizeService::new().register(link.callback(|_| Msg::Update));
         let _timeout_task =
             TimeoutService::new().spawn(Duration::from_secs(0), link.callback(|_| Msg::Update));
 
@@ -45,6 +50,7 @@ impl Component for Index {
             items_visible: 10,
 
             _scroll_task,
+            _resize_task,
             _timeout_task,
         }
     }
