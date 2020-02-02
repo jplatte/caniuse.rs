@@ -35,28 +35,33 @@ impl Component for FullFeature {
             None => html! {},
         };
 
-        let maybe_impl_pr_link = match f.impl_pr_id {
-            Some(pr_id) => html! {
-                <a href={format!("https://github.com/rust-lang/rust/pull/{}", pr_id)}>
-                    {"Implementation PR"}
-                </a>
-            },
+        let maybe_link = |text, link_base, opt_id| match opt_id {
+            Some(id) => html! { <li><a href=format!("{}{}", link_base, id)>{text}</a></li> },
             None => html! {},
         };
 
-        let maybe_stabilization_pr_link = match f.stabilization_pr_id {
-            Some(pr_id) => html! {
-                <a href={format!("https://github.com/rust-lang/rust/pull/{}", pr_id)}>
-                    {"Stabilization PR"}
-                </a>
-            },
-            None => html! {},
-        };
+        let maybe_rfc_link =
+            maybe_link("RFC", "https://github.com/rust-lang/rfcs/issues/", f.rfc_id);
+        let maybe_impl_pr_link = maybe_link(
+            "Implementation PR",
+            "https://github.com/rust-lang/rust/pull/",
+            f.impl_pr_id,
+        );
+        let maybe_tracking_issue_link = maybe_link(
+            "Tracking issue",
+            "https://github.com/rust-lang/rust/issues/",
+            f.tracking_issue_id,
+        );
+        let maybe_stabilization_pr_link = maybe_link(
+            "Stabilization PR",
+            "https://github.com/rust-lang/rust/pull/",
+            f.stabilization_pr_id,
+        );
 
-        let items = if f.items.is_empty() {
+        let maybe_items = if f.items.is_empty() {
             html! {}
         } else {
-            html! { {view_items(f.items)} }
+            view_items(f.items)
         };
 
         html! {
@@ -66,9 +71,13 @@ impl Component for FullFeature {
                         {view_text(f.title)}
                     </h3>
                     {maybe_flag}
-                    {maybe_impl_pr_link}
-                    {maybe_stabilization_pr_link}
-                    {items}
+                    <ul class="links">
+                        {maybe_rfc_link}
+                        {maybe_impl_pr_link}
+                        {maybe_tracking_issue_link}
+                        {maybe_stabilization_pr_link}
+                    </ul>
+                    {maybe_items}
                 </div>
             </li>
         }

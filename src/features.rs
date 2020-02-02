@@ -18,6 +18,8 @@ pub struct FeatureData {
     /// The Rust version that stabilized this feature (None for unstable
     /// nightly-only features)
     pub version: Option<&'static str>,
+    /// RFC id (https://github.com/rust-lang/rfcs/pull/{id})
+    pub rfc_id: Option<u64>,
     /// Implementation PR id (https://github.com/rust-lang/rust/pull/{id})
     ///
     /// Only for small features that were implemented in one PR.

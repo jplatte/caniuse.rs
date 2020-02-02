@@ -46,6 +46,8 @@ struct Feature {
     /// Feature slug, used for the permalink. If a feature flag exists, this
     /// can be omitted, then the flag is used for the permalink.
     slug: Option<String>,
+    /// RFC id (https://github.com/rust-lang/rfcs/pull/{id})
+    rfc_id: Option<u64>,
     /// Implementation PR id (https://github.com/rust-lang/rust/pull/{id})
     ///
     /// Only for small features that were implemented in one PR.
@@ -122,6 +124,7 @@ fn generate_features_array<'a>(
             .unwrap_or_else(|| panic!("feature '{}' needs a feature flag or slug", title));
         let channel = Ident::new(&format!("{:?}", channel), Span::call_site());
         let version = option_literal(&version);
+        let rfc_id = option_literal(&feature.rfc_id);
         let impl_pr_id = option_literal(&feature.impl_pr_id);
         let tracking_issue_id = option_literal(&feature.tracking_issue_id);
         let stabilization_pr_id = option_literal(&feature.stabilization_pr_id);
@@ -135,6 +138,7 @@ fn generate_features_array<'a>(
                 slug: #slug,
                 channel: crate::Channel::#channel,
                 version: #version,
+                rfc_id: #rfc_id,
                 impl_pr_id: #impl_pr_id,
                 tracking_issue_id: #tracking_issue_id,
                 stabilization_pr_id: #stabilization_pr_id,

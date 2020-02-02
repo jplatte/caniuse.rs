@@ -133,3 +133,15 @@ code {
 .flag .match {
     color: var(--highlight-color-2);
 }
+
+.links {
+    display: flex;
+    padding: 0;
+    list-style: none;
+    margin-top: .6em;
+    margin-bottom: .1em;
+}
+
+.links li {
+    padding-right: .5em;
+}
