@@ -39,23 +39,7 @@ pub fn get_text_matches(text: &str, search_terms: &[impl AsRef<str>]) -> Vec<Spa
         // any words containing '`'
         assert!(!term.contains('`'));
 
-        match text.find(term) {
-            Some(start) => {
-                res.push(Span { start, len: term.len() });
-            }
-            None => {
-                // One of the terms couldn't be found a single time => return no matches
-                return Vec::new();
-            }
-        }
-    }
-
-    // First match found for each search term, now find any remaining ones
-    for (i, term) in search_terms.iter().enumerate() {
-        let term = term.as_ref();
-
-        // Continue searching after the first match
-        let mut idx = res[i].end();
+        let mut idx = 0;
         while let Some(pos) = text[idx..].find(term) {
             let span = Span { start: idx + pos, len: term.len() };
             idx = span.end();
@@ -104,7 +88,6 @@ mod tests {
     #[test]
     fn get_no_text_match() {
         assert!(get_text_matches("", &["test"]).is_empty());
-        assert!(get_text_matches("a", &["a b"]).is_empty());
     }
 
     #[test]

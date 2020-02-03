@@ -47,30 +47,22 @@ impl FeatureData {
     pub fn does_match(&self, search_terms: &[impl AsRef<str>]) -> bool {
         for term in search_terms {
             let term = term.as_ref();
-            if self.title.contains(term)
-                || self.flag.map(|f| f.contains(term)).unwrap_or(false)
-                || self.items.iter().any(|i| i.contains(term))
+            if !self.title.contains(term)
+                && !self.flag.map(|f| f.contains(term)).unwrap_or(false)
+                && !self.items.iter().any(|i| i.contains(term))
             {
-                return true;
+                return false;
             }
         }
 
-        false
+        true
     }
 
-    pub fn get_matches(&self, search_terms: &[impl AsRef<str>]) -> Option<Match> {
-        let mut res = Match::default();
-        res.title_spans = get_text_matches(self.title, &search_terms);
-        res.flag_spans = self.flag.map(|f| get_text_matches(f, &search_terms)).unwrap_or_default();
-        res.item_spans = self.items.iter().map(|i| get_text_matches(i, &search_terms)).collect();
-
-        if !res.title_spans.is_empty()
-            || !res.flag_spans.is_empty()
-            || res.item_spans.iter().any(|s| !s.is_empty())
-        {
-            Some(res)
-        } else {
-            None
+    pub fn get_matches(&self, search_terms: &[impl AsRef<str>]) -> Match {
+        Match {
+            title_spans: get_text_matches(self.title, &search_terms),
+            flag_spans: self.flag.map(|f| get_text_matches(f, &search_terms)).unwrap_or_default(),
+            item_spans: self.items.iter().map(|i| get_text_matches(i, &search_terms)).collect(),
         }
     }
 }

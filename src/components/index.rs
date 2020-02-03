@@ -115,7 +115,7 @@ impl Component for Index {
             html! { { for list.take(self.items_visible) } }
         } else {
             let list = self.current_search_results.iter().map(|&f| {
-                let m = f.get_matches(&self.current_search_terms).expect("matching feature");
+                let m = f.get_matches(&self.current_search_terms);
                 html! { <MatchedFeature data=f match_=m /> }
             });
 
