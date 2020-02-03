@@ -51,11 +51,11 @@ impl ResizeService {
         };
         let handle = js! {
             var callback = @{callback};
-            var action = function() {
+            var handle = function() {
                 callback();
             };
-            window.addEventListener("resize", action);
-            return action;
+            window.addEventListener("resize", handle);
+            return handle;
         };
         ResizeTask(Some(handle))
     }
