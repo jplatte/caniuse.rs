@@ -11,6 +11,7 @@ impl Span {
 }
 
 /// Search query contains '`' or a non-ascii character
+#[derive(Debug)]
 pub struct InvalidSearchQuery;
 
 // TODO: Use tinyvec
@@ -66,4 +67,37 @@ pub fn get_text_matches(text: &str, search_terms: &[impl AsRef<str>]) -> Vec<Spa
     // concatenated sorted lists, which is exactly what we have here.
     res.sort();
     res
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn extract_no_search_terms() {
+        assert!(extract_search_terms("").unwrap().is_empty());
+        assert!(extract_search_terms(" ").unwrap().is_empty());
+        assert!(extract_search_terms("  ").unwrap().is_empty());
+    }
+
+    #[test]
+    fn extract_single_search_term() {
+        assert_eq!(extract_search_terms("test").unwrap(), vec!["test".to_owned()]);
+        assert_eq!(extract_search_terms(" test   ").unwrap(), vec!["test".to_owned()]);
+    }
+
+    #[test]
+    fn extract_multiple_search_terms() {
+        assert_eq!(extract_search_terms("a b").unwrap(), vec!["a".to_owned(), "b".to_owned()]);
+        assert_eq!(extract_search_terms(" a b ").unwrap(), vec!["a".to_owned(), "b".to_owned()]);
+        assert_eq!(extract_search_terms("  a  b  ").unwrap(), vec!["a".to_owned(), "b".to_owned()]);
+    }
+
+    #[test]
+    fn extract_invalid_search_term() {
+        assert!(extract_search_terms("`").is_err());
+        assert!(extract_search_terms(" ` ").is_err());
+        assert!(extract_search_terms(" `a`").is_err());
+        assert!(extract_search_terms(" x `").is_err());
+    }
 }
