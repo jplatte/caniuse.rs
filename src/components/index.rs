@@ -1,6 +1,6 @@
 use std::time::Duration;
 
-use stdweb::{js, unstable::TryInto};
+use stdweb::{js, unstable::TryInto, web::window};
 use yew::{
     html,
     services::timeout::{TimeoutService, TimeoutTask},
@@ -33,6 +33,8 @@ pub enum Msg {
     Update,
 }
 
+const BATCH_SIZE: usize = 12;
+
 impl Component for Index {
     type Message = Msg;
     type Properties = ();
@@ -47,7 +49,7 @@ impl Component for Index {
             link,
             current_search_terms: Vec::new(),
             current_search_results: Vec::new(),
-            items_visible: 10,
+            items_visible: BATCH_SIZE,
 
             _scroll_task,
             _resize_task,
@@ -88,6 +90,10 @@ impl Component for Index {
                 };
                 self.current_search_terms = search_terms;
 
+                self.items_visible = BATCH_SIZE;
+                self._timeout_task = TimeoutService::new()
+                    .spawn(Duration::from_secs(0), self.link.callback(|_| Msg::Update));
+
                 true
             }
             Msg::Update => {
@@ -96,8 +102,8 @@ impl Component for Index {
                     .try_into()
                     .unwrap();
 
-                if distance_to_bottom < 120.0 {
-                    self.items_visible += 10;
+                if distance_to_bottom < window().inner_height() as f64 {
+                    self.items_visible += BATCH_SIZE;
                     self._timeout_task = TimeoutService::new()
                         .spawn(Duration::from_secs(0), self.link.callback(|_| Msg::Update));
 
