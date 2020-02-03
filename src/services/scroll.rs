@@ -27,12 +27,9 @@ impl ScrollService {
     pub fn register(&mut self, callback: Callback<()>) -> ScrollTask {
         let callback = move || callback.emit(());
         let handle = js! {
-            var callback = @{callback};
-            var action = function() {
-                callback();
-            };
-            window.addEventListener("scroll", action);
-            return action;
+            var handle = @{callback};
+            window.addEventListener("scroll", handle);
+            return handle;
         };
         ScrollTask(Some(handle))
     }
