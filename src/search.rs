@@ -100,4 +100,31 @@ mod tests {
         assert!(extract_search_terms(" `a`").is_err());
         assert!(extract_search_terms(" x `").is_err());
     }
+
+    #[test]
+    fn get_no_text_match() {
+        assert!(get_text_matches("", &["test"]).is_empty());
+        assert!(get_text_matches("a", &["a b"]).is_empty());
+    }
+
+    #[test]
+    fn get_single_text_match() {
+        assert_eq!(get_text_matches("test", &["test"]), vec![Span { start: 0, len: 4 }]);
+        assert_eq!(
+            get_text_matches("testtest", &["test"]),
+            vec![Span { start: 0, len: 4 }, Span { start: 4, len: 4 }]
+        );
+    }
+
+    #[test]
+    fn get_multiple_text_matches() {
+        assert_eq!(
+            get_text_matches("a b c", &["b", "c"]),
+            vec![Span { start: 2, len: 1 }, Span { start: 4, len: 1 }]
+        );
+        assert_eq!(
+            get_text_matches("a b c", &["c", "b"]),
+            vec![Span { start: 2, len: 1 }, Span { start: 4, len: 1 }]
+        );
+    }
 }
