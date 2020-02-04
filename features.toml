@@ -1,87 +1,3 @@
-[unstable]
-
-[[unstable.features]]
-title = "`#[link_args]`"
-flag = "link_args"
-tracking_issue_id = 29596
-
-[[unstable.features]]
-title = "non-ASCII identifiers"
-flag = "non_ascii_idents"
-tracking_issue_id = 55467
-
-[[unstable.features]]
-title = "`#[plugin_registrar]`"
-flag = "plugin_registrar"
-tracking_issue_id = 29597
-
-[[unstable.features]]
-title = "`#![plugin(...)]`"
-flag = "plugin"
-tracking_issue_id = 29597
-
-[[unstable.features]]
-title = "`#[thread_local]` on `static`s"
-flag = "thread_local"
-tracking_issue_id = 29594
-
-[[unstable.features]]
-title = "default values for associated types"
-flag = "associated_type_defaults"
-tracking_issue_id = 29661
-
-[[unstable.features]]
-title = "`#![no_core]`"
-flag = "no_core"
-tracking_issue_id = 29639
-
-[[unstable.features]]
-title = "type ascription"
-flag = "type_ascription"
-tracking_issue_id = 23416
-
-[[unstable.features]]
-title = "specialization"
-flag = "specialization"
-tracking_issue_id = 31844
-
-[[unstable.features]]
-title = "`#[naked]` functions"
-flag = "naked_functions"
-tracking_issue_id = 32408
-
-[[unstable.features]]
-title = "`cfg(target_has_atomic = ...)`"
-flag = "cfg_target_has_atomic"
-tracking_issue_id = 32976
-
-[[unstable.features]]
-title = "exclusive range patterns (`a..b`)"
-flag = "exclusive_range_pattern"
-tracking_issue_id = 37854
-
-[[unstable.features]]
-title = "the never type (`!`)"
-flag = "never_type"
-tracking_issue_id = 35121
-
-[[unstable.features]]
-title = "exhaustive pattern matching on types thta contain uninhabited types"
-flag = "exhaustive_patterns"
-tracking_issue_id = 51085
-stabilization_pr_id = 56362
-
-[[unstable.features]]
-title = "types with a custom `Drop` implementation in `union`s"
-flag = "untagged_unions"
-slug = "drop_types_in_union"
-tracking_issue_id = 55149
-
-[[unstable.features]]
-title = "`#[link(..., cfg(...))]`"
-flag = "link_cfg"
-tracking_issue_id = 37406
-
 [[versions]]
 number = "1.43"
 channel = "nightly"
@@ -1253,3 +1169,87 @@ flag = "if_let"
 [[versions.features]]
 title = "`while let` expressions"
 flag = "while_let"
+
+[unstable]
+
+[[unstable.features]]
+title = "`#[link_args]`"
+flag = "link_args"
+tracking_issue_id = 29596
+
+[[unstable.features]]
+title = "non-ASCII identifiers"
+flag = "non_ascii_idents"
+tracking_issue_id = 55467
+
+[[unstable.features]]
+title = "`#[plugin_registrar]`"
+flag = "plugin_registrar"
+tracking_issue_id = 29597
+
+[[unstable.features]]
+title = "`#![plugin(...)]`"
+flag = "plugin"
+tracking_issue_id = 29597
+
+[[unstable.features]]
+title = "`#[thread_local]` on `static`s"
+flag = "thread_local"
+tracking_issue_id = 29594
+
+[[unstable.features]]
+title = "default values for associated types"
+flag = "associated_type_defaults"
+tracking_issue_id = 29661
+
+[[unstable.features]]
+title = "`#![no_core]`"
+flag = "no_core"
+tracking_issue_id = 29639
+
+[[unstable.features]]
+title = "type ascription"
+flag = "type_ascription"
+tracking_issue_id = 23416
+
+[[unstable.features]]
+title = "specialization"
+flag = "specialization"
+tracking_issue_id = 31844
+
+[[unstable.features]]
+title = "`#[naked]` functions"
+flag = "naked_functions"
+tracking_issue_id = 32408
+
+[[unstable.features]]
+title = "`cfg(target_has_atomic = ...)`"
+flag = "cfg_target_has_atomic"
+tracking_issue_id = 32976
+
+[[unstable.features]]
+title = "exclusive range patterns (`a..b`)"
+flag = "exclusive_range_pattern"
+tracking_issue_id = 37854
+
+[[unstable.features]]
+title = "the never type (`!`)"
+flag = "never_type"
+tracking_issue_id = 35121
+
+[[unstable.features]]
+title = "exhaustive pattern matching on types thta contain uninhabited types"
+flag = "exhaustive_patterns"
+tracking_issue_id = 51085
+stabilization_pr_id = 56362
+
+[[unstable.features]]
+title = "types with a custom `Drop` implementation in `union`s"
+flag = "untagged_unions"
+slug = "drop_types_in_union"
+tracking_issue_id = 55149
+
+[[unstable.features]]
+title = "`#[link(..., cfg(...))]`"
+flag = "link_cfg"
+tracking_issue_id = 37406
