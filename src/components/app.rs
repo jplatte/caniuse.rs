@@ -1,7 +1,7 @@
 use yew::{html, Component, ComponentLink, Html, ShouldRender};
 
 use crate::{
-    components::{FullFeature, Index},
+    components::{FeaturePage, Index},
     features::FEATURES,
     util::Void,
     AppRoute,
@@ -26,7 +26,7 @@ impl Component for App {
         let render_route = Router::render(|route| match route {
             AppRoute::Index => html! { <Index /> },
             AppRoute::Feature(slug) => match FEATURES.iter().find(|f| f.slug == slug) {
-                Some(&data) => html! { <FullFeature data=data /> },
+                Some(&data) => html! { <FeaturePage data=data /> },
                 None => html! { {"error: feature not found!"} },
             },
             AppRoute::Version(_number) => html! { {"error: not implemented yet"} },

@@ -8,7 +8,7 @@ use yew::{
 };
 
 use crate::{
-    components::{Feature, MatchedFeature},
+    components::FeatureEntry,
     search::extract_search_terms,
     services::{
         resize::{ResizeService, ResizeTask},
@@ -117,12 +117,12 @@ impl Component for Index {
 
     fn view(&self) -> Html {
         let features = if self.current_search_terms.is_empty() {
-            let list = FEATURES.iter().map(|&f| html! { <Feature data=f /> });
+            let list = FEATURES.iter().map(|&f| html! { <FeatureEntry data=f /> });
             html! { { for list.take(self.items_visible) } }
         } else {
             let list = self.current_search_results.iter().map(|&f| {
                 let m = f.get_matches(&self.current_search_terms);
-                html! { <MatchedFeature data=f match_=m /> }
+                html! { <FeatureEntry data=f match_=m /> }
             });
 
             html! { { for list.take(self.items_visible) } }
@@ -130,9 +130,14 @@ impl Component for Index {
 
         html! {
             <>
-                {"Can I use "}
-                <input type="search" oninput=self.link.callback(|e: InputData| Msg::Search(e.value)) />
-                {" ?"}
+                <header>
+                    <div class="caniuse">
+                        <label for="query">{"Can I use"}</label>
+                        <input id="query" type="search"
+                            oninput=self.link.callback(|e: InputData| Msg::Search(e.value)) />
+                        {"?"}
+                    </div>
+                </header>
                 <ul class="feature-list">{ features }</ul>
             </>
         }

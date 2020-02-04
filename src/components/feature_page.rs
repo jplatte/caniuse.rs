@@ -13,11 +13,11 @@ pub struct Props {
     pub data: FeatureData,
 }
 
-pub struct FullFeature {
+pub struct FeaturePage {
     props: Props,
 }
 
-impl Component for FullFeature {
+impl Component for FeaturePage {
     type Message = Void;
     type Properties = Props;
 
@@ -79,7 +79,7 @@ impl Component for FullFeature {
         };
 
         html! {
-            <li class="feature-box">
+            <div class="feature-page">
                 <div class="feature">
                     <h3 class="title">
                         {view_text(f.title)}
@@ -95,7 +95,7 @@ impl Component for FullFeature {
                     </ul>
                     {maybe_items}
                 </div>
-            </li>
+            </div>
         }
     }
 }

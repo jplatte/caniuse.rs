@@ -6,16 +6,12 @@ mod search;
 mod util;
 mod components {
     mod app;
-    mod feature;
-    mod feature_skel;
-    mod full_feature;
+    mod feature_entry;
+    mod feature_page;
     mod index;
-    mod matched_feature;
-    mod support_indicator;
 
     pub use self::{
-        app::App, feature::Feature, feature_skel::FeatureSkel, full_feature::FullFeature,
-        index::Index, matched_feature::MatchedFeature, support_indicator::SupportIndicator,
+        app::App, feature_entry::FeatureEntry, feature_page::FeaturePage, index::Index,
     };
 }
 mod services {
