@@ -1176,21 +1176,25 @@ flag = "while_let"
 title = "`#[link_args]`"
 flag = "link_args"
 tracking_issue_id = 29596
+unstable_book_path = "language-features/link-args.html"
 
 [[unstable.features]]
 title = "non-ASCII identifiers"
 flag = "non_ascii_idents"
 tracking_issue_id = 55467
+unstable_book_path = "language-features/non-ascii-idents.html"
 
 [[unstable.features]]
 title = "`#[plugin_registrar]`"
 flag = "plugin_registrar"
 tracking_issue_id = 29597
+unstable_book_path = "language-features/plugin-registrar.html"
 
 [[unstable.features]]
 title = "`#![plugin(...)]`"
 flag = "plugin"
 tracking_issue_id = 29597
+unstable_book_path = "language-features/plugin.html"
 
 [[unstable.features]]
 title = "`#[thread_local]` on `static`s"

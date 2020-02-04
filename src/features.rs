@@ -30,6 +30,8 @@ pub struct FeatureData {
     pub stabilization_pr_id: Option<u64>,
     /// Edition guide path (https://doc.rust-lang.org/edition-guide/{path})
     pub edition_guide_path: Option<&'static str>,
+    /// Unstable book path (https://doc.rust-lang.org/unstable-book/{path})
+    pub unstable_book_path: Option<&'static str>,
     /// Language items (functions, structs, modules) that are part of this
     /// feature (unless this feature is exactly one item and that item is
     /// already used as the title)

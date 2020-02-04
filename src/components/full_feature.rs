@@ -66,6 +66,11 @@ impl Component for FullFeature {
             "https://doc.rust-lang.org/edition-guide/",
             f.edition_guide_path,
         );
+        let maybe_unstable_book_link = maybe_link(
+            "Unstable book",
+            "https://doc.rust-lang.org/unstable-book/",
+            f.unstable_book_path,
+        );
 
         let maybe_items = if f.items.is_empty() {
             html! {}
@@ -86,6 +91,7 @@ impl Component for FullFeature {
                         {maybe_tracking_issue_link}
                         {maybe_stabilization_pr_link}
                         {maybe_edition_guide_link}
+                        {maybe_unstable_book_link}
                     </ul>
                     {maybe_items}
                 </div>
