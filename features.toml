@@ -69,10 +69,12 @@ tracking_issue_id = 35121
 title = "exhaustive pattern matching on types thta contain uninhabited types"
 flag = "exhaustive_patterns"
 tracking_issue_id = 51085
+stabilization_pr_id = 56362
 
 [[unstable.features]]
 title = "types with a custom `Drop` implementation in `union`s"
 flag = "untagged_unions"
+slug = "drop_types_in_union"
 tracking_issue_id = 55149
 
 [[unstable.features]]
@@ -430,11 +432,13 @@ title = "`#[repr(align(N)]` on enums"
 flag = "repr_align_enum"
 tracking_issue_id = 57996
 stabilization_pr_id = 61229
+edition_guide_path = "rust-2018/data-types/choosing-alignment-with-the-repr-attribute.html"
 
 [[versions.features]]
 title = "the `?` Kleene macro operator in the 2015 edition"
 slug = "kleene_op_2015"
 impl_pr_id = 60932
+edition_guide_path = "rust-2018/macros/at-most-once.html"
 
 [[versions]]
 number = "1.36"
@@ -504,6 +508,7 @@ slug = "deprecated_equals_reason"
 title = "`extern crate self as foo;`"
 flag = "extern_crate_self"
 tracking_issue_id = 56409
+stabilization_pr_id = 57407
 
 [[versions.features]]
 title = "arbitrary token streams in procedural attribute macros"
@@ -546,6 +551,10 @@ items = [
     "u128::wrapping_neg",
     "usize::wrapping_neg",
 ]
+
+[[versions.features]]
+title = "alternative registries to crates.io in cargo"
+slug = "alternative_registries"
 
 [[versions]]
 number = "1.33"
@@ -617,6 +626,7 @@ tracking_issue_id = 35625
 title = "`?` as the Kleene \"at most one\" operator in `macro_rules!` in the 2018 edition"
 flag = "macro_at_most_once_rep"
 tracking_issue_id = 48075
+edition_guide_path = "rust-2018/macros/at-most-once.html"
 
 #[[versions.features]]
 #flag = "self_struct_ctor"
@@ -796,6 +806,7 @@ gh_milestone_id = 51
 title = "`#[global_allocator]`"
 flag = "global_allocator"
 tracking_issue_id = 27389
+edition_guide_path = "rust-2018/platform-and-target-support/global-allocators.html"
 
 [[versions.features]]
 title = "`#[repr(transparent)]` on newtype structs"
@@ -1008,6 +1019,13 @@ blog_post = "https://blog.rust-lang.org/2017/07/20/Rust-1.19.html"
 gh_milestone_id = 36
 
 [[versions.features]]
+title = "`union`s"
+flag = "untagged_unions"
+rfc_id = 1444
+tracking_issue_id = 32836
+stabilization_pr_id = 42068
+
+[[versions.features]]
 title = "`break` with a value inside `loop`s"
 flag = "loop_break_value"
 rfc_id = 1624
@@ -1023,7 +1041,9 @@ tracking_issue_id = 35626
 [[versions.features]]
 title = "non-capturing closure to function pointer coercion"
 flag = "closure_to_fn_coercion"
+rfc_id = 1558
 tracking_issue_id = 39817
+stabilization_pr_id = 42162
 
 [[versions]]
 number = "1.18"

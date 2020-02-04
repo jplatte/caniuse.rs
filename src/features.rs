@@ -29,7 +29,7 @@ pub struct FeatureData {
     /// Stabilization PR id (https://github.com/rust-lang/rust/pull/{id})
     pub stabilization_pr_id: Option<u64>,
     /// Edition guide path (https://doc.rust-lang.org/edition-guide/{path})
-    edition_guide_path: Option<&'static str>,
+    pub edition_guide_path: Option<&'static str>,
     /// Language items (functions, structs, modules) that are part of this
     /// feature (unless this feature is exactly one item and that item is
     /// already used as the title)

@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
 use crate::{
@@ -35,9 +37,11 @@ impl Component for FullFeature {
             None => html! {},
         };
 
-        let maybe_link = |text, link_base, opt_id| match opt_id {
-            Some(id) => html! { <li><a href=format!("{}{}", link_base, id)>{text}</a></li> },
-            None => html! {},
+        fn maybe_link<T: Display>(text: &str, link_base: &str, opt_rest: Option<T>) -> Html {
+            match opt_rest {
+                Some(id) => html! { <li><a href=format!("{}{}", link_base, id)>{text}</a></li> },
+                None => html! {},
+            }
         };
 
         let maybe_rfc_link =
@@ -56,6 +60,11 @@ impl Component for FullFeature {
             "Stabilization PR",
             "https://github.com/rust-lang/rust/pull/",
             f.stabilization_pr_id,
+        );
+        let maybe_edition_guide_link = maybe_link(
+            "Edition Guide",
+            "https://doc.rust-lang.org/edition-guide/",
+            f.edition_guide_path,
         );
 
         let maybe_items = if f.items.is_empty() {
@@ -76,6 +85,7 @@ impl Component for FullFeature {
                         {maybe_impl_pr_link}
                         {maybe_tracking_issue_link}
                         {maybe_stabilization_pr_link}
+                        {maybe_edition_guide_link}
                     </ul>
                     {maybe_items}
                 </div>
