@@ -1,5 +1,6 @@
 :root {
     --body-bg: #fff;
+    --header-bg: #f5f5f5;
     --box-bg: #f5f5f5;
     --input-bg: #ccc;
     --code-bg: #dcdcdc;
@@ -19,6 +20,7 @@
 @media (prefers-color-scheme: dark) {
     :root {
         --body-bg: #353535;
+        --header-bg: #404040;
         --box-bg: #2a2a2a;
         --input-bg: #999;
         --code-bg: #404040;
@@ -50,7 +52,8 @@ body {
 }
 
 header {
-    background: var(--code-bg);
+    background: var(--header-bg);
+    box-shadow: 0px 2px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 .caniuse {
@@ -71,6 +74,8 @@ header {
 
     flex: 1;
     margin: 0 .6em;
+    position: relative;
+    bottom: -1px;
     color: var(--text-color);
     background: none;
     border-bottom: 1px solid var(--text-muted-color);
