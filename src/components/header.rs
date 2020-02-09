@@ -2,8 +2,8 @@ use std::mem;
 
 use stdweb::web::document;
 use yew::{
-    html, Bridge, Bridged, Callback, Component, ComponentLink, Html, InputData, Properties,
-    ShouldRender,
+    html, Bridge, Bridged, Callback, Component, ComponentLink, Html, InputData, NodeRef,
+    Properties, ShouldRender,
 };
 use yew_router::{agent::RouteAgent, route::Route};
 
@@ -15,7 +15,7 @@ use crate::{
 
 pub struct Header {
     link: ComponentLink<Self>,
-    oninput: Callback<InputData>,
+    props: Props,
     on_about_page: bool,
     is_menu_open: bool,
 
@@ -31,6 +31,7 @@ pub enum Msg {
 
 #[derive(Clone, Properties)]
 pub struct Props {
+    pub input_ref: NodeRef,
     #[props(required)]
     pub oninput: Callback<InputData>,
 }
@@ -43,7 +44,7 @@ impl Component for Header {
         let _router = RouteAgent::bridge(link.callback(Msg::UpdateAboutButton));
         Self {
             link,
-            oninput: props.oninput,
+            props,
             on_about_page: false,
             is_menu_open: false,
             document_click_task: None,
@@ -79,7 +80,7 @@ impl Component for Header {
     }
 
     fn change(&mut self, props: Props) -> ShouldRender {
-        self.oninput = props.oninput;
+        self.props = props;
         true
     }
 
@@ -124,7 +125,8 @@ impl Component for Header {
                 <div class="inner">
                     <div class="caniuse">
                         <label for="query">{"Can I use"}</label>
-                        <input id="query" type="search" oninput=self.oninput.clone() />
+                        <input ref=self.props.input_ref.clone() id="query" type="search"
+                            oninput=self.props.oninput.clone() />
                         {"?"}
                     </div>
                     <nav>
