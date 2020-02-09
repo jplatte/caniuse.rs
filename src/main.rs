@@ -8,10 +8,12 @@ mod components {
     mod app;
     mod feature_entry;
     mod feature_page;
+    mod header;
     mod index;
 
     pub use self::{
-        app::App, feature_entry::FeatureEntry, feature_page::FeaturePage, index::Index,
+        app::App, feature_entry::FeatureEntry, feature_page::FeaturePage, header::Header,
+        index::Index,
     };
 }
 mod services {

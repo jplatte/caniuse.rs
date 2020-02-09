@@ -4,7 +4,7 @@ use stdweb::{js, unstable::TryInto, web::window};
 use yew::{
     html,
     services::timeout::{TimeoutService, TimeoutTask},
-    Component, ComponentLink, Html, InputData, ShouldRender,
+    Component, ComponentLink, Html, Properties, ShouldRender,
 };
 
 use crate::{
@@ -29,15 +29,20 @@ pub struct Index {
 }
 
 pub enum Msg {
-    Search(String),
     Update,
+}
+
+#[derive(Clone, Properties)]
+pub struct Props {
+    #[props(required)]
+    pub search_query: String,
 }
 
 const BATCH_SIZE: usize = 12;
 
 impl Component for Index {
     type Message = Msg;
-    type Properties = ();
+    type Properties = Props;
 
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         let _scroll_task = ScrollService::new().register(link.callback(|_| Msg::Update));
@@ -57,45 +62,8 @@ impl Component for Index {
         }
     }
 
-    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+    fn update(&mut self, msg: Msg) -> ShouldRender {
         match msg {
-            Msg::Search(query) => {
-                let search_terms = extract_search_terms(&query).unwrap_or_default();
-                let features_to_search = if !self.current_search_terms.is_empty()
-                    && self.current_search_terms.len() <= search_terms.len()
-                {
-                    let len = self.current_search_terms.len();
-
-                    if self.current_search_terms[..] == search_terms[..len]
-                        || (self.current_search_terms[..len - 1] == search_terms[..len - 1]
-                            && search_terms[len - 1]
-                                .starts_with(&self.current_search_terms[len - 1]))
-                    {
-                        &self.current_search_results
-                    } else {
-                        FEATURES
-                    }
-                } else {
-                    FEATURES
-                };
-
-                self.current_search_results = if search_terms.is_empty() {
-                    Vec::new()
-                } else {
-                    features_to_search
-                        .iter()
-                        .filter(|f| f.does_match(&search_terms))
-                        .copied()
-                        .collect()
-                };
-                self.current_search_terms = search_terms;
-
-                self.items_visible = BATCH_SIZE;
-                self._timeout_task = TimeoutService::new()
-                    .spawn(Duration::from_secs(0), self.link.callback(|_| Msg::Update));
-
-                true
-            }
             Msg::Update => {
                 let distance_to_bottom: f64 =
                     js! { return document.body.scrollHeight - window.scrollY - window.innerHeight; }
@@ -115,6 +83,39 @@ impl Component for Index {
         }
     }
 
+    fn change(&mut self, props: Props) -> ShouldRender {
+        let search_terms = extract_search_terms(&props.search_query).unwrap_or_default();
+        let features_to_search = if !self.current_search_terms.is_empty()
+            && self.current_search_terms.len() <= search_terms.len()
+        {
+            let len = self.current_search_terms.len();
+
+            if self.current_search_terms[..] == search_terms[..len]
+                || (self.current_search_terms[..len - 1] == search_terms[..len - 1]
+                    && search_terms[len - 1].starts_with(&self.current_search_terms[len - 1]))
+            {
+                &self.current_search_results
+            } else {
+                FEATURES
+            }
+        } else {
+            FEATURES
+        };
+
+        self.current_search_results = if search_terms.is_empty() {
+            Vec::new()
+        } else {
+            features_to_search.iter().filter(|f| f.does_match(&search_terms)).copied().collect()
+        };
+        self.current_search_terms = search_terms;
+
+        self.items_visible = BATCH_SIZE;
+        self._timeout_task = TimeoutService::new()
+            .spawn(Duration::from_secs(0), self.link.callback(|_| Msg::Update));
+
+        true
+    }
+
     fn view(&self) -> Html {
         let features = if self.current_search_terms.is_empty() {
             let list = FEATURES.iter().map(|&f| html! { <FeatureEntry data=f /> });
@@ -129,17 +130,7 @@ impl Component for Index {
         };
 
         html! {
-            <>
-                <header>
-                    <div class="caniuse">
-                        <label for="query">{"Can I use"}</label>
-                        <input id="query" type="search"
-                            oninput=self.link.callback(|e: InputData| Msg::Search(e.value)) />
-                        {"?"}
-                    </div>
-                </header>
-                <ul class="feature-list">{ features }</ul>
-            </>
+            <ul class="feature-list">{ features }</ul>
         }
     }
 }
