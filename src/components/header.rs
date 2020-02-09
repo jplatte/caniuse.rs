@@ -1,6 +1,9 @@
 use yew::{html, Callback, Component, ComponentLink, Html, InputData, Properties, ShouldRender};
 
-use crate::util::Void;
+use crate::{
+    icons::{fa_bars, fa_heart},
+    util::Void,
+};
 
 pub struct Header {
     pub oninput: Callback<InputData>,
@@ -32,10 +35,16 @@ impl Component for Header {
     fn view(&self) -> Html {
         html! {
             <header>
-                <div class="caniuse">
-                    <label for="query">{"Can I use"}</label>
-                    <input id="query" type="search" oninput=self.oninput.clone() />
-                    {"?"}
+                <div class="inner">
+                    <div class="caniuse">
+                        <label for="query">{"Can I use"}</label>
+                        <input id="query" type="search" oninput=self.oninput.clone() />
+                        {"?"}
+                    </div>
+                    <nav>
+                        <button type="button">{fa_heart()}</button>
+                        <button type="button">{fa_bars()}</button>
+                    </nav>
                 </div>
             </header>
         }

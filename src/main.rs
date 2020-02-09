@@ -2,6 +2,7 @@ use stdweb::web::{document, IParentNode};
 use yew_router::Switch;
 
 mod features;
+mod icons;
 mod search;
 mod util;
 mod components {
