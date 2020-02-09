@@ -421,6 +421,21 @@ title = "closure to unsafe function pointer coercions"
 slug = "coerce_closure_to_unsafe_fn_ptr"
 impl_pr_id = 59580
 
+[[versions.features]]
+title = "boxed closure `Fn*` trait implementations"
+feature = "boxed_closure_impls"
+impl_pr_id = 59500
+items = [
+    "impl<A, F> FnOnce for Box<F> where F: FnOnce<A> + ?Sized",
+    "impl<A, F> FnMut for Box<F> where F: FnMut<A> + ?Sized",
+    "impl<A, F> Fn for Box<F> where F: Fn<A> + ?Sized",
+]
+
+[[versions.features]]
+title = "`dbg!` without arguments"
+slug = "dbg_no_args"
+impl_pr_id = 57847
+
 [[versions]]
 number = "1.34"
 blog_post = "https://blog.rust-lang.org/2019/04/11/Rust-1.34.0.html"
@@ -570,6 +585,14 @@ tracking_issue_id = 49303
 title = "uniform paths (`use x::y;` as `use self::x::y;`)"
 flag = "uniform_paths"
 tracking_issue_id = 53130
+
+[[versions.features]]
+title = "`dbg!`"
+feature = "dbg_macro"
+rfc_id = 2361
+impl_pr_id = 54317
+tracking_issue_id = 54306
+stabilization_pr_id = 56395
 
 [[versions.features]]
 title = "integer ↔ bytes conversion"
@@ -801,6 +824,7 @@ tracking_issue_id = 43302
 title = "the `lifetime` fragment specifier in `macro_rules!`"
 flag = "macro_lifetime_matcher"
 tracking_issue_id = 34303
+stabilization_pr_id = 50385
 
 [[versions.features]]
 title = "types implementing `Termination` as the return type for `#[test]`s"
@@ -975,7 +999,15 @@ edition_guide_path = "rust-2018/trait-system/associated-constants.html"
 [[versions.features]]
 title = "`compile_error!`"
 flag = "compile_error"
+rfc_id = 1695
+impl_pr_id = 42620
 tracking_issue_id = 40872
+stabilization_pr_id = 43373
+
+[[versions.features]]
+title = "`unimplemented!` with a message"
+slug = "unimplemented_macro_args"
+impl_pr_id = 42155
 
 [[versions]]
 number = "1.19"
@@ -1008,6 +1040,18 @@ flag = "closure_to_fn_coercion"
 rfc_id = 1558
 tracking_issue_id = 39817
 stabilization_pr_id = 42162
+
+[[versions.features]]
+title = "`eprint!`"
+slug = "eprint"
+impl_pr_id = 41192
+
+[[versions.features]]
+title = "`eprintln!`"
+slug = "eprintln"
+rfc_id = 1869
+impl_pr_id = 41192
+tracking_issue_id = 40528
 
 [[versions]]
 number = "1.18"
@@ -1067,6 +1111,11 @@ slug = "assoc_ty_struct_expr_pat"
 tracking_issue_id = 37544
 stabilization_pr_id = 39282
 
+[[version.features]]
+title = "`writeln!` without arguments"
+slug = "writeln_no_args"
+impl_pr_id = 38469
+
 #[[versions.features]]
 #flag = "more_struct_aliases"
 #tracking_issue_id = 37544
@@ -1090,7 +1139,19 @@ blog_post = "https://blog.rust-lang.org/2016/12/22/Rust-1.14.html"
 [[versions.features]]
 title = "`..` in tuple (struct) patterns"
 flag = "dotdot_in_tuple_patterns"
+rfc_id = 1492
 tracking_issue_id = 33627
+stabilization_pr_id = 36843
+
+[[versions.features]]
+title = "`fn` pointer to `unsafe fn` pointer coercion"
+slug = "fn_ptr_to_unsafe_fn_ptr"
+impl_pr_id = 37389
+
+[[version.features]]
+title = "`println!` without arguments"
+slug = "println_no_args"
+impl_pr_id = 36825
 
 [[versions]]
 number = "1.13"
@@ -1104,7 +1165,10 @@ tracking_issue_id = 27245
 [[versions.features]]
 title = "the `?` operator"
 flag = "question_mark"
+rfc_id = 243
+impl_pr_id = 31954
 tracking_issue_id = 31436
+stabilization_pr_id = 36995
 edition_guide_path = "rust-2018/error-handling-and-panics/the-question-mark-operator-for-easier-error-handling.html"
 
 [[versions]]
@@ -1187,6 +1251,14 @@ blog_post = "https://blog.rust-lang.org/2015/09/17/Rust-1.3.html"
 number = "1.2"
 blog_post = "https://blog.rust-lang.org/2015/08/06/Rust-1.2.html"
 #gh_milestone_id = 25
+
+[[versions.features]]
+title = "`iter::once`"
+slug = "iter_once"
+
+[[versions.features]]
+title = "`iter::empty`"
+slug = "iter_empty"
 
 [[versions]]
 number = "1.1"
