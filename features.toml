@@ -367,9 +367,19 @@ flag = "alloc"
 stabilization_pr_id = 59675
 
 [[versions.features]]
+title = "Non-Lexical Lifetimes (NLL) on the 2015 edition"
+slug = "nll_2015"
+impl_pr_id = 59114
+
+[[versions.features]]
 title = "`hashbrown::HashMap` as the implementation of `HashMap`"
 slug = "hashbrown"
 impl_pr_id = 58623
+
+[[versions.features]]
+title = "multiple arguments in `dbg!` macro invocations"
+slug = "dbg_multiple_args"
+impl_pr_id = 59826
 
 [[versions.features]]
 title = "`Default` implementation for `io::Cursor`"
@@ -508,6 +518,7 @@ tracking_issue_id = 55607
 title = "let bindings, assignments and destructuring in `const fn`"
 flag = "const_let"
 tracking_issue_id = 48821
+stabilization_pr_id = 57067
 
 [[versions.features]]
 title = "`#[cfg_attr(cfg, attr1, attr2, attr3)]`"
@@ -728,6 +739,31 @@ edition_guide_path = "rust-2018/platform-and-target-support/global-allocators.ht
 title = "`#[repr(transparent)]` on newtype structs"
 flag = "repr_transparent"
 tracking_issue_id = 43036
+stabilization_pr_id = 51562
+
+[[versions.features]]
+title = "`pure` as an identifier"
+slug = "pure_ident"
+rfc_id = 2421
+impl_pr_id = 51196
+
+[[versions.features]]
+title = "`sizeof` as an identifier"
+slug = "sizeof_ident"
+rfc_id = 2421
+impl_pr_id = 51196
+
+[[versions.features]]
+title = "`alignof` as an identifier"
+slug = "alignof_ident"
+rfc_id = 2421
+impl_pr_id = 51196
+
+[[versions.features]]
+title = "`offsetof` as an identifier"
+slug = "offsetof_ident"
+rfc_id = 2421
+impl_pr_id = 51196
 
 [[versions]]
 number = "1.27"
@@ -771,6 +807,11 @@ title = "types implementing `Termination` as the return type for `#[test]`s"
 flag = "termination_trait_test"
 tracking_issue_id = 48854
 
+[[versions.features]]
+title = "`proc` as an identifier"
+slug = "proc_ident"
+impl_pr_id = 49699
+
 [[versions]]
 number = "1.26"
 blog_post = "https://blog.rust-lang.org/2018/05/10/Rust-1.26.html"
@@ -785,7 +826,9 @@ stabilization_pr_id = 46882
 [[versions.features]]
 title = "inclusive range syntax"
 flag = "inclusive_range_syntax"
+rfc_id = 1192
 tracking_issue_id = 28237
+stabilization_pr_id = 47813
 edition_guide_path = "rust-2018/data-types/inclusive-ranges.html"
 items = ["a..=b", "..=b"]
 
@@ -844,7 +887,9 @@ edition_guide_path = "rust-2018/ownership-and-lifetimes/default-match-bindings.h
 [[versions.features]]
 title = "placeholder lifetimes (`'_`)"
 flag = "underscore_lifetimes"
-stabilization_pr_id = 44524
+rfc_id = 2115
+tracking_issue_id = 48469
+stabilization_pr_id = 49458
 edition_guide_path = "rust-2018/ownership-and-lifetimes/the-anonymous-lifetime.html"
 
 [[versions]]
@@ -864,12 +909,14 @@ title = "`|` at the beginning of match arms"
 flag = "match_beginning_vert"
 rfc_id = 1925
 tracking_issue_id = 44101
+stabilization_pr_id = 47947
 
 [[versions.features]]
 title = "nested groups in imports"
 flag = "use_nested_groups"
 rfc_id = 2128
 tracking_issue_id = 44494
+stabilization_pr_id = 47948
 edition_guide_path = "rust-2018/module-system/nested-imports-with-use.html"
 
 [[versions]]
@@ -922,6 +969,7 @@ tracking_issue_id = 38814
 title = "associated constants in `trait` and `impl` blocks"
 flag = "associated_consts"
 tracking_issue_id = 29646
+stabilization_pr_id = 42809
 edition_guide_path = "rust-2018/trait-system/associated-constants.html"
 
 [[versions.features]]
@@ -1007,9 +1055,24 @@ number = "1.16"
 blog_post = "https://blog.rust-lang.org/2017/03/16/Rust-1.16.html"
 gh_milestone_id = 33
 
-#[versions.features]
+[[versions.features]]
+title = "`Self` in struct expressions and patterns"
+slug = "self_struct_expr_pat"
+tracking_issue_id = 37544
+stabilization_pr_id = 39282
+
+[[versions.features]]
+title = "associated types in struct expressions and patterns"
+slug = "assoc_ty_struct_expr_pat"
+tracking_issue_id = 37544
+stabilization_pr_id = 39282
+
+#[[versions.features]]
 #flag = "more_struct_aliases"
 #tracking_issue_id = 37544
+
+#[[versions.features]]
+#title = "cargo check"
 
 [[versions]]
 number = "1.15"
