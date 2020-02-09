@@ -30,6 +30,8 @@ pub enum AppRoute {
     Feature(String),
     #[to = "/versions/{}"]
     Version(String),
+    #[to = "/about"]
+    About,
     #[to = "/"]
     Index,
 }

@@ -47,9 +47,8 @@ impl Component for App {
         type Router = yew_router::router::Router<AppRoute>;
         let search_query = self.search_query.clone();
         let render_route = Router::render(move |route| match route {
-            AppRoute::Index => {
-                html! { <Index search_query=search_query.clone() /> }
-            }
+            AppRoute::Index => html! { <Index search_query=search_query.clone() /> },
+            AppRoute::About => html! { {"Hello world!"} },
             AppRoute::Feature(slug) => match FEATURES.iter().find(|f| f.slug == slug) {
                 Some(&data) => html! { <FeaturePage data=data /> },
                 None => html! { {"error: feature not found!"} },
