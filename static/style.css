@@ -28,8 +28,8 @@
         --code-bg: #404040;
 
         --text-color: #fff;
-        --text-muted-color: #999;
-        --link-hover-color: #ccc;
+        --text-muted-color: #bbb;
+        --link-hover-color: #ddd;
 
         --green: #16b416;
         --yellow: #d4d400;
@@ -106,6 +106,7 @@ header nav {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    position: relative;
 }
 
 header nav button {
@@ -147,6 +148,46 @@ header nav svg path {
     fill: var(--text-color);
 }
 
+.menu {
+    position: absolute;
+    margin: 0;
+    top: 3.15rem; /* 2.65rem from top to lower button edge + .5rem margin */
+    right: 0;
+    width: 12rem;
+    padding: .5rem;
+
+    list-style: none;
+    background-color: var(--button-hover-bg);
+    box-shadow: 0px 2px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.menu:not(.active) {
+    display: none;
+}
+
+.menu::before {
+    content: '';
+    position: absolute;
+    right: .4rem;
+    top: calc(-1rem + 1px);
+    border: solid .5rem transparent;
+    border-bottom-color: transparent;
+    border-bottom-color: var(--button-hover-bg);
+}
+
+.toggle-nightmode {
+    color: var(--text-muted-color);
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+.toggle-nightmode pre {
+    margin: .4rem 0 0;
+}
+
 a {
     color: var(--text-color);
 }
@@ -159,10 +200,6 @@ a:hover {
 code {
     background: var(--code-bg);
     padding: .1em .3em;
-}
-
-.muted {
-    color: var(--text-muted-color);
 }
 
 .feature-list,

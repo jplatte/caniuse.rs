@@ -1,3 +1,5 @@
+#![recursion_limit = "256"]
+
 use stdweb::web::{document, IParentNode};
 use yew_router::Switch;
 
@@ -18,6 +20,7 @@ mod components {
     };
 }
 mod services {
+    pub mod click;
     pub mod resize;
     pub mod scroll;
 }

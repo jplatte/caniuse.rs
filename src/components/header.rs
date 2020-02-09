@@ -1,5 +1,6 @@
 use std::mem;
 
+use stdweb::web::document;
 use yew::{
     html, Bridge, Bridged, Callback, Component, ComponentLink, Html, InputData, Properties,
     ShouldRender,
@@ -8,13 +9,17 @@ use yew_router::{agent::RouteAgent, route::Route};
 
 use crate::{
     icons::{fa_bars, fa_heart, Style},
+    services::click::{ClickService, ClickTask},
     AppRoute,
 };
 
 pub struct Header {
+    link: ComponentLink<Self>,
     oninput: Callback<InputData>,
     on_about_page: bool,
+    is_menu_open: bool,
 
+    document_click_task: Option<ClickTask>,
     _router: Box<dyn Bridge<RouteAgent>>,
 }
 
@@ -35,19 +40,35 @@ impl Component for Header {
     type Properties = Props;
 
     fn create(props: Props, link: ComponentLink<Self>) -> Self {
-        let _router = RouteAgent::<()>::bridge(link.callback(Msg::UpdateAboutButton));
-        Self { oninput: props.oninput, on_about_page: false, _router }
+        let _router = RouteAgent::bridge(link.callback(Msg::UpdateAboutButton));
+        Self {
+            link,
+            oninput: props.oninput,
+            on_about_page: false,
+            is_menu_open: false,
+            document_click_task: None,
+            _router,
+        }
     }
 
     fn update(&mut self, msg: Msg) -> ShouldRender {
         match msg {
             Msg::OpenMenu => {
-                // TODO
-                false
+                if !self.is_menu_open {
+                    self.document_click_task = Some(
+                        ClickService::new(document().body().unwrap().into())
+                            .register(self.link.callback(|_| Msg::CloseMenu)),
+                    );
+                }
+
+                !mem::replace(&mut self.is_menu_open, true)
             }
             Msg::CloseMenu => {
-                // TODO
-                false
+                if self.is_menu_open {
+                    self.document_click_task = None;
+                }
+
+                mem::replace(&mut self.is_menu_open, false)
             }
             Msg::UpdateAboutButton(active_route) => {
                 let mut on_about_page = active_route.as_str() == "/about";
@@ -78,6 +99,26 @@ impl Component for Header {
             }
         };
 
+        let (menu_button, menu_classes) = if self.is_menu_open {
+            (
+                html! {
+                    <button type="button" class="active">
+                        {fa_bars()}
+                    </button>
+                },
+                "menu active",
+            )
+        } else {
+            (
+                html! {
+                    <button type="button" onclick=self.link.callback(|_| Msg::OpenMenu)>
+                        {fa_bars()}
+                    </button>
+                },
+                "menu",
+            )
+        };
+
         html! {
             <header>
                 <div class="inner">
@@ -88,7 +129,13 @@ impl Component for Header {
                     </div>
                     <nav>
                         {about_button}
-                        <button type="button">{fa_bars()}</button>
+                        {menu_button}
+                        <ul class={"menu ".to_owned() + menu_classes}>
+                            <li class="toggle-nightmode">
+                                {"Night mode"}<br />
+                                <small><pre>{"unimplemented()"}</pre></small>
+                            </li>
+                        </ul>
                     </nav>
                 </div>
             </header>
