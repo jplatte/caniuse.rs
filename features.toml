@@ -516,29 +516,38 @@ tracking_issue_id = 48216
 [[versions.features]]
 title = "`#[repr(packed(N))]` on structs"
 flag = "repr_packed"
+rfc_id = 1399
 tracking_issue_id = 33158
+stabilization_pr_id = 57049
 
 [[versions.features]]
 title = "irrefutable patterns in `if let` and `while let`"
 flag = "irrefutable_let_patterns"
 rfc_id = 2086
+impl_pr_id = 49469
 tracking_issue_id = 44495
+stabilization_pr_id = 57535
 
 [[versions.features]]
 title = "`const unsafe fn`s inside `unsafe` blocks in `const fn`"
 flag = "min_const_unsafe_fn"
 tracking_issue_id = 55607
+stabilization_pr_id = 57067
 
 [[versions.features]]
 title = "let bindings, assignments and destructuring in `const fn`"
 flag = "const_let"
+rfc_id = 2341
 tracking_issue_id = 48821
-stabilization_pr_id = 57067
+stabilization_pr_id = 57175
 
 [[versions.features]]
 title = "`#[cfg_attr(cfg, attr1, attr2, attr3)]`"
 flag = "cfg_attr_multi"
+rfc_id = 2539
+impl_pr_id = 54862
 tracking_issue_id = 54881
+stabilization_pr_id = 57332
 
 [[versions.features]]
 title = "or-patterns in `if let` and `while let`"
@@ -953,10 +962,27 @@ title = "the sysV64 ABI on any platform"
 flag = "abi_sysv64"
 tracking_issue_id = 36167
 
+[[versions.features]]
+title = "`is_null` on pointers to unsized types"
+slug = "unsized_ptr_is_null"
+impl_pr_id = 46094
+items = ["<*const T>::is_null", "<*mut T>::is_null"]
+
 [[versions]]
 number = "1.23"
 blog_post = "https://blog.rust-lang.org/2018/01/04/Rust-1.23.html"
 gh_milestone_id = 40
+
+[[versions.features]]
+title = "`as_ref` on pointers to unsized types"
+slug = "unsized_ptr_as_ref"
+impl_pr_id = 44932
+items = ["<*const T>::as_ref", "<*mut T>::as_ref"]
+
+[[versions.features]]
+title = "`as_mut` on `*mut T`"
+slug = "unsized_ptr_as_mut"
+impl_pr_id = 44932
 
 [[versions]]
 number = "1.22"
@@ -1111,7 +1137,7 @@ slug = "assoc_ty_struct_expr_pat"
 tracking_issue_id = 37544
 stabilization_pr_id = 39282
 
-[[version.features]]
+[[versions.features]]
 title = "`writeln!` without arguments"
 slug = "writeln_no_args"
 impl_pr_id = 38469
@@ -1148,7 +1174,7 @@ title = "`fn` pointer to `unsafe fn` pointer coercion"
 slug = "fn_ptr_to_unsafe_fn_ptr"
 impl_pr_id = 37389
 
-[[version.features]]
+[[versions.features]]
 title = "`println!` without arguments"
 slug = "println_no_args"
 impl_pr_id = 36825
@@ -1170,6 +1196,18 @@ impl_pr_id = 31954
 tracking_issue_id = 31436
 stabilization_pr_id = 36995
 edition_guide_path = "rust-2018/error-handling-and-panics/the-question-mark-operator-for-easier-error-handling.html"
+
+[[versions.features]]
+title = "`assert_ne!`"
+rfc_id = 1653
+impl_pr_id = 35074
+tracking_issue_id = 35073
+
+[[versions.features]]
+title = "`debug_assert_ne!`"
+rfc_id = 1653
+impl_pr_id = 35074
+tracking_issue_id = 35073
 
 [[versions]]
 number = "1.12"
@@ -1241,6 +1279,10 @@ gh_milestone_id = 27
 number = "1.4"
 blog_post = "https://blog.rust-lang.org/2015/10/29/Rust-1.4.html"
 gh_milestone_id = 26
+
+[[versions.features]]
+title = "item renamings in import groups"
+slug = "use_group_renaming"
 
 [[versions]]
 number = "1.3"
