@@ -423,7 +423,7 @@ impl_pr_id = 59580
 
 [[versions.features]]
 title = "boxed closure `Fn*` trait implementations"
-feature = "boxed_closure_impls"
+flag = "boxed_closure_impls"
 impl_pr_id = 59500
 items = [
     "impl<A, F> FnOnce for Box<F> where F: FnOnce<A> + ?Sized",
@@ -588,7 +588,7 @@ tracking_issue_id = 53130
 
 [[versions.features]]
 title = "`dbg!`"
-feature = "dbg_macro"
+flag = "dbg_macro"
 rfc_id = 2361
 impl_pr_id = 54317
 tracking_issue_id = 54306
