@@ -509,9 +509,15 @@ rfc_id = 2591
 tracking_issue_id = 50907
 
 [[versions.features]]
-title = "`use path as _;` and `extern crate c as _;`"
+title = "underscore imports (impl-only trait imports)"
 flag = "underscore_imports"
+rfc_id = 2166
 tracking_issue_id = 48216
+stabilization_pr_id = 56303
+items = [
+    "extern crate c as _;",
+    "use path as _;",
+]
 
 [[versions.features]]
 title = "`#[repr(packed(N))]` on structs"
@@ -571,12 +577,16 @@ gh_milestone_id = 63
 [[versions.features]]
 title = "the `literal` fragment specifier in `macro_rules!`"
 flag = "macro_literal_matcher"
+rfc_id = 1576
 tracking_issue_id = 35625
+stabilization_pr_id = 56072
 
 [[versions.features]]
 title = "`?` as the Kleene \"at most one\" operator in `macro_rules!` in the 2018 edition"
 flag = "macro_at_most_once_rep"
+rfc_id = 2298
 tracking_issue_id = 48075
+stabilization_pr_id = 56245
 edition_guide_path = "rust-2018/macros/at-most-once.html"
 
 #[[versions.features]]
@@ -589,6 +599,7 @@ title = "`Self` in type definitions"
 flag = "self_in_typedefs"
 rfc_id = 2300
 tracking_issue_id = 49303
+stabilization_pr_id = 56366
 
 [[versions.features]]
 title = "uniform paths (`use x::y;` as `use self::x::y;`)"
@@ -650,6 +661,11 @@ blog_post = "https://blog.rust-lang.org/2018/12/06/Rust-1.31-and-rust-2018.html"
 gh_milestone_id = 58
 
 [[versions.features]]
+title = "the 2018 edition"
+slug = "edition_2018"
+stabilization_pr_id = 54057
+
+[[versions.features]]
 title = "parentheses in patterns"
 flag = "pattern_parentheses"
 tracking_issue_id = 51087
@@ -657,17 +673,27 @@ tracking_issue_id = 51087
 [[versions.features]]
 title = "`const fn`"
 flag = "min_const_fn"
+rfc_id = 911
 tracking_issue_id = 53555
+stabilization_pr_id = 54835
 
 [[versions.features]]
 title = "scoped lints"
 flag = "tool_lints"
 tracking_issue_id = 44690
+stabilization_pr_id = 54870
+items = [
+    "#[allow(tool::lint)]",
+    "#[warn(tool::lint)]",
+    "#[deny(tool::lint)]",
+    "#[forbid(tool::lint)]",
+]
 
 [[versions.features]]
 title = "lifetime elision in `impl` headers"
 flag = "impl_header_lifetime_elision"
-tracking_issue_id = 158872
+tracking_issue_id = 15872
+stabilization_pr_id = 54778
 edition_guide_path = "rust-2018/ownership-and-lifetimes/lifetime-elision-in-impl.html"
 
 [[versions.features]]
