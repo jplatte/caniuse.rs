@@ -1225,12 +1225,14 @@ edition_guide_path = "rust-2018/error-handling-and-panics/the-question-mark-oper
 
 [[versions.features]]
 title = "`assert_ne!`"
+slug = "assert_ne"
 rfc_id = 1653
 impl_pr_id = 35074
 tracking_issue_id = 35073
 
 [[versions.features]]
 title = "`debug_assert_ne!`"
+slug = "debug_assert_ne"
 rfc_id = 1653
 impl_pr_id = 35074
 tracking_issue_id = 35073
