@@ -6,7 +6,8 @@
     --button-hover-bg: #ccc;
     --code-bg: #dcdcdc;
 
-    --text-color: #363636;
+    --heading-color: #2a2a2a;
+    --text-color: #303030;
     --text-muted-color: #666;
     --link-hover-color: #4f4f4f;
 
@@ -27,9 +28,10 @@
         --button-hover-bg: #6f6f6f;
         --code-bg: #404040;
 
-        --text-color: #fff;
-        --text-muted-color: #bbb;
-        --link-hover-color: #ddd;
+        --heading-color: #fff;
+        --text-color: #eaeaea;
+        --text-muted-color: #999;
+        --link-hover-color: #fff;
 
         --green: #16b416;
         --yellow: #d4d400;
@@ -47,14 +49,25 @@ html {
 }
 
 body {
-    font-family: 'sans-serif';
+    font-family: 'Source Sans Pro', sans-serif;
     color: var(--text-color);
     background: var(--body-bg);
     line-height: 1.3;
 }
 
+pre, code {
+    font-family: 'Source Code Pro';
+    font-weight: 90%;
+}
+
 main {
     padding-top: 3.5rem;
+}
+
+h3 {
+    margin: 0 0 .75em;
+    font-size: 120%;
+    font-weight: 600;
 }
 
 header {
@@ -81,6 +94,7 @@ header .inner {
     display: flex;
     font-size: 110%;
     padding: .5rem;
+    color: var(--heading-color);
 }
 
 .caniuse input {
@@ -176,7 +190,7 @@ header nav svg path {
 }
 
 .toggle-nightmode {
-    color: var(--text-muted-color);
+    color: var(--text-color);
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
@@ -190,11 +204,11 @@ header nav svg path {
 
 a {
     color: var(--text-color);
+    transition: color .2s;
 }
 
 a:hover {
     color: var(--link-hover-color);
-    transition: color .2s;
 }
 
 code {
@@ -210,8 +224,6 @@ code {
 
 .feature-list {
     margin: -1rem 0;
-    padding: 0;
-    list-style: none;
 }
 
 .feature-box {
@@ -226,8 +238,8 @@ code {
     position: relative;
 }
 
-.title {
-    margin: 0;
+.feature > :last-child {
+    margin-bottom: 0;
 }
 
 .title a {
@@ -282,6 +294,24 @@ code {
     margin-bottom: .1em;
 }
 
+.links:empty {
+    margin: 0;
+}
+
 .links li {
     padding-right: .5em;
+}
+
+.items {
+    margin-top: .6rem;
+}
+
+.items ul {
+    margin: .4rem 0 0;
+    padding-left: 2rem;
+}
+
+.about {
+    padding: .5rem;
+    background: var(--box-bg);
 }

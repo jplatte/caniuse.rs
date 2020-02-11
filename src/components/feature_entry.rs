@@ -75,7 +75,7 @@ impl Component for FeatureEntry {
         };
 
         html! {
-            <li class="feature-box">
+            <div class="feature-box">
                 <div class="feature">
                     <h3 class="title">
                         <RouterAnchor route=AppRoute::Feature(f.slug.into())>
@@ -86,7 +86,7 @@ impl Component for FeatureEntry {
                 {items}
                 </div>
                 {support_indicator}
-            </li>
+            </div>
         }
     }
 }
@@ -94,7 +94,7 @@ impl Component for FeatureEntry {
 fn view_items(items: &[&str]) -> Html {
     let mut items = items.iter().map(|i| html! { <li><code>{i}</code></li> });
     html! {
-        <details>
+        <details class="items">
             <summary>{"Items"}</summary>
             <ul>
                 { for items }
@@ -115,9 +115,12 @@ fn view_matched_items(items: &[&str], item_spans: &[Vec<Span>]) -> Html {
     };
 
     html! {
-        <ul>
-            { for res }
-            {more_items_indicator}
-        </ul>
+        <div class="items">
+            {"Items"}
+            <ul>
+                { for res }
+                {more_items_indicator}
+            </ul>
+        </div>
     }
 }

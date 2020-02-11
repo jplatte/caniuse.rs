@@ -130,7 +130,7 @@ impl Component for Index {
         };
 
         html! {
-            <ul class="feature-list">{ features }</ul>
+            <div class="feature-list">{ features }</div>
         }
     }
 }
