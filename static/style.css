@@ -251,10 +251,6 @@ code {
     text-decoration: underline;
 }
 
-.flag {
-    margin: .5rem 0;
-}
-
 .version {
     text-align: right;
     width: 6.2rem;
@@ -280,6 +276,20 @@ code {
 
 .match {
     color: var(--highlight-color);
+}
+
+.info {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    grid-gap: 0 .5rem;
+}
+
+.info > :nth-child(odd) {
+    color: var(--text-muted-color);
+}
+
+.flag {
+    margin: .5rem 0;
 }
 
 .flag .match {

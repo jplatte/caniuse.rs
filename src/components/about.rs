@@ -17,6 +17,10 @@ impl Component for About {
     }
 
     fn view(&self) -> Html {
-        html! {}
+        html! {
+            <div class="about">
+                <h3>{"About caniuse.rs"}</h3>
+            </div>
+        }
     }
 }
