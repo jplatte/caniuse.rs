@@ -79,22 +79,20 @@ impl Component for FeaturePage {
         };
 
         html! {
-            <div class="feature-page">
-                <div class="feature">
-                    <h3 class="title">
-                        {view_text(f.title)}
-                    </h3>
-                    {maybe_flag}
-                    <ul class="links">
-                        {maybe_rfc_link}
-                        {maybe_impl_pr_link}
-                        {maybe_tracking_issue_link}
-                        {maybe_stabilization_pr_link}
-                        {maybe_edition_guide_link}
-                        {maybe_unstable_book_link}
-                    </ul>
-                    {maybe_items}
-                </div>
+            <div class="feature">
+                <h3 class="title">
+                    {view_text(f.title)}
+                </h3>
+                {maybe_flag}
+                <ul class="links">
+                    {maybe_rfc_link}
+                    {maybe_impl_pr_link}
+                    {maybe_tracking_issue_link}
+                    {maybe_stabilization_pr_link}
+                    {maybe_edition_guide_link}
+                    {maybe_unstable_book_link}
+                </ul>
+                {maybe_items}
             </div>
         }
     }

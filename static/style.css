@@ -202,19 +202,16 @@ code {
     padding: .1em .3em;
 }
 
-.feature-list,
-.feature-page {
+.page {
     max-width: var(--max-page-width);
     margin: 0 auto;
+    padding: 1rem;
 }
 
 .feature-list {
-    padding: 0 1rem;
+    margin: -1rem 0;
+    padding: 0;
     list-style: none;
-}
-
-.feature-page {
-    padding: 1rem;
 }
 
 .feature-box {

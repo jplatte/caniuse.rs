@@ -8,6 +8,7 @@ mod icons;
 mod search;
 mod util;
 mod components {
+    mod about;
     mod app;
     mod feature_entry;
     mod feature_page;
@@ -15,8 +16,8 @@ mod components {
     mod index;
 
     pub use self::{
-        app::App, feature_entry::FeatureEntry, feature_page::FeaturePage, header::Header,
-        index::Index,
+        about::About, app::App, feature_entry::FeatureEntry, feature_page::FeaturePage,
+        header::Header, index::Index,
     };
 }
 mod services {

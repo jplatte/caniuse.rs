@@ -11,7 +11,7 @@ use yew_router::{
 };
 
 use crate::{
-    components::{FeaturePage, Header, Index},
+    components::{About, FeaturePage, Header, Index},
     features::FEATURES,
     AppRoute,
 };
@@ -80,7 +80,7 @@ impl Component for App {
         let search_query = self.search_query.clone();
         let render_route = Router::render(move |route| match route {
             AppRoute::Index => html! { <Index search_query=search_query.clone() /> },
-            AppRoute::About => html! { {"Hello world!"} },
+            AppRoute::About => html! { <About /> },
             AppRoute::Feature(slug) => match FEATURES.iter().find(|f| f.slug == slug) {
                 Some(&data) => html! { <FeaturePage data=data /> },
                 None => html! { {"error: feature not found!"} },
@@ -92,7 +92,9 @@ impl Component for App {
             <>
                 <Header input_ref=self.input_ref.clone()
                     oninput=self.link.callback(|e: InputData| Msg::Search(e.value)) />
-                <Router render=render_route />
+                <div class="page">
+                    <Router render=render_route />
+                </div>
             </>
         }
     }
