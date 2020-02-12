@@ -119,14 +119,14 @@ impl Component for Index {
     fn view(&self) -> Html {
         let features = if self.current_search_terms.is_empty() {
             let list = FEATURES.iter().map(|&f| html! { <FeatureEntry data=f /> });
-            html! { { for list.take(self.items_visible) } }
+            html! { for list.take(self.items_visible) }
         } else {
             let list = self.current_search_results.iter().map(|&f| {
                 let m = f.get_matches(&self.current_search_terms);
                 html! { <FeatureEntry data=f match_=m /> }
             });
 
-            html! { { for list.take(self.items_visible) } }
+            html! { for list.take(self.items_visible) }
         };
 
         html! {

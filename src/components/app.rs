@@ -83,9 +83,9 @@ impl Component for App {
             AppRoute::About => html! { <About /> },
             AppRoute::Feature(slug) => match FEATURES.iter().find(|f| f.slug == slug) {
                 Some(&data) => html! { <FeaturePage data=data /> },
-                None => html! { {"error: feature not found!"} },
+                None => html! { "error: feature not found!" },
             },
-            AppRoute::Version(_number) => html! { {"error: not implemented yet"} },
+            AppRoute::Version(_number) => html! { "error: not implemented yet" },
         });
 
         html! {
