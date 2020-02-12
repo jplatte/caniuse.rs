@@ -3,6 +3,17 @@ number = "1.43"
 channel = "nightly"
 gh_milestone_id = 70
 
+[[versions.features]]
+title = "`iter::once_with`"
+flag = "iter_once_with"
+tracking_issue_id = 57581
+stabilization_pr_id = 68800
+
+[[versions.features]]
+title = "`AsMut<str>` implementation for `String`"
+flag = "string_as_mut"
+impl_pr_id = 68742
+
 [[versions]]
 number = "1.42"
 channel = "beta"
@@ -28,30 +39,73 @@ title = "relaxed coherence rules"
 flag = "re_rebalance_coherence"
 tracking_issue_id = 55437
 
+[[versions.features]]
+title = "the `core::panic` module"
+flag = "core_panic_info"
+stabilization_pr_id = 66771
+
+[[versions.features]]
+title = "`Debug` implementation for `MaybeUninit<T>`"
+flag = "maybe_uninit_debug"
+impl_pr_id = 65013
+
+[[versions.features]]
+title = "`Result::map_or`"
+flag = "result_map_or"
+impl_pr_id = 66292
+tracking_issue_id = 66293
+stabilization_pr_id = 66570
+
+[[versions.features]]
+title = "`Result::map_or_else`"
+flag = "result_map_or_else"
+impl_pr_id = 53777
+tracking_issue_id = 53268
+stabilization_pr_id = 66322
+
+[[versions.features]]
+title = "`Weak` count methods"
+flag = "weak_coutns"
+impl_pr_id = 56696
+tracking_issue_id = 57977
+stabilization_pr_id = 65778
+items = [
+    "rc::Weak::weak_count",
+    "rc::Weak::strong_count",
+    "sync::Weak::weak_count",
+    "sync::Weak::strong_count",
+]
+
 [[versions]]
 number = "1.40"
 blog_post_path = "2019/12/19/Rust-1.40.0.html"
 gh_milestone_id = 67
 
 [[versions.features]]
-title = "constructor functions in `const fn`"
+title = "tuple struct and tuple variant constructors in `const fn`"
 flag = "const_constructor"
-stabilization_pr_id = 61456
+tracking_issue_id = 61456
+stabilization_pr_id = 65188
 
 [[versions.features]]
 title = "`#![non_exhaustive]`"
 flag = "non_exhaustive"
-stabilization_pr_id = 44109
+rfc_id = 2008
+tracking_issue_id = 44109
+stabilization_pr_id = 64639
 
 [[versions.features]]
 title = "macro invocations in `extern {}` blocks"
 flag = "macros_in_extern"
+impl_pr_id = 49350
 tracking_issue_id = 49476
 stabilization_pr_id = 63931
 
 [[versions.features]]
 title = "function-like procedural macros in type position"
 slug = "type_proc_macros"
+impl_pr_id = 49350
+tracking_issue_id = 49476
 stabilization_pr_id = 63931
 
 [[versions.features]]
@@ -68,6 +122,7 @@ impl_pr_id = 63674
 title = "`#[cfg(doctest)]`"
 flag = "cfg_doctest"
 tracking_issue_id = 62210
+stabilization_pr_id = 63803
 
 [[versions.features]]
 title = "float ↔ bytes conversion"
@@ -94,24 +149,26 @@ items = [
 ]
 
 [[versions.features]]
-title = "`BTreeMap::get_key_value`"
-slug = "btreemap_get_key_value"
+title = "`get_key_value` on `HashMap` and `BTreeMap`"
+flag = "map_get_key_value"
+items = ["HashMap::get_key_value", "BTreeMap::get_key_value"]
+impl_pr_id = 49346
+tracking_issue_id = 49347
+stabilization_pr_id = 64836
 
 [[versions.features]]
-title = "`HashMap::get_key_value`"
-slug = "hashmap_get_key_value"
-
-[[versions.features]]
-title = "`Option::as_deref_mut`"
-slug = "option_as_deref_mut"
-
-[[versions.features]]
-title = "`Option::as_deref`"
-slug = "option_as_deref"
+title = "`as_deref` and `as_deref_mut` on `Option`"
+flag = "option_deref"
+tracking_issue_id = 50264
+stabilization_pr_id = 64708
+items = ["Option::as_deref", "Option::as_deref_mut"]
 
 [[versions.features]]
 title = "`Option::flatten`"
-slug = "option_flatten"
+flag = "option_flattening"
+impl_pr_id = 60256
+tracking_issue_id = 60258
+stabilization_pr_id = 64747
 
 [[versions.features]]
 title = "`UdpSocket::peer_addr`"
@@ -240,6 +297,11 @@ title = "euclidean division & modulo"
 flag = "euclidean_division"
 stabilization_pr_id = 61884
 
+[[versions]]
+title = "`FromIterator<T>` implementation for `Rc<T>` and `Arc<T>`"
+flag = "shared_from_iter"
+impl_pr_id = 61953
+
 [[versions.features]]
 title = "`Clone` implementation for `thread::AccessError`"
 slug = "thread_accesserror_clone"
@@ -356,6 +418,39 @@ slug = "kleene_op_2015"
 impl_pr_id = 60932
 edition_guide_path = "rust-2018/macros/at-most-once.html"
 
+[[versions.features]]
+title = "`[T]::copy_within`"
+flag = "copy_within"
+impl_pr_id = 53652
+tracking_issue_id = 54236
+stabilization_pr_id = 61398
+
+[[versions.features]]
+title = "`reverse_bits` integer methods"
+flag = "reverse_bits"
+items = [
+    "i8::reverse_bits",
+    "i16::reverse_bits",
+    "i32::reverse_bits",
+    "i64::reverse_bits",
+    "i128::reverse_bits",
+    "isize::reverse_bits",
+    "u8::reverse_bits",
+    "u16::reverse_bits",
+    "u32::reverse_bits",
+    "u64::reverse_bits",
+    "u128::reverse_bits",
+    "usize::reverse_bits",
+    "Wrapping<T>::reverse_bits",
+]
+impl_pr_id = 48573
+tracking_issue_id = 48763
+stabilization_pr_id = 61364
+
+[[versions.features]]
+title = "`Option::xor`"
+slug = "option_xor"
+
 [[versions]]
 number = "1.36"
 blog_post_path = "2019/07/04/Rust-1.36.0.html"
@@ -411,6 +506,11 @@ title = "`NonNull::dangling` as `const fn`"
 slug = "const_nonnull_dangling"
 impl_pr_id = 60244
 
+[[versions.features]]
+title = "`alloc::Layout::from_size_align_unchecked` as `const fn`"
+slug = "const_layout_from_size_align_unchecked"
+impl_pr_id = 60370
+
 [[versions]]
 number = "1.35"
 blog_post_path = "2019/05/23/Rust-1.35.0.html"
@@ -435,6 +535,11 @@ items = [
 title = "`dbg!` without arguments"
 slug = "dbg_no_args"
 impl_pr_id = 57847
+
+[[versions.features]]
+title = "`Default` implementation for `alloc::System`"
+slug = "alloc_system_default"
+impl_pr_id = 59451
 
 [[versions]]
 number = "1.34"
@@ -474,6 +579,7 @@ items = [
     "u128::overflowing_neg",
     "usize::overflowing_neg",
 ]
+impl_pr_id = 58044
 
 [[versions.features]]
 title = "`wrapping_neg` as `const fn`"
@@ -492,6 +598,7 @@ items = [
     "u128::wrapping_neg",
     "usize::wrapping_neg",
 ]
+impl_pr_id = 58044
 
 [[versions.features]]
 title = "alternative registries to crates.io in cargo"
@@ -569,6 +676,30 @@ impl_pr_id = 28612
 tracking_issue_id = 29718
 stabilization_pr_id = 57465
 
+[[versions.features]]
+title = "`Rc`, `Arc` or `Pin` as a method receiver"
+slug = "rc_arc_pin_method_receiver"
+stabilization_pr_id = 56805
+
+[[versions.features]]
+title = "`Ipv4Addr::new` as `const fn`"
+flag = "const_ip"
+stabilization_pr_id = 57234
+
+[[versions.features]]
+title = "`pin::Pin`"
+flag = "pin"
+
+[[versions.features]]
+title = "`marker::Unpin`"
+slug = "unpin"
+flag = "pin"
+
+[[versions.features]]
+title = "`marker::PhantomUnpinned`"
+slug = "phantom_unpinned"
+flag = "pin"
+
 [[versions]]
 number = "1.32"
 blog_post_path = "2019/01/17/Rust-1.32.0.html"
@@ -593,6 +724,11 @@ edition_guide_path = "rust-2018/macros/at-most-once.html"
 #flag = "self_struct_ctor"
 #rfc_id = 2302
 #tracking_issue_id = 51994
+
+[[versions.features]]
+title = "`#[must_use]` on traits"
+slug = "must_use_traits"
+impl_pr_id = 55663
 
 [[versions.features]]
 title = "`Self` in type definitions"
