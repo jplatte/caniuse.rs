@@ -4,7 +4,7 @@ use crate::{
     data::{Channel, FeatureData, Match},
     search::Span,
     util::{view_text_with_matches, Void},
-    AppRoute,
+    AppRoute, RouterAnchor,
 };
 
 #[derive(Clone, Properties)]
@@ -36,8 +36,6 @@ impl Component for FeatureEntry {
     }
 
     fn view(&self) -> Html {
-        type RouterAnchor = yew_router::components::RouterAnchor<AppRoute>;
-
         let f = self.props.data;
         let m = &self.props.match_;
 
@@ -70,13 +68,19 @@ impl Component for FeatureEntry {
                     Channel::Stable => "version stable",
                 };
 
-                html! { <div class=classes>{"Rust "}{v}</div> }
+                html! {
+                    <div class=classes>
+                        <RouterAnchor route=AppRoute::Version(v.into())>
+                            {"Rust "}{v}
+                        </RouterAnchor>
+                    </div>
+                }
             }
         };
 
         html! {
-            <div class="feature-box">
-                <div class="feature">
+            <div class="feature-entry">
+                <div class="box">
                     <h3 class="title">
                         <RouterAnchor route=AppRoute::Feature(f.slug.into())>
                             {view_text_with_matches(f.title, &m.title_spans)}

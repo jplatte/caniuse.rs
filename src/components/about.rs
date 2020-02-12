@@ -18,7 +18,7 @@ impl Component for About {
 
     fn view(&self) -> Html {
         html! {
-            <div class="about">
+            <div class="about box">
                 <h3>{"About caniuse.rs"}</h3>
                 <p>
                     {"Created by Jonas Platte, in Rust, using "}

@@ -10,7 +10,7 @@ use yew_router::{agent::RouteAgent, route::Route};
 use crate::{
     icons::{fa_bars, fa_heart, Style},
     services::click::{ClickService, ClickTask},
-    AppRoute,
+    AppRoute, RouterButton,
 };
 
 pub struct Header {
@@ -85,7 +85,6 @@ impl Component for Header {
     }
 
     fn view(&self) -> Html {
-        type RouterButton = yew_router::components::RouterButton<AppRoute>;
         let about_button = if self.on_about_page {
             html! {
                 <RouterButton route=AppRoute::Index classes="active">

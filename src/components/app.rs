@@ -11,7 +11,7 @@ use yew_router::{
 };
 
 use crate::{
-    components::{About, FeaturePage, Header, Index},
+    components::{About, FeaturePage, Header, Index, VersionPage},
     AppRoute, FEATURES, VERSIONS,
 };
 
@@ -85,7 +85,8 @@ impl Component for App {
                 None => html! { "error: feature not found!" },
             },
             AppRoute::Version(number) => match VERSIONS.iter().find(|v| v.number == number) {
-                _ => html! { "error: not implemented yet" },
+                Some(&data) => html! { <VersionPage data=data /> },
+                None => html! { "error: version not found!" },
             },
         });
 

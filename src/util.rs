@@ -1,4 +1,7 @@
+use std::fmt::Display;
+
 use yew::{
+    html,
     virtual_dom::{VList, VNode, VTag, VText},
     Html,
 };
@@ -96,4 +99,11 @@ pub fn view_text_with_matches(mut text: &str, mut spans: &[Span]) -> Html {
     }
 
     list_to_node(res)
+}
+
+pub fn maybe_link<T: Display>(text: &str, link_base: &str, opt_rest: Option<T>) -> Html {
+    match opt_rest {
+        Some(id) => html! { <li><a href=format!("{}{}", link_base, id)>{text}</a></li> },
+        None => html! {},
+    }
 }

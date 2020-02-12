@@ -14,10 +14,11 @@ mod components {
     mod feature_page;
     mod header;
     mod index;
+    mod version_page;
 
     pub use self::{
         about::About, app::App, feature_entry::FeatureEntry, feature_page::FeaturePage,
-        header::Header, index::Index,
+        header::Header, index::Index, version_page::VersionPage,
     };
 }
 mod services {
@@ -39,6 +40,9 @@ pub enum AppRoute {
     #[to = "/"]
     Index,
 }
+
+type RouterAnchor = yew_router::components::RouterAnchor<AppRoute>;
+type RouterButton = yew_router::components::RouterButton<AppRoute>;
 
 fn main() {
     yew::initialize();

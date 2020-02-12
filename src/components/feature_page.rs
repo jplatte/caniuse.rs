@@ -4,7 +4,7 @@ use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
 use crate::{
     util::{view_text, Void},
-    FeatureData,
+    AppRoute, FeatureData, RouterAnchor,
 };
 
 #[derive(Clone, Properties)]
@@ -34,7 +34,9 @@ impl Component for FeaturePage {
 
         // TODO: Colorization?
         let version = match f.version {
-            Some(v) => html! { v },
+            Some(v) => html! {
+                <RouterAnchor route=AppRoute::Version(v.into())>{v}</RouterAnchor>
+            },
             None => html! { "none (unstable)" },
         };
 
@@ -92,7 +94,7 @@ impl Component for FeaturePage {
         };
 
         html! {
-            <div class="feature">
+            <div class="box">
                 <h3 class="title">
                     {view_text(f.title)}
                 </h3>

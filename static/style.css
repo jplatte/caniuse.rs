@@ -140,7 +140,6 @@ header nav button {
     justify-content: center;
     align-items: center;
 
-    cursor: pointer;
     border-radius: 3px;
     background-color: var(--button-bg);
     box-shadow: 0px 2px 2px 0 rgba(0, 0, 0, 0.1);
@@ -211,6 +210,10 @@ a:hover {
     color: var(--link-hover-color);
 }
 
+a, button {
+    cursor: pointer;
+}
+
 code {
     background: var(--code-bg);
     padding: .1em .3em;
@@ -226,24 +229,20 @@ code {
     margin: -1rem 0;
 }
 
-.feature-box {
+.feature-entry {
     display: flex;
     margin: 1rem 0;
 }
 
-.feature {
+.box {
     flex-grow: 1;
     padding: .5rem;
     background: var(--box-bg);
     position: relative;
 }
 
-.feature > :last-child {
+.box > :last-child {
     margin-bottom: 0;
-}
-
-.title a {
-    cursor: pointer;
 }
 
 .title a:hover {
@@ -256,6 +255,10 @@ code {
     width: 6.2rem;
     flex-shrink: 0;
     padding: .6rem 0;
+}
+
+.version a {
+    color: inherit;
 }
 
 .stable {
@@ -271,7 +274,7 @@ code {
 }
 
 .none {
-    color: var(--red);
+    color: var(--text-color);
 }
 
 .match {
@@ -319,11 +322,6 @@ code {
 .items ul {
     margin: .4rem 0 0;
     padding-left: 2rem;
-}
-
-.about {
-    padding: .5rem;
-    background: var(--box-bg);
 }
 
 h4 {
