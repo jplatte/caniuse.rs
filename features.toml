@@ -297,7 +297,7 @@ title = "euclidean division & modulo"
 flag = "euclidean_division"
 stabilization_pr_id = 61884
 
-[[versions]]
+[[versions.features]]
 title = "`FromIterator<T>` implementation for `Rc<T>` and `Arc<T>`"
 flag = "shared_from_iter"
 impl_pr_id = 61953
@@ -1584,7 +1584,7 @@ flag = "never_type"
 tracking_issue_id = 35121
 
 [[unstable.features]]
-title = "exhaustive pattern matching on types thta contain uninhabited types"
+title = "exhaustive pattern matching on types that contain uninhabited types"
 flag = "exhaustive_patterns"
 tracking_issue_id = 51085
 stabilization_pr_id = 56362
