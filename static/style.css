@@ -325,3 +325,15 @@ code {
     padding: .5rem;
     background: var(--box-bg);
 }
+
+h4 {
+    margin: 1em 0;
+}
+
+p {
+    margin: .65em 0;
+}
+
+.about ul {
+    margin: .3em 0;
+}
