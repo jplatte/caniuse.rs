@@ -39,6 +39,16 @@ pub struct FeatureData {
 }
 
 #[derive(Copy, Clone, Debug)]
+pub struct VersionData {
+    /// The version number, without the patch component (e.g. "1.31")
+    pub number: &'static str,
+    /// The channel (stable / beta / nightly)
+    pub channel: Channel,
+    /// Blog post path (https://blog.rust-lang.org/{path})
+    pub blog_post_path: Option<&'static str>,
+}
+
+#[derive(Copy, Clone, Debug)]
 pub enum Channel {
     Nightly,
     Beta,

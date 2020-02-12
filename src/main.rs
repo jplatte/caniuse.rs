@@ -3,7 +3,7 @@
 use stdweb::web::{document, IParentNode};
 use yew_router::Switch;
 
-mod features;
+mod data;
 mod icons;
 mod search;
 mod util;
@@ -26,7 +26,7 @@ mod services {
     pub mod scroll;
 }
 
-pub use features::{Channel, FeatureData, FEATURES};
+pub use data::{Channel, FeatureData, VersionData, FEATURES, VERSIONS};
 
 #[derive(Clone, Debug, Switch)]
 pub enum AppRoute {

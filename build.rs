@@ -1,4 +1,5 @@
 use std::{
+    default::Default,
     env,
     error::Error,
     fmt::Debug,
@@ -28,7 +29,12 @@ struct UnstableFeatureList {
 struct VersionedFeatureList {
     /// Rust version number, e.g. "1.0.0"
     number: String,
-    channel: Option<Channel>,
+    /// The channel (stable / beta / nightly)
+    #[serde(default)]
+    channel: Channel,
+    /// Blog post path (https://blog.rust-lang.org/{path})
+    blog_post_path: Option<String>,
+    /// List of features (to be) stabilized in this release
     #[serde(default)]
     features: Vec<Feature>,
 }
@@ -75,6 +81,14 @@ enum Channel {
     Nightly,
 }
 
+/// Not specifying the channel in features.toml is equivalent to specifying
+/// "stable"
+impl Default for Channel {
+    fn default() -> Self {
+        Self::Stable
+    }
+}
+
 fn main() -> Result<(), Box<dyn Error>> {
     println!("cargo:rerun-if-changed=features.toml");
     println!("cargo:rerun-if-changed=templates/index.html");
@@ -94,18 +108,39 @@ fn main() -> Result<(), Box<dyn Error>> {
     let out_path = Path::new(&out_dir).join("features.rs");
     let mut out = BufWriter::new(File::create(out_path)?);
 
+    write!(out, "{}", generate_versions_array(&feature_list.versions))?;
+
     let all_features = feature_list
         .versions
         .iter()
         .flat_map(|version| {
-            let channel = version.channel.unwrap_or(Channel::Stable);
             let number: Option<&str> = Some(&version.number);
-            version.features.iter().map(move |f| (channel, number, f))
+            version.features.iter().map(move |f| (version.channel, number, f))
         })
         .chain(feature_list.unstable.features.iter().map(|f| (Channel::Nightly, None, f)));
     write!(out, "{}", generate_features_array(all_features))?;
 
     Ok(())
+}
+
+fn generate_versions_array(versions: &[VersionedFeatureList]) -> TokenStream {
+    let versions = versions.iter().map(|version| {
+        let number = &version.number;
+        let channel = Ident::new(&format!("{:?}", version.channel), Span::call_site());
+        let blog_post_path = option_literal(&version.blog_post_path);
+
+        quote! {
+            VersionData {
+                number: #number,
+                channel: Channel::#channel,
+                blog_post_path: #blog_post_path,
+            }
+        }
+    });
+
+    quote! {
+        pub const VERSIONS: &[VersionData] = &[#(#versions),*];
+    }
 }
 
 fn generate_features_array<'a>(
@@ -139,7 +174,7 @@ fn generate_features_array<'a>(
                 title: #title,
                 flag: #flag,
                 slug: #slug,
-                channel: crate::Channel::#channel,
+                channel: Channel::#channel,
                 version: #version,
                 rfc_id: #rfc_id,
                 impl_pr_id: #impl_pr_id,

@@ -1,7 +1,7 @@
 use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
 use crate::{
-    features::{Channel, FeatureData, Match},
+    data::{Channel, FeatureData, Match},
     search::Span,
     util::{view_text_with_matches, Void},
     AppRoute,

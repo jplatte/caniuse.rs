@@ -12,8 +12,7 @@ use yew_router::{
 
 use crate::{
     components::{About, FeaturePage, Header, Index},
-    features::FEATURES,
-    AppRoute,
+    AppRoute, FEATURES, VERSIONS,
 };
 
 pub struct App {
@@ -85,7 +84,9 @@ impl Component for App {
                 Some(&data) => html! { <FeaturePage data=data /> },
                 None => html! { "error: feature not found!" },
             },
-            AppRoute::Version(_number) => html! { "error: not implemented yet" },
+            AppRoute::Version(number) => match VERSIONS.iter().find(|v| v.number == number) {
+                _ => html! { "error: not implemented yet" },
+            },
         });
 
         html! {
