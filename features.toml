@@ -1268,19 +1268,36 @@ gh_milestone_id = 34
 [[versions.features]]
 title = "elision of `'static` lifetimes in `static`s and `const`s"
 flag = "static_in_const"
+rfc_id = 1623
 tracking_issue_id = 35897
+stabilization_pr_id = 39265
 edition_guide_path = "rust-2018/ownership-and-lifetimes/simpler-lifetimes-in-static-and-const.html"
 
 [[versions.features]]
 title = "field init shorthands (`x` for `x: x` in struct initializers)"
 flag = "field_init_shorthand"
+rfc_id = 1682
 tracking_issue_id = 37340
+stabilization_pr_id = 39761
 edition_guide_path = "rust-2018/data-types/field-init-shorthand.html"
 
 [[versions.features]]
 title = "recursive static items"
 flag = "static_recursion"
 tracking_issue_id = 29719
+stabilization_pr_id = 40027
+
+[[versions.features]]
+title = "`Self` in the where clause of trait impl's"
+slug = "where_clauses_with_self"
+rfc_id = 1647
+tracking_issue_id = 38864
+
+[[versions.features]]
+title = "`Cell` with non-`Copy` types"
+flag = "cell_non_copy"
+rfc_id = 1651
+impl_pr_id = 39793
 
 [[versions]]
 number = "1.16"
@@ -1314,6 +1331,13 @@ impl_pr_id = 38469
 [[versions]]
 number = "1.15"
 blog_post_path = "2017/02/02/Rust-1.15.html"
+
+[[versions.features]]
+title = "procedural derive macros (macros 1.1)"
+slug = "proc_macro_derive"
+flag = "proc_macro"
+rfc_id = 1681
+tracking_issue_id = 35900
 
 #[[versions.features]]
 #flag = "item_like_imports"
@@ -1392,7 +1416,9 @@ blog_post_path = "2016/05/26/Rust-1.9.html"
 [[versions.features]]
 title = "`#[deprecated]`"
 flag = "deprecated"
+rfc_id = 1270
 tracking_issue_id = 29935
+stabilization_pr_id = 32804
 
 [[versions]]
 number = "1.8"
