@@ -541,6 +541,16 @@ title = "`Default` implementation for `alloc::System`"
 slug = "alloc_system_default"
 impl_pr_id = 59451
 
+[[versions.features]]
+title = "`AsRawFd` implementation for `StdinLock`, `StdoutLock` and `StderrLock`"
+flag = "asraw_stdio_locks"
+impl_pr_id = 59512
+
+[[versions.features]]
+title = "`ExactSizeIterator` implementation for `ToLowercase` and `ToUppercase`"
+flag = "exact_size_case_mapping_iter"
+impl_pr_id = 58778
+
 [[versions]]
 number = "1.34"
 blog_post_path = "2019/04/11/Rust-1.34.0.html"
@@ -1491,6 +1501,10 @@ slug = "iter_once"
 [[versions.features]]
 title = "`iter::empty`"
 slug = "iter_empty"
+
+[[versions.features]]
+title = "`Send` implementation for `AtomicPtr`"
+slug = "atomic_ptr_send"
 
 [[versions]]
 number = "1.1"
