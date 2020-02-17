@@ -28,6 +28,8 @@ pub struct FeatureData {
     pub tracking_issue_id: Option<u64>,
     /// Stabilization PR id (https://github.com/rust-lang/rust/pull/{id})
     pub stabilization_pr_id: Option<u64>,
+    /// Documentation path (https://doc.rust-lang.org/{path})
+    pub doc_path: Option<&'static str>,
     /// Edition guide path (https://doc.rust-lang.org/edition-guide/{path})
     pub edition_guide_path: Option<&'static str>,
     /// Unstable book path (https://doc.rust-lang.org/unstable-book/{path})

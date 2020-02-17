@@ -62,6 +62,8 @@ struct Feature {
     tracking_issue_id: Option<u64>,
     /// Stabilization PR id (https://github.com/rust-lang/rust/pull/{id})
     stabilization_pr_id: Option<u64>,
+    /// Documentation path (https://doc.rust-lang.org/{path})
+    doc_path: Option<String>,
     /// Edition guide path (https://doc.rust-lang.org/edition-guide/{path})
     edition_guide_path: Option<String>,
     /// Unstable book path (https://doc.rust-lang.org/unstable-book/{path})
@@ -165,6 +167,7 @@ fn generate_features_array<'a>(
         let impl_pr_id = option_literal(&feature.impl_pr_id);
         let tracking_issue_id = option_literal(&feature.tracking_issue_id);
         let stabilization_pr_id = option_literal(&feature.stabilization_pr_id);
+        let doc_path = option_literal(&feature.doc_path);
         let edition_guide_path = option_literal(&feature.edition_guide_path);
         let unstable_book_path = option_literal(&feature.unstable_book_path);
         let items = &feature.items;
@@ -180,6 +183,7 @@ fn generate_features_array<'a>(
                 impl_pr_id: #impl_pr_id,
                 tracking_issue_id: #tracking_issue_id,
                 stabilization_pr_id: #stabilization_pr_id,
+                doc_path: #doc_path,
                 edition_guide_path: #edition_guide_path,
                 unstable_book_path: #unstable_book_path,
                 items: &[#(#items),*],

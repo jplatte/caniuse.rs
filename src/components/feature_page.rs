@@ -76,6 +76,7 @@ impl Component for FeaturePage {
             "https://github.com/rust-lang/rust/pull/",
             f.stabilization_pr_id,
         );
+        let maybe_doc_link = maybe_link("Documentation", "https://doc.rust-lang.org/", f.doc_path);
         let maybe_edition_guide_link = maybe_link(
             "Edition Guide",
             "https://doc.rust-lang.org/edition-guide/",
@@ -104,6 +105,7 @@ impl Component for FeaturePage {
                     {maybe_impl_pr_link}
                     {maybe_tracking_issue_link}
                     {maybe_stabilization_pr_link}
+                    {maybe_doc_link}
                     {maybe_edition_guide_link}
                     {maybe_unstable_book_link}
                 </ul>
