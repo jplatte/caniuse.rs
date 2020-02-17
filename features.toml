@@ -188,6 +188,7 @@ slug = "todo_macro"
 impl_pr_id = 56348
 tracking_issue_id = 59277
 stabilization_pr_id = 61879
+doc_path = "std/macro.todo.html"
 
 [[versions]]
 number = "1.39"
@@ -199,6 +200,7 @@ title = "`async`"
 slug = "async"
 flag = "async_await"
 tracking_issue_id = 50547
+doc_path = "std/keyword.async.html"
 items = ["async fn", "async move { ... }"]
 
 [[versions.features]]
@@ -206,6 +208,7 @@ title = "`.await`"
 slug = "await"
 flag = "async_await"
 tracking_issue_id = 50547
+doc_path = "std/keyword.await.html"
 
 [[versions.features]]
 title = "attributes on function parameters"
@@ -1023,6 +1026,7 @@ gh_milestone_id = 53
 title = "procedural macros"
 flag = "proc_macro"
 tracking_issue_id = 38356
+stabilization_pr_id = 52081
 
 [[versions]]
 number = "1.28"
