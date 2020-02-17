@@ -195,10 +195,17 @@ blog_post_path = "2019/11/07/Rust-1.39.0.html"
 gh_milestone_id = 66
 
 [[versions.features]]
-title = "async / .await"
+title = "`async`"
+slug = "async"
 flag = "async_await"
 tracking_issue_id = 50547
-items = ["async fn", "async move { ... }", ".await"]
+items = ["async fn", "async move { ... }"]
+
+[[versions.features]]
+title = "`.await`"
+slug = "await"
+flag = "async_await"
+tracking_issue_id = 50547
 
 [[versions.features]]
 title = "attributes on function parameters"
@@ -730,10 +737,12 @@ tracking_issue_id = 48075
 stabilization_pr_id = 56245
 edition_guide_path = "rust-2018/macros/at-most-once.html"
 
-#[[versions.features]]
-#flag = "self_struct_ctor"
-#rfc_id = 2302
-#tracking_issue_id = 51994
+[[versions.features]]
+title = "`Self` as a constructor and pattern for unit and tuple structs"
+flag = "self_struct_ctor"
+rfc_id = 2302
+tracking_issue_id = 51994
+stabilization_pr_id = 56365
 
 [[versions.features]]
 title = "`#[must_use]` on traits"
@@ -748,9 +757,10 @@ tracking_issue_id = 49303
 stabilization_pr_id = 56366
 
 [[versions.features]]
-title = "uniform paths (`use x::y;` as `use self::x::y;`)"
+title = "uniform paths (`use x::y;` as `use self::x::y;`) in the 2018 edition"
 flag = "uniform_paths"
 tracking_issue_id = 53130
+stabilization_pr_id = 56759
 
 [[versions.features]]
 title = "`dbg!`"
@@ -800,6 +810,92 @@ items = [
     "usize::to_ne_bytes", "usize::to_le_bytes", "usize::to_be_bytes",
     "usize::from_ne_bytes", "usize::from_le_bytes", "usize::from_be_bytes",
 ]
+
+[[versions.features]]
+title = "`FromStr` implementation for `PathBuf`"
+flag = "path_from_str"
+impl_pr_id = 55148
+
+[[versions.features]]
+title = "`FromIterator<T>` implementation for `Box<[T]>`"
+flag = "boxed_slice_from_iter"
+impl_pr_id = 55843
+
+[[versions.features]]
+title = "`Cell::as_ptr` as `const fn`"
+slug = "const_cell_as_ptr"
+
+[[versions.features]]
+title = "`UnsafeCell::get` as `const fn`"
+slug = "const_unsafe_cell_get"
+
+[[versions.features]]
+title = "`char::is_ascii` as `const fn`"
+slug = "const_char_is_ascii"
+
+[[versions.features]]
+title = "`iter::empty` as `const fn`"
+slug = "const_iter_empty"
+
+[[versions.features]]
+title = "`ManuallyDrop::new` as `const fn`"
+slug = "const_manually_drop_new"
+
+[[versions.features]]
+title = "`ManuallyDrop::into_inner` as `const fn`"
+slug = "const_manually_drop_into_inner"
+
+[[versions.features]]
+title = "`RangeInclusive::start` as `const fn`"
+slug = "const_range_inclusive_start"
+
+[[versions.features]]
+title = "`RangeInclusive::end` as `const fn`"
+slug = "const_range_inclusive_end"
+
+[[versions.features]]
+title = "`NonNull::as_ptr` as `const fn`"
+slug = "const_non_null_as_ptr"
+
+[[versions.features]]
+title = "`slice::as_ptr` as `const fn`"
+slug = "const_slice_as_ptr"
+
+[[versions.features]]
+title = "`str::as_ptr` as `const fn`"
+slug = "const_str_as_ptr"
+
+[[versions.features]]
+title = "`Duration::as_secs` as `const fn`"
+slug = "const_duration_as_secs"
+
+[[versions.features]]
+title = "`Duration::subsec_millis` as `const fn`"
+slug = "const_duration_subsec_millis"
+
+[[versions.features]]
+title = "`Duration::subsec_micros` as `const fn`"
+slug = "const_duration_subsec_micros"
+
+[[versions.features]]
+title = "`Duration::subsec_nanos` as `const fn`"
+slug = "const_duration_subsec_nanos"
+
+[[versions.features]]
+title = "`CStr::as_ptr` as `const fn`"
+slug = "const_cstr_as_ptr"
+
+[[versions.features]]
+title = "`Ipv4Addr::is_unspecified` as `const fn`"
+slug = "const_ipv4addr_is_unspecified"
+
+[[versions.features]]
+title = "`Ipv6Addr::new` as `const fn`"
+slug = "const_ipv6addr_new"
+
+[[versions.features]]
+title = "`Ipv6Addr::octets` as `const fn`"
+slug = "const_ipv6addr_octets"
 
 [[versions]]
 number = "1.31"
