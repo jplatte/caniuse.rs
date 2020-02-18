@@ -245,7 +245,11 @@ code {
     margin-bottom: 0;
 }
 
-.title a:hover {
+.box > :last-child > :last-child {
+    margin-bottom: 0;
+}
+
+.title:hover {
     color: var(--text-color);
     text-decoration: underline;
 }

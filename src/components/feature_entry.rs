@@ -81,11 +81,9 @@ impl Component for FeatureEntry {
         html! {
             <div class="feature-entry">
                 <div class="box">
-                    <h3 class="title">
-                        <RouterAnchor route=AppRoute::Feature(f.slug.into())>
-                            {view_text_with_matches(f.title, &m.title_spans)}
-                        </RouterAnchor>
-                    </h3>
+                    <RouterAnchor route=AppRoute::Feature(f.slug.into()) classes="title">
+                        <h3>{view_text_with_matches(f.title, &m.title_spans)}</h3>
+                    </RouterAnchor>
                     {maybe_flag}
                 {items}
                 </div>
