@@ -1,9 +1,13 @@
 use std::mem;
 
-use stdweb::web::document;
+use stdweb::{
+    js,
+    unstable::TryInto,
+    web::{document, HtmlElement, IHtmlElement},
+};
 use yew::{
-    html, Bridge, Bridged, Callback, Component, ComponentLink, Html, InputData, NodeRef,
-    Properties, ShouldRender,
+    events::ClickEvent, html, Bridge, Bridged, Callback, Component, ComponentLink, Html, InputData,
+    NodeRef, Properties, ShouldRender,
 };
 use yew_router::{agent::RouteAgent, route::Route};
 
@@ -27,6 +31,7 @@ pub enum Msg {
     OpenMenu,
     CloseMenu,
     UpdateAboutButton(Route),
+    UpdateTheme(&'static str),
 }
 
 #[derive(Clone, Properties)]
@@ -76,6 +81,15 @@ impl Component for Header {
                 mem::swap(&mut on_about_page, &mut self.on_about_page);
                 self.on_about_page != on_about_page
             }
+            Msg::UpdateTheme(theme) => {
+                js! {
+                    const theme = @{theme};
+                    document.documentElement.dataset.theme = theme;
+                    localStorage.setItem("theme", theme);
+                };
+
+                true
+            }
         }
     }
 
@@ -119,6 +133,16 @@ impl Component for Header {
             )
         };
 
+        let set_theme =
+            |theme: &'static str| self.link.callback(move |_: ClickEvent| Msg::UpdateTheme(theme));
+
+        let root: HtmlElement = document().document_element().unwrap().try_into().unwrap();
+        let (light_btn_class, dark_btn_class) = if root.dataset().get("theme").unwrap() == "dark" {
+            ("", "active")
+        } else {
+            ("active", "")
+        };
+
         html! {
             <header>
                 <div class="inner">
@@ -132,9 +156,14 @@ impl Component for Header {
                         {about_button}
                         {menu_button}
                         <ul class={"menu ".to_owned() + menu_classes}>
-                            <li class="toggle-nightmode">
-                                {"Night mode"}<br />
-                                <small><pre>{"unimplemented()"}</pre></small>
+                            <li class="theme-select">
+                                <span>{"Theme"}</span>
+                                <button class=light_btn_class onclick=set_theme("light")>
+                                    {"Light"}
+                                </button>
+                                <button class=dark_btn_class onclick=set_theme("dark")>
+                                    {"Dark"}
+                                </button>
                             </li>
                         </ul>
                     </nav>
