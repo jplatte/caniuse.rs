@@ -1,4 +1,6 @@
 use std::{
+    collections::{BTreeMap, BTreeSet},
+    convert::TryInto,
     default::Default,
     env,
     error::Error,
@@ -148,11 +150,21 @@ fn generate_versions(versions: &[VersionedFeatureList]) -> TokenStream {
 fn generate_features<'a>(
     features: impl Iterator<Item = (Channel, Option<&'a str>, &'a Feature)>,
 ) -> TokenStream {
-    let features = features.map(|(channel, version, feature)| {
+    let mut monogram_index = BTreeMap::new();
+    let mut bigram_index = BTreeMap::new();
+    let mut trigram_index = BTreeMap::new();
+
+    let features = features.enumerate().map(|(idx, (channel, version, feature))| {
         assert!(
             !feature.items.iter().any(|i| i.contains('`')),
             "items are always wrapped in code blocks and should not contain any '`'.",
         );
+
+        let idx = idx.try_into().expect("At most 65536 features");
+
+        add_feature_ngrams(1, &mut monogram_index, feature, idx);
+        add_feature_ngrams(2, &mut bigram_index, feature, idx);
+        add_feature_ngrams(3, &mut trigram_index, feature, idx);
 
         let title = &feature.title;
         let flag = option_literal(&feature.flag);
@@ -191,9 +203,72 @@ fn generate_features<'a>(
         }
     });
 
-    quote! {
+    let features = quote! {
         #[allow(clippy::unreadable_literal)]
         pub const FEATURES: &[FeatureData] = &[#(#features),*];
+    };
+
+    let monogram_index_insert_stmts = monogram_index.into_iter().map(|(k, v)| {
+        let byte = k[0];
+        quote! {
+            index.insert(#byte, &[#(#v),*] as &[u16]);
+        }
+    });
+
+    let monogram_feature_index = quote! {
+        pub const FEATURE_MONOGRAM_INDEX: once_cell::sync::Lazy<std::collections::HashMap<u8, &[u16]>> =
+            once_cell::sync::Lazy::new(|| {
+                let mut index = std::collections::HashMap::new();
+                #(#monogram_index_insert_stmts)*
+                index
+            });
+    };
+
+    let bigram_index_insert_stmts = bigram_index.into_iter().map(|(k, v)| {
+        let [b1, b2] = match &k[..] {
+            &[b1, b2] => [b1, b2],
+            _ => unreachable!(),
+        };
+
+        quote! {
+            index.insert([#b1, #b2], &[#(#v),*] as &[u16]);
+        }
+    });
+
+    let bigram_feature_index = quote! {
+        pub const FEATURE_BIGRAM_INDEX: once_cell::sync::Lazy<std::collections::HashMap<[u8; 2], &[u16]>> =
+            once_cell::sync::Lazy::new(|| {
+                let mut index = std::collections::HashMap::new();
+                #(#bigram_index_insert_stmts)*
+                index
+            });
+    };
+
+    let trigram_index_insert_stmts = trigram_index.into_iter().map(|(k, v)| {
+        let [b1, b2, b3] = match &k[..] {
+            &[b1, b2, b3] => [b1, b2, b3],
+            _ => unreachable!(),
+        };
+
+        quote! {
+            index.insert([#b1, #b2, #b3], &[#(#v),*] as &[u16]);
+        }
+    });
+
+    let trigram_feature_index = quote! {
+        pub const FEATURE_TRIGRAM_INDEX: once_cell::sync::Lazy<std::collections::HashMap<[u8; 3], &[u16]>> =
+            once_cell::sync::Lazy::new(|| {
+                let mut index = std::collections::HashMap::new();
+                #(#trigram_index_insert_stmts)*
+                index
+            });
+    };
+
+    quote! {
+        #features
+        #monogram_feature_index
+        #bigram_feature_index
+        #trigram_feature_index
     }
 }
 
@@ -201,5 +276,26 @@ fn option_literal<T: ToTokens>(opt: &Option<T>) -> TokenStream {
     match opt {
         Some(lit) => quote! { Some(#lit) },
         None => quote! { None },
+    }
+}
+
+fn add_feature_ngrams(
+    n: usize,
+    index: &mut BTreeMap<Vec<u8>, BTreeSet<u16>>,
+    feature: &Feature,
+    idx: u16,
+) {
+    let mut strings = vec![&feature.title];
+    if let Some(f) = &feature.flag {
+        strings.push(f);
+    }
+    strings.extend(feature.items.iter());
+
+    for string in strings {
+        for trigram in string.as_bytes().windows(n) {
+            if trigram.iter().all(|&byte| byte.is_ascii_graphic() && byte != b'`') {
+                index.entry(trigram.to_owned()).or_default().insert(idx);
+            }
+        }
     }
 }

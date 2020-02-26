@@ -1,14 +1,6 @@
-#[derive(Copy, Clone, Debug, PartialEq, Eq, PartialOrd, Ord)]
-pub struct Span {
-    pub start: usize,
-    pub len: usize,
-}
-
-impl Span {
-    fn end(self) -> usize {
-        self.start + self.len
-    }
-}
+use crate::data::{
+    FeatureData, FEATURES, FEATURE_BIGRAM_INDEX, FEATURE_MONOGRAM_INDEX, FEATURE_TRIGRAM_INDEX,
+};
 
 /// Search query contains '`' or a non-ascii character
 #[derive(Debug)]
@@ -20,7 +12,7 @@ pub fn extract_search_terms(query: &str) -> Result<Vec<String>, InvalidSearchQue
     query
         .split_whitespace()
         .map(|word| {
-            if word.is_ascii() && !word.contains('`') {
+            if word.bytes().all(|byte| byte.is_ascii_graphic() && byte != b'`') {
                 Ok(word.into())
             } else {
                 Err(InvalidSearchQuery)
@@ -29,28 +21,72 @@ pub fn extract_search_terms(query: &str) -> Result<Vec<String>, InvalidSearchQue
         .collect()
 }
 
-pub fn get_text_matches(text: &str, search_terms: &[impl AsRef<str>]) -> Vec<Span> {
-    // TODO: fuzzy matching
-    let mut res = Vec::new();
+pub fn run_search(
+    search_terms: &[String],
+    search_scores: &mut Vec<(u16, f64)>,
+) -> Vec<FeatureData> {
+    for (i, (idx, score)) in search_scores.iter_mut().enumerate() {
+        *idx = i as u16;
+        *score = 0.0;
+    }
+
+    // monogram score: 1
+    // bigram score: 4
+    // trigram score: 12
+    let score_divisor: f64 = search_terms
+        .iter()
+        .map(|t| {
+            (t.as_bytes().windows(3).count() * 12) as f64
+                + (t.as_bytes().windows(2).count() * 4) as f64
+                + t.as_bytes().len() as f64
+        })
+        .sum();
+
     for term in search_terms {
-        let term = term.as_ref();
+        for monogram in term.as_bytes() {
+            if let Some(&feature_indices) = FEATURE_MONOGRAM_INDEX.get(monogram) {
+                for &idx in feature_indices {
+                    search_scores[idx as usize].1 += 1.0 / score_divisor;
+                }
+            }
+        }
 
-        // Search terms should have been obtained using `extract_search_terms`, which filters out
-        // any words containing '`'
-        assert!(!term.contains('`'));
+        for bigram in term.as_bytes().windows(2) {
+            // &[u8] -> [u8; 2]
+            let bigram = match &bigram[..] {
+                &[b1, b2] => [b1, b2],
+                _ => unreachable!(),
+            };
 
-        let mut idx = 0;
-        while let Some(pos) = text[idx..].find(term) {
-            let span = Span { start: idx + pos, len: term.len() };
-            idx = span.end();
-            res.push(span);
+            if let Some(&feature_indices) = FEATURE_BIGRAM_INDEX.get(&bigram) {
+                for &idx in feature_indices {
+                    search_scores[idx as usize].1 += 4.0 / score_divisor;
+                }
+            }
+        }
+
+        for trigram in term.as_bytes().windows(3) {
+            // &[u8] -> [u8; 3]
+            let trigram = match &trigram[..] {
+                &[b1, b2, b3] => [b1, b2, b3],
+                _ => unreachable!(),
+            };
+
+            if let Some(&feature_indices) = FEATURE_TRIGRAM_INDEX.get(&trigram) {
+                for &idx in feature_indices {
+                    search_scores[idx as usize].1 += 12.0 / score_divisor;
+                }
+            }
         }
     }
 
-    // Don't use unstable_sort because docs say it's slower for sequences of
-    // concatenated sorted lists, which is exactly what we have here.
-    res.sort();
-    res
+    search_scores
+        .sort_by(|(_, score_a), (_, score_b)| score_a.partial_cmp(score_b).unwrap().reverse());
+    search_scores
+        .iter()
+        .filter(|(_, score)| *score >= 0.4)
+        .map(|(idx, _)| FEATURES[*idx as usize])
+        .collect()
 }
 
 #[cfg(test)]
@@ -83,31 +119,5 @@ mod tests {
         assert!(extract_search_terms(" ` ").is_err());
         assert!(extract_search_terms(" `a`").is_err());
         assert!(extract_search_terms(" x `").is_err());
-    }
-
-    #[test]
-    fn get_no_text_match() {
-        assert!(get_text_matches("", &["test"]).is_empty());
-    }
-
-    #[test]
-    fn get_single_text_match() {
-        assert_eq!(get_text_matches("test", &["test"]), vec![Span { start: 0, len: 4 }]);
-        assert_eq!(
-            get_text_matches("testtest", &["test"]),
-            vec![Span { start: 0, len: 4 }, Span { start: 4, len: 4 }]
-        );
-    }
-
-    #[test]
-    fn get_multiple_text_matches() {
-        assert_eq!(
-            get_text_matches("a b c", &["b", "c"]),
-            vec![Span { start: 2, len: 1 }, Span { start: 4, len: 1 }]
-        );
-        assert_eq!(
-            get_text_matches("a b c", &["c", "b"]),
-            vec![Span { start: 2, len: 1 }, Span { start: 4, len: 1 }]
-        );
     }
 }

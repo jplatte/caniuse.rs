@@ -27,10 +27,10 @@ mod services {
     pub mod scroll;
 }
 
-pub use data::{Channel, FeatureData, VersionData, FEATURES, VERSIONS};
+use data::{FeatureData, VersionData, FEATURES, VERSIONS};
 
 #[derive(Clone, Debug, Switch)]
-pub enum AppRoute {
+enum AppRoute {
     #[to = "/features/{}"]
     Feature(String),
     #[to = "/versions/{}"]

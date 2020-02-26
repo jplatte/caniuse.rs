@@ -6,17 +6,9 @@ use yew::{
     Html,
 };
 
-use crate::search::Span;
-
 pub enum Void {}
 
-pub fn view_text(text: &str) -> Html {
-    view_text_with_matches(text, &[])
-}
-
-// Does search match highlighting as well as replacing `` by <code></code>.
-// Requires the spans to be sorted.
-pub fn view_text_with_matches(mut text: &str, mut spans: &[Span]) -> Html {
+pub fn view_text(mut text: &str) -> Html {
     fn list_to_node(list: VList) -> VNode {
         if list.len() == 1 {
             list.children.into_iter().next().unwrap()
@@ -25,78 +17,31 @@ pub fn view_text_with_matches(mut text: &str, mut spans: &[Span]) -> Html {
         }
     }
 
-    enum Op {
-        OpenCodeTag,
-        CloseCodeTag,
-        AddHighlight { len: usize },
-    }
-
-    use Op::*;
-
     let mut res = VList::new();
-    let mut innermost = &mut res;
-    let mut span_offset = 0;
-    let mut codetag_open = false;
 
-    loop {
-        let backtick_pos = text.find('`');
-        let next_highlight = spans.first().copied();
+    while let Some(backtick_pos) = text.find('`') {
+        if backtick_pos != 0 {
+            res.add_child(text[..backtick_pos].into());
+        }
+        text = &text[backtick_pos + 1..];
 
-        let (op, idx) = match (backtick_pos, next_highlight) {
-            (None, None) => {
-                // No replacements to do anymore, use the rest of the text verbatim
-                innermost.add_child(VNode::VText(VText::new(text.into())));
+        let next_backtick_pos = match text.find('`') {
+            Some(pos) => pos,
+            None => {
+                // This should never happen, backticks should be balanced
                 break;
             }
-            (Some(bt_idx), maybe_sp) => match maybe_sp {
-                Some(Span { start, len }) if (start - span_offset) < bt_idx => {
-                    (AddHighlight { len }, start - span_offset)
-                }
-                _ => {
-                    if codetag_open {
-                        (CloseCodeTag, bt_idx)
-                    } else {
-                        (OpenCodeTag, bt_idx)
-                    }
-                }
-            },
-            (_, Some(sp)) => (AddHighlight { len: sp.len }, sp.start - span_offset),
         };
 
-        if idx != 0 {
-            innermost.add_child(text[..idx].into());
-            text = &text[idx..];
-            span_offset += idx;
-        }
+        let mut code = VTag::new("code");
+        code.add_child(text[..next_backtick_pos].into());
+        text = &text[next_backtick_pos + 1..];
 
-        match op {
-            OpenCodeTag => {
-                innermost.add_child(VNode::VTag(Box::new(VTag::new("code"))));
-                innermost = match innermost.children.last_mut() {
-                    Some(VNode::VTag(tag)) => &mut tag.children,
-                    _ => unreachable!(),
-                };
-                text = &text[1..];
-                span_offset += 1;
-                codetag_open = true;
-            }
-            CloseCodeTag => {
-                innermost = &mut res;
-                text = &text[1..];
-                span_offset += 1;
-                codetag_open = false;
-            }
-            AddHighlight { len } => {
-                let mut tag = Box::new(VTag::new("span"));
-                tag.add_class("match");
-                tag.add_child(text[..len].into());
-                innermost.add_child(VNode::VTag(tag));
-                text = &text[len..];
-                span_offset += len;
-                spans = &spans[1..];
-            }
-        }
+        res.add_child(VNode::VTag(Box::new(code)));
     }
+
+    // Use the rest of the text verbatim
+    res.add_child(VNode::VText(VText::new(text.into())));
 
     list_to_node(res)
 }

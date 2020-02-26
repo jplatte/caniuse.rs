@@ -1,9 +1,8 @@
 use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
 use crate::{
-    data::{Channel, FeatureData, Match},
-    search::Span,
-    util::{view_text_with_matches, Void},
+    data::{Channel, FeatureData},
+    util::{view_text, Void},
     AppRoute, RouterAnchor,
 };
 
@@ -11,7 +10,6 @@ use crate::{
 pub struct Props {
     #[props(required)]
     pub data: FeatureData,
-    pub match_: Match,
 }
 
 pub struct FeatureEntry {
@@ -37,26 +35,16 @@ impl Component for FeatureEntry {
 
     fn view(&self) -> Html {
         let f = self.props.data;
-        let m = &self.props.match_;
 
         let maybe_flag = match f.flag {
-            Some(flag) if f.version.is_none() || !m.flag_spans.is_empty() => html! {
+            Some(flag) if f.version.is_none() => html! {
                 <div class="flag">
-                    {"Feature flag: "}{view_text_with_matches(flag, &m.flag_spans)}
+                    {"Feature flag: "}{view_text(flag)}
                 </div>
             },
             _ => {
                 html! {}
             }
-        };
-
-        let items = if f.items.is_empty() {
-            html! {}
-        } else if m.item_spans.is_empty() {
-            view_items(f.items)
-        } else {
-            // TODO: Add ability to show any items that don't match
-            view_matched_items(f.items, &m.item_spans)
         };
 
         let support_indicator = match f.version {
@@ -82,47 +70,12 @@ impl Component for FeatureEntry {
             <div class="feature-entry">
                 <div class="box">
                     <RouterAnchor route=AppRoute::Feature(f.slug.into()) classes="title">
-                        <h3>{view_text_with_matches(f.title, &m.title_spans)}</h3>
+                        <h3>{view_text(f.title)}</h3>
                     </RouterAnchor>
                     {maybe_flag}
-                {items}
                 </div>
                 {support_indicator}
             </div>
         }
-    }
-}
-
-fn view_items(items: &[&str]) -> Html {
-    let mut items = items.iter().map(|i| html! { <li><code>{i}</code></li> });
-    html! {
-        <details class="items">
-            <summary>{"Items"}</summary>
-            <ul>
-                { for items }
-            </ul>
-        </details>
-    }
-}
-
-fn view_matched_items(items: &[&str], item_spans: &[Vec<Span>]) -> Html {
-    let mut res = items.iter().zip(item_spans).filter(|(_, spans)| !spans.is_empty()).map(
-        |(item, spans)| html! { <li><code>{view_text_with_matches(item, &spans)}</code></li> },
-    );
-
-    let more_items_indicator = if item_spans.iter().any(|s| s.is_empty()) {
-        html! { <li>{"…"}</li> }
-    } else {
-        html! {}
-    };
-
-    html! {
-        <div class="items">
-            {"Items"}
-            <ul>
-                { for res }
-                {more_items_indicator}
-            </ul>
-        </div>
     }
 }

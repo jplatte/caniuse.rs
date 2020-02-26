@@ -1,5 +1,3 @@
-use crate::search::{get_text_matches, Span};
-
 /// A "feature", as tracked by this app. Can be a nightly Rust feature, a
 /// stabilized API, or anything else that one version of Rust (deliberately)
 /// supports while a previous one didn't support it.
@@ -55,37 +53,6 @@ pub enum Channel {
     Nightly,
     Beta,
     Stable,
-}
-
-impl FeatureData {
-    pub fn does_match(&self, search_terms: &[impl AsRef<str>]) -> bool {
-        for term in search_terms {
-            let term = term.as_ref();
-            if !self.title.contains(term)
-                && !self.flag.map(|f| f.contains(term)).unwrap_or(false)
-                && !self.items.iter().any(|i| i.contains(term))
-            {
-                return false;
-            }
-        }
-
-        true
-    }
-
-    pub fn get_matches(&self, search_terms: &[impl AsRef<str>]) -> Match {
-        Match {
-            title_spans: get_text_matches(self.title, &search_terms),
-            flag_spans: self.flag.map(|f| get_text_matches(f, &search_terms)).unwrap_or_default(),
-            item_spans: self.items.iter().map(|i| get_text_matches(i, &search_terms)).collect(),
-        }
-    }
-}
-
-#[derive(Clone, Debug, Default)]
-pub struct Match {
-    pub title_spans: Vec<Span>,
-    pub flag_spans: Vec<Span>,
-    pub item_spans: Vec<Vec<Span>>,
 }
 
 include!(concat!(env!("OUT_DIR"), "/features.rs"));
