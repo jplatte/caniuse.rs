@@ -80,8 +80,12 @@ pub fn run_search(
         }
     }
 
-    search_scores
-        .sort_by(|(_, score_a), (_, score_b)| score_a.partial_cmp(score_b).unwrap().reverse());
+    search_scores.sort_by(|(idx_a, score_a), (idx_b, score_b)| {
+        score_a.partial_cmp(score_b).unwrap().reverse().then_with(|| {
+            // Prefer features with shorter titles if scores are equal
+            FEATURES[*idx_a as usize].title.len().cmp(&FEATURES[*idx_b as usize].title.len())
+        })
+    });
     search_scores
         .iter()
         .filter(|(_, score)| *score >= 0.4)
