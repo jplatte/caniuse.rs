@@ -110,7 +110,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let out_path = Path::new(&out_dir).join("features.rs");
     let mut out = BufWriter::new(File::create(out_path)?);
 
-    write!(out, "{}", generate_versions_array(&feature_list.versions))?;
+    write!(out, "{}", generate_versions(&feature_list.versions))?;
 
     let all_features = feature_list
         .versions
@@ -120,12 +120,12 @@ fn main() -> Result<(), Box<dyn Error>> {
             version.features.iter().map(move |f| (version.channel, number, f))
         })
         .chain(feature_list.unstable.features.iter().map(|f| (Channel::Nightly, None, f)));
-    write!(out, "{}", generate_features_array(all_features))?;
+    write!(out, "{}", generate_features(all_features))?;
 
     Ok(())
 }
 
-fn generate_versions_array(versions: &[VersionedFeatureList]) -> TokenStream {
+fn generate_versions(versions: &[VersionedFeatureList]) -> TokenStream {
     let versions = versions.iter().map(|version| {
         let number = &version.number;
         let channel = Ident::new(&format!("{:?}", version.channel), Span::call_site());
@@ -145,7 +145,7 @@ fn generate_versions_array(versions: &[VersionedFeatureList]) -> TokenStream {
     }
 }
 
-fn generate_features_array<'a>(
+fn generate_features<'a>(
     features: impl Iterator<Item = (Channel, Option<&'a str>, &'a Feature)>,
 ) -> TokenStream {
     let features = features.map(|(channel, version, feature)| {
