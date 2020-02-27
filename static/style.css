@@ -1,27 +1,27 @@
 @font-face {
     font-family: 'Source Sans Pro';
     font-display: swap;
-    src: url('fonts/SourceSansPro-Regular.otf') format('otf');
+    src: url('fonts/SourceSansPro-Regular.woff2') format('woff2');
 }
 
 @font-face {
     font-family: 'Source Sans Pro';
     font-weight: 600;
     font-display: swap;
-    src: url('fonts/SourceSansPro-Semibold.otf') format('otf');
+    src: url('fonts/SourceSansPro-Semibold.woff2') format('woff2');
 }
 
 @font-face {
     font-family: 'Source Code Pro';
     font-display: swap;
-    src: url('fonts/SourceCodePro-Regular.otf') format('otf');
+    src: url('fonts/SourceCodePro-Regular.woff2') format('woff2');
 }
 
 @font-face {
     font-family: 'Source Code Pro';
     font-weight: 600;
     font-display: swap;
-    src: url('fonts/SourceCodePro-Semibold.otf') format('otf');
+    src: url('fonts/SourceCodePro-Semibold.woff2') format('woff2');
 }
 
 html {
