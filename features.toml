@@ -1739,3 +1739,38 @@ tracking_issue_id = 55149
 title = "`#[link(..., cfg(...))]`"
 flag = "link_cfg"
 tracking_issue_id = 37406
+
+[[unstable.features]]
+title = "constants in array repeat expressions"
+flag = "const_in_array_repeat_expressions"
+rfc_id = 2203
+tracking_issue_id = 49147
+
+[[unstable.features]]
+title = "half-open range patterns"
+flag = "half_open_range_patterns"
+impl_pr_id = 67258
+tracking_issue_id = 67264
+items = [
+    "X..",
+    "..X",
+    "..=X",
+]
+
+[[unstable.features]]
+title = "generic associated types (GAT)"
+flag = "generic_associated_types"
+rfc_id = 1598
+tracking_issue_id = 44265
+
+[[unstable.features]]
+title = "const generics"
+flag = "const_generics"
+rfc_id = 2000
+tracking_issue_id = 44580
+
+[[unstable.features]]
+title = "the raw borrow operator (`&raw [mut | const] $place`)"
+flag = "raw_ref_op"
+rfc_id = 2582
+impl_pr_id = 64588
