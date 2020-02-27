@@ -100,4 +100,9 @@ impl Component for App {
             </>
         }
     }
+
+    fn mounted(&mut self) -> ShouldRender {
+        self.link.send_message(Msg::FocusInput);
+        false
+    }
 }
