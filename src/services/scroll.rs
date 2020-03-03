@@ -31,7 +31,7 @@ impl ScrollService {
             var handle = function() {
                 callback();
             };
-            window.addEventListener("scroll", handle);
+            window.addEventListener("scroll", handle, { passive: true });
             return handle;
         };
         ScrollTask(Some(handle))
