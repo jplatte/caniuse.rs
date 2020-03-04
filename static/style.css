@@ -296,6 +296,7 @@ a, button {
 }
 
 code {
+    color: var(--text-color);
     background: var(--code-bg);
     padding: .1em .3em;
 }
