@@ -1,10 +1,14 @@
 use std::fmt::Display;
 
+use stdweb::web::window;
 use yew::{
+    events::ClickEvent,
     html,
     virtual_dom::{VList, VNode, VTag, VText},
-    Html,
+    Callback, Html,
 };
+
+use crate::icons::fa_arrow_left;
 
 pub enum Void {}
 
@@ -44,6 +48,18 @@ pub fn view_text(mut text: &str) -> Html {
     res.add_child(VNode::VText(VText::new(text.into())));
 
     list_to_node(res)
+}
+
+pub fn back_button() -> Html {
+    let cb: Callback<ClickEvent> = (|_ev| {
+        // TODO: Middle click handling
+        let _ = window().history().back();
+    })
+    .into();
+
+    html! {
+        <button onclick=cb>{fa_arrow_left()}</button>
+    }
 }
 
 pub fn maybe_link<T: Display>(text: &str, link_base: &str, opt_rest: Option<T>) -> Html {

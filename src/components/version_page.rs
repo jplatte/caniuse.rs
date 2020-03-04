@@ -1,7 +1,7 @@
 use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
 use crate::{
-    util::{maybe_link, Void},
+    util::{back_button, maybe_link, Void},
     VersionData,
 };
 
@@ -34,12 +34,15 @@ impl Component for VersionPage {
             maybe_link("Blog post", "https://blog.rust-lang.org/", v.blog_post_path);
 
         html! {
-            <div class="box">
-                <h3 class="title">{"Rust "}{v.number}</h3>
-                <ul class="links">
-                    {maybe_blog_link}
-                </ul>
-            </div>
+            <>
+                {back_button()}
+                <div class="box">
+                    <h3 class="title">{"Rust "}{v.number}</h3>
+                    <ul class="links">
+                        {maybe_blog_link}
+                    </ul>
+                </div>
+            </>
         }
     }
 }

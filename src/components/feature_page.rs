@@ -3,7 +3,7 @@ use std::fmt::Display;
 use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
 use crate::{
-    util::{view_text, Void},
+    util::{back_button, view_text, Void},
     AppRoute, FeatureData, RouterAnchor,
 };
 
@@ -95,22 +95,25 @@ impl Component for FeaturePage {
         };
 
         html! {
-            <div class="box">
-                <h3 class="title">
-                    {view_text(f.title)}
-                </h3>
-                {info}
-                <ul class="links">
-                    {maybe_rfc_link}
-                    {maybe_impl_pr_link}
-                    {maybe_tracking_issue_link}
-                    {maybe_stabilization_pr_link}
-                    {maybe_doc_link}
-                    {maybe_edition_guide_link}
-                    {maybe_unstable_book_link}
-                </ul>
-                {maybe_items}
-            </div>
+            <>
+                {back_button()}
+                <div class="box">
+                    <h3 class="title">
+                        {view_text(f.title)}
+                    </h3>
+                    {info}
+                    <ul class="links">
+                        {maybe_rfc_link}
+                        {maybe_impl_pr_link}
+                        {maybe_tracking_issue_link}
+                        {maybe_stabilization_pr_link}
+                        {maybe_doc_link}
+                        {maybe_edition_guide_link}
+                        {maybe_unstable_book_link}
+                    </ul>
+                    {maybe_items}
+                </div>
+            </>
         }
     }
 }
