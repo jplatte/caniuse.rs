@@ -38,10 +38,11 @@ html {
     --text-muted-color: #666;
     --link-hover-color: #4f4f4f;
 
-    --green: #1f741f;
-    --yellow: #d4d405;
-    --highlight-color: #2C6d6d;
-    --highlight-color-2: #4f8787;
+    --green: #0B7220;
+    --green-muted: #4EC135;
+    --yellow: #D7B90E;
+    --orange: #E48416;
+    --red: #D92634;
 
     --max-page-width: 768px;
 }
@@ -60,10 +61,8 @@ html[data-theme = 'dark'] {
     --text-muted-color: #999;
     --link-hover-color: #fff;
 
-    --green: #16b416;
-    --yellow: #d4d400;
-    --highlight-color: #77a4a4;
-    --highlight-color-2: #4c8585;
+    --green: #199513;
+    --green-muted: #70ca40;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -81,10 +80,8 @@ html[data-theme = 'dark'] {
         --text-muted-color: #999;
         --link-hover-color: #fff;
 
-        --green: #16b416;
-        --yellow: #d4d400;
-        --highlight-color: #77a4a4;
-        --highlight-color-2: #4c8585;
+        --green: #199513;
+        --green-muted: #70ca40;
     }
 }
 
@@ -354,7 +351,7 @@ a.title:hover {
 }
 
 .beta {
-    color: var(--yellow);
+    color: var(--green-muted);
 }
 
 .nightly {
@@ -362,11 +359,7 @@ a.title:hover {
 }
 
 .none {
-    color: var(--text-color);
-}
-
-.match {
-    color: var(--highlight-color);
+    color: var(--orange);
 }
 
 .info {
@@ -381,10 +374,6 @@ a.title:hover {
 
 .flag {
     margin: .5rem 0;
-}
-
-.flag .match {
-    color: var(--highlight-color-2);
 }
 
 .links {
