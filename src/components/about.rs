@@ -29,14 +29,7 @@ impl Component for About {
                     <a href="https://github.com/jplatte/caniuse.rs">{"GitHub"}</a>{" and "}
                     <a href="https://git.sr.ht/~jplatte/caniuse.rs">{"sourcehut"}</a>{"."}
                 </p>
-                <h4>{"Sponsored by"}</h4>
-                <p>{"Nobody, as of the time of writing."}</p>
-                <p>
-                    {"I would greatly appreciate any financial support so I don't have to pay the "}
-                    {"full ~70 € for this domain out of my own pocket. See the links in the next "}
-                    {"section for how to donate."}
-                </p>
-                <h4>{"About the creator"}</h4>
+                <h3>{"About the creator"}</h3>
                 <p>
                     {"I'm Jonas and I work on free software in my spare time, usually on projects "}
                     {"written in Rust and / or for the Linux desktop. I am a maintainer of the "}
