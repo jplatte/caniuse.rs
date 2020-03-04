@@ -1,14 +1,12 @@
 use std::fmt::Display;
 
-use stdweb::web::window;
 use yew::{
-    events::ClickEvent,
     html,
     virtual_dom::{VList, VNode, VTag, VText},
-    Callback, Html,
+    Html,
 };
 
-use crate::icons::fa_arrow_left;
+use crate::{icons::fa_arrow_left, AppRoute, RouterButton};
 
 pub enum Void {}
 
@@ -50,15 +48,12 @@ pub fn view_text(mut text: &str) -> Html {
     list_to_node(res)
 }
 
+// TODO: Go back in browser history if the previous page was part of the app
 pub fn back_button() -> Html {
-    let cb: Callback<ClickEvent> = (|_ev| {
-        // TODO: Middle click handling
-        let _ = window().history().back();
-    })
-    .into();
-
     html! {
-        <button onclick=cb aria-label="back">{fa_arrow_left()}</button>
+        <RouterButton route=AppRoute::Index>
+            <div aria-label="back">{fa_arrow_left()}</div>
+        </RouterButton>
     }
 }
 
