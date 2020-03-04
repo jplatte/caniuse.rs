@@ -88,7 +88,7 @@ pub fn run_search(
     });
     search_scores
         .iter()
-        .filter(|(_, score)| *score >= 0.4)
+        .filter(|(_, score)| *score >= 0.25)
         .map(|(idx, _)| FEATURES[*idx as usize])
         .collect()
 }

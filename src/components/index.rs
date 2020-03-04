@@ -98,19 +98,17 @@ impl Component for Index {
     }
 
     fn view(&self) -> Html {
-        let features = if self.current_search_results.is_empty() {
+        if self.current_search_terms.is_empty() {
             let list = FEATURES.iter().map(|&f| html! { <FeatureEntry data=f /> });
-            html! { for list.take(self.items_visible) }
+            html! { <div class="feature-list">{ for list.take(self.items_visible) }</div> }
+        } else if self.current_search_results.is_empty() {
+            html! { <div class="box muted">{"Nothing found, sorry."}</div> }
         } else {
             let list = self.current_search_results.iter().map(|&f| {
                 html! { <FeatureEntry data=f /> }
             });
 
-            html! { for list.take(self.items_visible) }
-        };
-
-        html! {
-            <div class="feature-list">{ features }</div>
+            html! { <div class="feature-list">{ for list.take(self.items_visible) }</div> }
         }
     }
 }
