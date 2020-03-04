@@ -3,7 +3,7 @@ use std::mem;
 use stdweb::{
     js,
     unstable::TryInto,
-    web::{document, HtmlElement, IHtmlElement},
+    web::{document, window, HtmlElement, IHtmlElement},
 };
 use yew::{
     events::ClickEvent, html, Bridge, Bridged, Callback, Component, ComponentLink, Html, InputData,
@@ -47,14 +47,8 @@ impl Component for Header {
 
     fn create(props: Props, link: ComponentLink<Self>) -> Self {
         let _router = RouteAgent::bridge(link.callback(Msg::UpdateAboutButton));
-        Self {
-            link,
-            props,
-            on_about_page: false,
-            is_menu_open: false,
-            document_click_task: None,
-            _router,
-        }
+        let on_about_page = window().location().unwrap().pathname().unwrap() == "/about";
+        Self { link, props, on_about_page, is_menu_open: false, document_click_task: None, _router }
     }
 
     fn update(&mut self, msg: Msg) -> ShouldRender {
