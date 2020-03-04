@@ -7,7 +7,6 @@ use crate::{
 
 #[derive(Clone, Properties)]
 pub struct Props {
-    #[props(required)]
     pub data: VersionData,
 }
 

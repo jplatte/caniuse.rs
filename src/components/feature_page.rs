@@ -9,7 +9,6 @@ use crate::{
 
 #[derive(Clone, Properties)]
 pub struct Props {
-    #[props(required)]
     pub data: FeatureData,
 }
 
@@ -119,7 +118,7 @@ impl Component for FeaturePage {
 }
 
 fn view_items(items: &[&str]) -> Html {
-    let mut items = items.iter().map(|i| html! { <li><code>{i}</code></li> });
+    let items = items.iter().map(|i| html! { <li><code>{i}</code></li> });
     html! {
         <div class="items">
             {"Items"}

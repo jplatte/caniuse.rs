@@ -35,7 +35,6 @@ pub enum Msg {
 
 #[derive(Clone, Properties)]
 pub struct Props {
-    #[props(required)]
     pub search_query: String,
 }
 

@@ -36,8 +36,8 @@ pub enum Msg {
 
 #[derive(Clone, Properties)]
 pub struct Props {
+    #[prop_or_default]
     pub input_ref: NodeRef,
-    #[props(required)]
     pub oninput: Callback<InputData>,
 }
 

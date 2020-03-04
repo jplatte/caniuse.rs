@@ -61,7 +61,7 @@ impl Component for App {
         match msg {
             Msg::Update => true,
             Msg::FocusInput => {
-                self.input_ref.try_into::<HtmlElement>().unwrap().focus();
+                self.input_ref.cast::<HtmlElement>().unwrap().focus();
                 false
             }
             Msg::Search(query) => {
