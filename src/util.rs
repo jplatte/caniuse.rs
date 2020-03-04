@@ -58,7 +58,7 @@ pub fn back_button() -> Html {
     .into();
 
     html! {
-        <button onclick=cb>{fa_arrow_left()}</button>
+        <button onclick=cb aria-label="back">{fa_arrow_left()}</button>
     }
 }
 
