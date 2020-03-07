@@ -79,7 +79,11 @@ impl Component for Header {
                 js! {
                     const theme = @{theme};
                     document.documentElement.dataset.theme = theme;
-                    localStorage.setItem("theme", theme);
+                    try {
+                        localStorage.setItem("theme", theme);
+                    } catch (_e) {
+                        // If localStorage access is forbidden, do nothing
+                    }
                 };
 
                 true
