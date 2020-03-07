@@ -1,6 +1,7 @@
 #![recursion_limit = "512"]
 
 use stdweb::web::{document, IParentNode};
+use wasm_bindgen::prelude::wasm_bindgen;
 use yew_router::Switch;
 
 mod data;
@@ -44,7 +45,8 @@ enum AppRoute {
 type RouterAnchor = yew_router::components::RouterAnchor<AppRoute>;
 type RouterButton = yew_router::components::RouterButton<AppRoute>;
 
-fn main() {
+#[wasm_bindgen]
+pub fn run() {
     yew::initialize();
     let page = document().query_selector("main").unwrap().unwrap();
     yew::App::<components::App>::new().mount(page);

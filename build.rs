@@ -105,8 +105,8 @@ fn main() -> Result<(), Box<dyn Error>> {
     // TODO: Add a filter that replaces `` by <code></code>
     let tera = Tera::new("templates/*")?;
     let ctx = Context::from_serialize(&feature_list)?;
-    fs::write("static/index.html", tera.render("index.html", &ctx)?)?;
-    fs::write("static/nightly.html", tera.render("nightly.html", &ctx)?)?;
+    fs::write("public/index.html", tera.render("index.html", &ctx)?)?;
+    fs::write("public/nightly.html", tera.render("nightly.html", &ctx)?)?;
 
     let out_dir = env::var("OUT_DIR").unwrap();
     let out_path = Path::new(&out_dir).join("features.rs");

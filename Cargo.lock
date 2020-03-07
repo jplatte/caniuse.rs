@@ -123,6 +123,7 @@ dependencies = [
  "stdweb",
  "tera",
  "toml",
+ "wasm-bindgen",
  "yew",
  "yew-router",
 ]

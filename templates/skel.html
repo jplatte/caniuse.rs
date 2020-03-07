@@ -13,18 +13,7 @@
     https://github.com/w3c/webappsec-csp/pull/293)
 -->
 <script>
-    (function () {
-        let theme = localStorage.getItem("theme");
-        if (typeof theme !== "string") {
-            if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-                theme = "dark";
-            } else {
-                theme = "light";
-            }
-        }
 
-        document.documentElement.dataset.theme = theme;
-    })();
 </script>
 
 <title>caniuse.rs | Rust feature search</title>
