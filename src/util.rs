@@ -1,5 +1,6 @@
 use std::fmt::Display;
 
+use web_sys::{Document, Element, HtmlElement, Window};
 use yew::{
     html,
     virtual_dom::{VList, VNode, VTag, VText},
@@ -9,6 +10,22 @@ use yew::{
 use crate::{AppRoute, RouterButton};
 
 pub enum Void {}
+
+pub fn window() -> Window {
+    web_sys::window().unwrap()
+}
+
+pub fn document() -> Document {
+    window().document().unwrap()
+}
+
+pub fn document_body() -> HtmlElement {
+    document().body().unwrap()
+}
+
+pub fn document_element() -> Element {
+    document().document_element().unwrap()
+}
 
 pub fn view_text(mut text: &str) -> Html {
     fn list_to_node(list: VList) -> VNode {

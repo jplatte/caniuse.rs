@@ -1,6 +1,5 @@
 use std::time::Duration;
 
-use stdweb::{js, unstable::TryInto, web::window};
 use yew::{
     html,
     services::{
@@ -14,6 +13,7 @@ use crate::{
     components::FeatureEntry,
     search::{extract_search_terms, run_search},
     services::scroll::{ScrollService, ScrollTask},
+    util::{document_body, window},
     FeatureData, FEATURES,
 };
 
@@ -66,12 +66,12 @@ impl Component for Index {
     fn update(&mut self, msg: Msg) -> ShouldRender {
         match msg {
             Msg::Update => {
-                let distance_to_bottom: f64 =
-                    js! { return document.body.scrollHeight - window.scrollY - window.innerHeight; }
-                    .try_into()
-                    .unwrap();
+                let inner_height = window().inner_height().unwrap().as_f64().unwrap();
+                let scroll_y = window().scroll_y().unwrap();
+                let distance_to_bottom =
+                    document_body().scroll_height() as f64 - scroll_y - inner_height;
 
-                if distance_to_bottom < window().inner_height() as f64 {
+                if distance_to_bottom < inner_height {
                     self.items_visible += BATCH_SIZE;
                     self._timeout_task = TimeoutService::new()
                         .spawn(Duration::from_secs(0), self.link.callback(|_| Msg::Update));

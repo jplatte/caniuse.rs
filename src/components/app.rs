@@ -1,6 +1,5 @@
-use stdweb::web::{document, HtmlElement, IHtmlElement};
+use web_sys::{HtmlElement, KeyboardEvent};
 use yew::{
-    events::{IKeyboardEvent, KeyPressEvent},
     html,
     services::keyboard::{KeyListenerHandle, KeyboardService},
     Bridge, Bridged, Component, ComponentLink, Html, InputData, NodeRef, ShouldRender,
@@ -12,6 +11,7 @@ use yew_router::{
 
 use crate::{
     components::{About, FeaturePage, Header, Index, VersionPage},
+    util::document,
     AppRoute, FEATURES, VERSIONS,
 };
 
@@ -40,7 +40,7 @@ impl Component for App {
         let link2 = link.clone();
         let _key_listener_handle = KeyboardService::register_key_press(
             &document(),
-            (move |e: KeyPressEvent| {
+            (move |e: KeyboardEvent| {
                 if e.key().as_str() == "s" {
                     link2.callback(|_| Msg::FocusInput).emit(());
                 }
@@ -61,7 +61,7 @@ impl Component for App {
         match msg {
             Msg::Update => true,
             Msg::FocusInput => {
-                self.input_ref.cast::<HtmlElement>().unwrap().focus();
+                self.input_ref.cast::<HtmlElement>().unwrap().focus().unwrap();
                 false
             }
             Msg::Search(query) => {

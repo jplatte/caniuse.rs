@@ -1,19 +1,17 @@
 use std::mem;
 
-use stdweb::{
-    js,
-    unstable::TryInto,
-    web::{document, window, HtmlElement, IHtmlElement},
-};
+use wasm_bindgen::JsCast;
+use web_sys::HtmlElement;
 use yew::{
-    events::ClickEvent, html, Bridge, Bridged, Callback, Component, ComponentLink, Html, InputData,
-    NodeRef, Properties, ShouldRender,
+    html, Bridge, Bridged, Callback, Component, ComponentLink, Html, InputData, NodeRef,
+    Properties, ShouldRender,
 };
 use yew_router::{agent::RouteAgent, route::Route};
 
 use crate::{
     icons::{fa_bars, fa_heart, Style},
     services::click::{ClickService, ClickTask},
+    util::{document, document_element, window},
     AppRoute, RouterButton,
 };
 
@@ -47,7 +45,7 @@ impl Component for Header {
 
     fn create(props: Props, link: ComponentLink<Self>) -> Self {
         let _router = RouteAgent::bridge(link.callback(Msg::UpdateAboutButton));
-        let on_about_page = window().location().unwrap().pathname().unwrap() == "/about";
+        let on_about_page = window().location().pathname().unwrap() == "/about";
         Self { link, props, on_about_page, is_menu_open: false, document_click_task: None, _router }
     }
 
@@ -76,15 +74,16 @@ impl Component for Header {
                 self.on_about_page != on_about_page
             }
             Msg::UpdateTheme(theme) => {
-                js! {
-                    const theme = @{theme};
-                    document.documentElement.dataset.theme = theme;
-                    try {
-                        localStorage.setItem("theme", theme);
-                    } catch (_e) {
-                        // If localStorage access is forbidden, do nothing
-                    }
-                };
+                document_element()
+                    .dyn_into::<HtmlElement>()
+                    .unwrap()
+                    .dataset()
+                    .set("theme", theme)
+                    .unwrap();
+
+                if let Ok(Some(st)) = window().local_storage() {
+                    st.set_item("theme", theme).unwrap();
+                }
 
                 true
             }
@@ -131,10 +130,9 @@ impl Component for Header {
             )
         };
 
-        let set_theme =
-            |theme: &'static str| self.link.callback(move |_: ClickEvent| Msg::UpdateTheme(theme));
+        let set_theme = |theme: &'static str| self.link.callback(move |_| Msg::UpdateTheme(theme));
 
-        let root: HtmlElement = document().document_element().unwrap().try_into().unwrap();
+        let root: HtmlElement = document_element().dyn_into().unwrap();
         let (light_btn_class, dark_btn_class) = if root.dataset().get("theme").unwrap() == "dark" {
             ("", "active")
         } else {

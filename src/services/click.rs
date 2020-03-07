@@ -1,5 +1,7 @@
 use std::fmt;
-use stdweb::{js, web::Element, Value};
+
+use gloo::events::EventListener;
+use web_sys::Element;
 use yew::callback::Callback;
 
 /// A service that fires events when the browser window resizes.
@@ -10,9 +12,10 @@ pub struct ClickService {
 
 /// A handle to the event listener for resize events.
 #[must_use]
+#[allow(dead_code)]
 pub struct ClickTask {
     elem: Element,
-    handle: Option<Value>,
+    handle: EventListener,
 }
 
 impl fmt::Debug for ClickTask {
@@ -29,27 +32,7 @@ impl ClickService {
 
     /// Register a callback that will be called when the browser window Clicks.
     pub fn register(&mut self, callback: Callback<()>) -> ClickTask {
-        let element = &self.elem;
-        let callback = move || callback.emit(());
-        let handle = js! {
-            var callback = @{callback};
-            var handle = function() {
-                callback();
-            };
-            @{element}.addEventListener("click", handle);
-            return handle;
-        };
-        ClickTask { elem: self.elem.clone(), handle: Some(handle) }
-    }
-}
-
-impl Drop for ClickTask {
-    fn drop(&mut self) {
-        let element = &self.elem;
-        let handle = self.handle.take().expect("Click task already empty.");
-        js! {
-            @(no_return)
-            @{element}.removeEventListener("click", @{handle})
-        }
+        let handle = EventListener::new(&self.elem, "click", move |_| callback.emit(()));
+        ClickTask { elem: self.elem.clone(), handle }
     }
 }

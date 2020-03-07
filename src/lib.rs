@@ -1,6 +1,5 @@
 #![recursion_limit = "512"]
 
-use stdweb::web::{document, IParentNode};
 use wasm_bindgen::prelude::wasm_bindgen;
 use yew_router::Switch;
 
@@ -28,6 +27,7 @@ mod services {
 }
 
 use data::{FeatureData, VersionData, FEATURES, VERSIONS};
+use util::document;
 
 #[derive(Clone, Debug, Switch)]
 enum AppRoute {
