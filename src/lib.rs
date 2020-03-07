@@ -24,7 +24,6 @@ mod components {
 }
 mod services {
     pub mod click;
-    pub mod resize;
     pub mod scroll;
 }
 

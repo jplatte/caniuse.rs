@@ -3,17 +3,17 @@ use std::time::Duration;
 use stdweb::{js, unstable::TryInto, web::window};
 use yew::{
     html,
-    services::timeout::{TimeoutService, TimeoutTask},
+    services::{
+        resize::{ResizeService, ResizeTask},
+        timeout::{TimeoutService, TimeoutTask},
+    },
     Component, ComponentLink, Html, Properties, ShouldRender,
 };
 
 use crate::{
     components::FeatureEntry,
     search::{extract_search_terms, run_search},
-    services::{
-        resize::{ResizeService, ResizeTask},
-        scroll::{ScrollService, ScrollTask},
-    },
+    services::scroll::{ScrollService, ScrollTask},
     FeatureData, FEATURES,
 };
 
