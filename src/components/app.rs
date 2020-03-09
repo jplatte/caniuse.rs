@@ -42,7 +42,7 @@ impl Component for App {
             &document(),
             (move |e: KeyboardEvent| {
                 if e.key().as_str() == "s" {
-                    link2.callback(|_| Msg::FocusInput).emit(());
+                    link2.send_message(Msg::FocusInput);
                 }
             })
             .into(),

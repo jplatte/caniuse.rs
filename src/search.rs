@@ -53,8 +53,8 @@ pub fn run_search(
 
         for bigram in term.as_bytes().windows(2) {
             // &[u8] -> [u8; 2]
-            let bigram = match &bigram[..] {
-                &[b1, b2] => [b1, b2],
+            let bigram = match bigram[..] {
+                [b1, b2] => [b1, b2],
                 _ => unreachable!(),
             };
 
@@ -67,8 +67,8 @@ pub fn run_search(
 
         for trigram in term.as_bytes().windows(3) {
             // &[u8] -> [u8; 3]
-            let trigram = match &trigram[..] {
-                &[b1, b2, b3] => [b1, b2, b3],
+            let trigram = match trigram[..] {
+                [b1, b2, b3] => [b1, b2, b3],
                 _ => unreachable!(),
             };
 
