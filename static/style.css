@@ -213,10 +213,10 @@ header nav button {
 .menu {
     position: absolute;
     margin: 0;
+    padding: 0;
     top: 3.15rem; /* 2.65rem from top to lower button edge + .5rem margin */
     right: 0;
     width: 12rem;
-    padding: .5rem;
 
     color: var(--heading-color);
     list-style: none;
@@ -244,6 +244,28 @@ header nav button {
     border-bottom-color: var(--button-hover-bg);
 }
 
+.menu li.theme-select, .menu a {
+    padding: .45em .6em;
+}
+
+.menu li:not(:last-child) {
+    border-bottom: solid 1px var(--text-muted-color);
+}
+
+.menu a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu a svg {
+    height: 17px;
+}
+
+.menu path {
+    fill: var(--text-color);
+}
+
 .theme-select {
     display: flex;
     align-items: center;
@@ -255,7 +277,7 @@ header nav button {
 
 .theme-select button {
     margin-left: .5em;
-    padding: .15em .5em;
+    padding: .1em .45em;
     width: initial;
     height: initial;
 

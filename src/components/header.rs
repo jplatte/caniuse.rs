@@ -6,19 +6,18 @@ use yew::{
     html, Bridge, Bridged, Callback, Component, ComponentLink, Html, InputData, NodeRef,
     Properties, ShouldRender,
 };
-use yew_router::{agent::RouteAgent, route::Route};
+use yew_router::agent::RouteAgent;
 
 use crate::{
-    icons::{fa_bars, fa_heart, Style},
+    icons::{fa_bars, fa_question_circle},
     services::click::{ClickService, ClickTask},
     util::{document, document_element, window},
-    AppRoute, RouterButton,
+    AppRoute, RouterAnchor,
 };
 
 pub struct Header {
     link: ComponentLink<Self>,
     props: Props,
-    on_about_page: bool,
     is_menu_open: bool,
 
     document_click_task: Option<ClickTask>,
@@ -28,7 +27,6 @@ pub struct Header {
 pub enum Msg {
     OpenMenu,
     CloseMenu,
-    UpdateAboutButton(Route),
     UpdateTheme(&'static str),
 }
 
@@ -44,9 +42,10 @@ impl Component for Header {
     type Properties = Props;
 
     fn create(props: Props, link: ComponentLink<Self>) -> Self {
-        let _router = RouteAgent::bridge(link.callback(Msg::UpdateAboutButton));
-        let on_about_page = window().location().pathname().unwrap() == "/about";
-        Self { link, props, on_about_page, is_menu_open: false, document_click_task: None, _router }
+        // Workaround for the RouterAnchor click handler unconditionally preventing the default
+        // handler (and thus the click service handler) from running.
+        let _router = RouteAgent::bridge(link.callback(|_| Msg::CloseMenu));
+        Self { link, props, is_menu_open: false, document_click_task: None, _router }
     }
 
     fn update(&mut self, msg: Msg) -> ShouldRender {
@@ -67,11 +66,6 @@ impl Component for Header {
                 }
 
                 mem::replace(&mut self.is_menu_open, false)
-            }
-            Msg::UpdateAboutButton(active_route) => {
-                let mut on_about_page = active_route.as_str() == "/about";
-                mem::swap(&mut on_about_page, &mut self.on_about_page);
-                self.on_about_page != on_about_page
             }
             Msg::UpdateTheme(theme) => {
                 document_element()
@@ -96,20 +90,6 @@ impl Component for Header {
     }
 
     fn view(&self) -> Html {
-        let about_button = if self.on_about_page {
-            html! {
-                <RouterButton route=AppRoute::Index classes="active">
-                    {fa_heart(Style::Solid)}
-                </RouterButton>
-            }
-        } else {
-            html! {
-                <RouterButton route=AppRoute::About>
-                    {fa_heart(Style::Regular)}
-                </RouterButton>
-            }
-        };
-
         let (menu_button, menu_classes) = if self.is_menu_open {
             (
                 html! {
@@ -149,7 +129,6 @@ impl Component for Header {
                         {"?"}
                     </div>
                     <nav>
-                        {about_button}
                         {menu_button}
                         <ul class={"menu ".to_owned() + menu_classes}>
                             <li class="theme-select">
@@ -160,6 +139,11 @@ impl Component for Header {
                                 <button class=dark_btn_class onclick=set_theme("dark")>
                                     {"Dark"}
                                 </button>
+                            </li>
+                            <li>
+                                <RouterAnchor route=AppRoute::About>
+                                    {"About"}{fa_question_circle()}
+                                </RouterAnchor>
                             </li>
                         </ul>
                     </nav>
