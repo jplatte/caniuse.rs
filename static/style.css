@@ -218,7 +218,6 @@ header nav button {
     right: 0;
     width: 12rem;
 
-    color: var(--heading-color);
     list-style: none;
     background-color: var(--button-hover-bg);
     box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
@@ -228,6 +227,10 @@ header nav button {
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
+}
+
+.menu, .menu a, .menu a:hover {
+    color: var(--heading-color);
 }
 
 .menu:not(.active) {
