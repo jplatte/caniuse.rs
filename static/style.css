@@ -192,6 +192,7 @@ header .inner {
     flex: 1;
     margin: 0 .6em;
     position: relative;
+    min-width: 8em;
     bottom: -1px;
     color: var(--text-color);
     border-bottom: 1px solid var(--text-muted-color);
