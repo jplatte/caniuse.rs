@@ -10,7 +10,7 @@ use yew_router::{
 };
 
 use crate::{
-    components::{About, FeaturePage, Header, Index, VersionPage},
+    components::{About, ExtLinks, FeaturePage, Header, Index, VersionPage},
     util::document,
     AppRoute, FEATURES, VERSIONS,
 };
@@ -94,6 +94,7 @@ impl Component for App {
             <>
                 <Header input_ref=self.input_ref.clone()
                     oninput=self.link.callback(|e: InputData| Msg::Search(e.value)) />
+                <ExtLinks />
                 <div class="page">
                     <Router render=render_route />
                 </div>

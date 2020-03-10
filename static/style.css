@@ -27,7 +27,8 @@
 html {
     --body-bg: #fff;
     --header-bg: #f5f5f5;
-    --header-separator-color: #e0e0e0;
+    --ext-links-bg: #e9e9e9;
+    --separator-color: #e0e0e0;
     --box-bg: #f5f5f5;
     --button-bg: #ddd;
     --button-hover-bg: #ccc;
@@ -50,7 +51,8 @@ html {
 html[data-theme = 'dark'] {
     --body-bg: #353535;
     --header-bg: #404040;
-    --header-separator-color: #555;
+    --ext-links-bg: #474747;
+    --separator-color: #555;
     --box-bg: #2a2a2a;
     --button-bg: #666;
     --button-hover-bg: #6f6f6f;
@@ -70,6 +72,7 @@ html[data-theme = 'dark'] {
     html:not([data-theme = 'light']) {
         --body-bg: #353535;
         --header-bg: #404040;
+        --ext-links-bg: #474747;
         --box-bg: #2a2a2a;
         --button-bg: #666;
         --button-hover-bg: #6f6f6f;
@@ -104,10 +107,6 @@ body {
 pre, code {
     font-family: 'Source Code Pro', monospace;
     font-size: 90%;
-}
-
-main {
-    padding-top: 3.5rem;
 }
 
 h3 {
@@ -153,17 +152,21 @@ button svg path {
     fill: var(--text-color);
 }
 
-header {
+header, .ext-links {
     position: fixed;
-    top: 0;
     width: 100%;
+    border-bottom: solid 1px var(--separator-color);
+}
+
+header {
+    top: 0;
     height: 3.5rem;
     background: var(--header-bg);
-    border-bottom: solid 1px var(--header-separator-color);
     z-index: 10;
 }
 
-header .inner {
+header .inner,
+.ext-links .inner {
     max-width: var(--max-page-width);
     height: 100%;
     margin: 0 auto;
@@ -304,6 +307,59 @@ header nav button {
     border-bottom-color: var(--heading-color)
 }
 
+.ext-links {
+    top: 3.5rem;
+    height: 1.5rem;
+    font-size: 80%;
+    background: var(--ext-links-bg);
+    z-index: 5;
+}
+
+.ext-links a {
+    padding: 0 .5rem;
+    display: flex;
+    align-items: center;
+}
+
+.ext-links svg {
+    width: 1em;
+    height: 1em;
+}
+
+.ext-links a svg {
+    margin-right: .25rem;
+}
+
+/* liberapay icon has more internal padding */
+.ext-links a:last-of-type svg {
+    margin-right: .1rem;
+}
+
+.ext-links a path {
+    fill: var(--text-color);
+}
+
+.ext-links button {
+    margin: 0 0 0 auto;
+    width: 2em;
+    height: 100%;
+}
+
+.ext-links button,
+.ext-links button:hover {
+    background: none;
+    box-shadow: none;
+}
+
+.ext-links.closed {
+    display: flex;
+    align-items: center;
+    width: initial;
+    right: 0;
+    border-left: solid 1px var(--separator-color);
+    border-bottom-left-radius: 3px;
+}
+
 a {
     color: var(--text-color);
     transition: color .2s;
@@ -329,8 +385,12 @@ code {
 
 .page {
     max-width: var(--max-page-width);
-    margin: 0 auto;
+    margin: 5rem auto 0;
     padding: 1rem;
+}
+
+.ext-links.closed + .page {
+    margin-top: 3.5rem;
 }
 
 .feature-list {
