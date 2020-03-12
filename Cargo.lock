@@ -2,9 +2,9 @@
 # It is not intended for manual editing.
 [[package]]
 name = "aho-corasick"
-version = "0.7.9"
+version = "0.7.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d5e63fd144e18ba274ae7095c0197a870a7b9468abc801dd62f190d80817d2ec"
+checksum = "8716408b8bc624ed7f65d223ddb9ac2d044c0547b6fa4b0d554f3a9540496ada"
 dependencies = [
  "memchr",
 ]
@@ -312,12 +312,13 @@ dependencies = [
 
 [[package]]
 name = "gloo"
-version = "0.2.0"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8779102eb7f0e4d8e8280fd480a7245bac3055d78cda93a76967d9a7eb3c26fa"
+checksum = "68ce6f2dfa9f57f15b848efa2aade5e1850dc72986b87a2b0752d44ca08f4967"
 dependencies = [
  "gloo-console-timer",
  "gloo-events",
+ "gloo-file",
  "gloo-timers",
 ]
 
@@ -341,10 +342,22 @@ dependencies = [
 ]
 
 [[package]]
-name = "gloo-timers"
-version = "0.2.0"
+name = "gloo-file"
+version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0b2d17dbd803c2fc86cb1b613adf63192046a7176f383a8302594654752c4c4a"
+checksum = "8f9fecfe46b5dc3cc46f58e98ba580cc714f2c93860796d002eb3527a465ef49"
+dependencies = [
+ "gloo-events",
+ "js-sys",
+ "wasm-bindgen",
+ "web-sys",
+]
+
+[[package]]
+name = "gloo-timers"
+version = "0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "47204a46aaff920a1ea58b11d03dec6f704287d27561724a4631e450654a891f"
 dependencies = [
  "js-sys",
  "wasm-bindgen",
@@ -688,9 +701,9 @@ dependencies = [
 
 [[package]]
 name = "tera"
-version = "1.0.2"
+version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8501ae034d1c2d2e8c29f3c259d919c11489220d8ee8a268e7e1fe3eff94c86a"
+checksum = "5422f81514a243fc63f0c895adba9efcfce24d53ca6e746fc26c12d7a5d7c98d"
 dependencies = [
  "globwalk",
  "lazy_static",

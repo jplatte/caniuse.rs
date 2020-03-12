@@ -1,6 +1,7 @@
 [[versions]]
 number = "1.44"
 channel = "nightly"
+gh_milestone_id = 71
 
 [[versions]]
 number = "1.43"

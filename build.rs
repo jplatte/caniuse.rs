@@ -36,6 +36,8 @@ struct VersionedFeatureList {
     channel: Channel,
     /// Blog post path (https://blog.rust-lang.org/{path})
     blog_post_path: Option<String>,
+    /// GitHub milestone id (https://github.com/rust-lang/rust/milestone/{id})
+    gh_milestone_id: Option<u64>,
     /// List of features (to be) stabilized in this release
     #[serde(default)]
     features: Vec<Feature>,
@@ -132,12 +134,14 @@ fn generate_versions(versions: &[VersionedFeatureList]) -> TokenStream {
         let number = &version.number;
         let channel = Ident::new(&format!("{:?}", version.channel), Span::call_site());
         let blog_post_path = option_literal(&version.blog_post_path);
+        let gh_milestone_id = option_literal(&version.gh_milestone_id);
 
         quote! {
             VersionData {
                 number: #number,
                 channel: Channel::#channel,
                 blog_post_path: #blog_post_path,
+                gh_milestone_id: #gh_milestone_id,
             }
         }
     });

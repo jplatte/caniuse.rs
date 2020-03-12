@@ -31,6 +31,11 @@ impl Component for VersionPage {
 
         let maybe_blog_link =
             maybe_link("Blog post", "https://blog.rust-lang.org/", v.blog_post_path);
+        let maybe_gh_milestone_link = maybe_link(
+            "GitHub milestone",
+            "https://github.com/rust-lang/rust/milestone/",
+            v.gh_milestone_id,
+        );
 
         html! {
             <>
@@ -39,6 +44,7 @@ impl Component for VersionPage {
                     <h3 class="title">{"Rust "}{v.number}</h3>
                     <ul class="links">
                         {maybe_blog_link}
+                        {maybe_gh_milestone_link}
                     </ul>
                 </div>
             </>

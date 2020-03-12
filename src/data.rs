@@ -44,6 +44,8 @@ pub struct VersionData {
     pub number: &'static str,
     /// The channel (stable / beta / nightly)
     pub channel: Channel,
+    /// GitHub milestone id (https://github.com/rust-lang/rust/milestone/{id})
+    pub gh_milestone_id: Option<u64>,
     /// Blog post path (https://blog.rust-lang.org/{path})
     pub blog_post_path: Option<&'static str>,
 }
