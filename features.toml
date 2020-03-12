@@ -115,6 +115,95 @@ title = "subslice patterns (`[a, .., b]` and `[a, xs @ .., b]`)"
 flag = "slice_patterns"
 tracking_issue_id = 62254
 
+[[versions.features]]
+title = "the `proc_macro` crate without `extern crate` in procedural macro crates"
+slug = "proc_macro_extern_prelude"
+
+[[versions.features]]
+title = "attribute macros on inline modules"
+slug = "attr_on_inline_mod"
+stabilization_pr_id = 64273
+
+[[versions.features]]
+title = "`matches!`"
+flag = "matches_macro"
+tracking_issue_id = 65721
+stabilization_pr_id = 67659
+
+[[versions.features]]
+title = "`PartialEq` and `Eq` implementations for `io::Cursor`"
+slug = "eq_cursor"
+impl_pr_id = 67233
+
+#[[versions.features]]
+#title = "`Pin::map_unchecked` and `Pin::map_unchecked_mut` with unsized result types"
+#slug = "pin_map_unchecked_unsized_result"
+#impl_pr_id = 67935
+
+[[versions.features]]
+title = "`alloc::Layout::new` as `const fn`"
+flag = "alloc_layout_const_new"
+impl_pr_id = 66254
+
+[[versions.features]]
+title = "`Condvar::wait_while`"
+flag = "wait_until"
+tracking_issue_id = 47960
+stabilization_pr_id = 67076
+
+[[versions.features]]
+title = "`Condvar::wait_timeout_while`"
+flag = "wait_timeout_until"
+tracking_issue_id = 47960
+stabilization_pr_id = 67076
+
+[[versions.features]]
+title = "unconditional `Send` and `Sync` implementations for `iter::Empty<T>`"
+flag = "iter_empty_send_sync"
+impl_pr_id = 68348
+items = [
+    "unsafe impl<T> Send for Empty<T> {}",
+    "unsafe impl<T> Sync for Empty<T> {}",
+]
+
+[[versions.features]]
+title = "`ManuallyDrop::take`"
+flag = "manually_drop_take"
+tracking_issue_id = 55422
+stabilization_pr_id = 68066
+
+[[versions.features]]
+title = "`#[repr(transparent)]` on single-variant enums"
+flag = "transparent_enums"
+tracking_issue_id = 60405
+stabilization_pr_id = 68122
+
+[[versions.features]]
+title = "`DebugMap::key`"
+flag = "debug_map_key_value"
+tracking_issue_id = 62482
+stabilization_pr_id = 68200
+
+[[versions.features]]
+title = "`DebugMap::value`"
+flag = "debug_map_key_value"
+tracking_issue_id = 62482
+stabilization_pr_id = 68200
+
+[[versions.features]]
+title = "`ptr::slice_from_raw_parts`"
+flag = "slice_from_raw_parts"
+impl_pr_id = 60667
+tracking_issue_id = 36925
+stabilization_pr_id = 68234
+
+[[versions.features]]
+title = "`ptr::slice_from_raw_parts_mut`"
+flag = "slice_from_raw_parts"
+impl_pr_id = 60667
+tracking_issue_id = 36925
+stabilization_pr_id = 68234
+
 [[versions]]
 number = "1.41"
 blog_post_path = "2020/01/30/Rust-1.41.0.html"
