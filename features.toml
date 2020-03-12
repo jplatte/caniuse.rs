@@ -1,7 +1,92 @@
 [[versions]]
-number = "1.43"
+number = "1.44"
 channel = "nightly"
+
+[[versions]]
+number = "1.43"
+channel = "beta"
 gh_milestone_id = 70
+
+[[versions.features]]
+title = "attributes on `if` expressions"
+slug = "if_attr"
+impl_pr_id = 69201
+
+[[versions.features]]
+title = "numeric constants as associated constants"
+flag = "assoc_int_consts"
+impl_pr_id = 68325
+tracking_issue_id = 68490
+stabilization_pr_id = 68952
+items = [
+    "f32::RADIX", "f64::RADIX",
+    "f32::MANTISSA_DIGITS", "f64::MANTISSA_DIGITS",
+    "f32::DIGITS", "f64::DIGITS",
+    "f32::EPSILON", "f64::EPSILON",
+    "f32::MIN", "f64::MIN",
+    "f32::MIN_POSITIVE", "f64::MIN_POSITIVE",
+    "f32::MAX", "f64::MAX",
+    "f32::MIN_EXP", "f64::MIN_EXP",
+    "f32::MAX_EXP", "f64::MAX_EXP",
+    "f32::MIN_10_EXP", "f64::MIN_10_EXP",
+    "f32::MAX_10_EXP", "f64::MAX_10_EXP",
+    "f32::NAN", "f64::NAN",
+    "f32::INFINITY", "f64::INFINITY",
+    "f32::NEG_INFINITY", "f64::NEG_INFINITY",
+
+    "i8::MIN", "i8::MAX",
+    "i16::MIN", "i16::MAX",
+    "i32::MIN", "i32::MAX",
+    "i64::MIN", "i64::MAX",
+    "i128::MIN", "i128::MAX",
+    "isize::MIN", "isize::MAX",
+
+    "u8::MIN", "u8::MAX",
+    "u16::MIN", "u16::MAX",
+    "u32::MIN", "u32::MAX",
+    "u64::MIN", "u64::MAX",
+    "u128::MIN", "u128::MAX",
+    "usize::MIN", "usize::MAX",
+]
+
+[[versions.features]]
+title = "`TryFrom` implementations from boxed slices to boxed arrays"
+flag = "boxed_slice_try_from"
+tracking_issue_id = 69202
+stabilization_pr_id = 69538
+items = [
+    "impl<T, const N: usize> TryFrom<Box<[T]>> for Box<[T; N]>",
+    "impl<T, const N: usize> TryFrom<Rc<[T]>> for Rc<[T; N]>",
+    "impl<T, const N: usize> TryFrom<Arc<[T]>> for Arc<[T; N]>",
+]
+
+[[versions.features]]
+title = "`core::primitive`"
+flag = "core_primitive"
+impl_pr_id = 67637
+
+[[versions.features]]
+title = "`u8::is_ascii` as `const fn`"
+flag = "const_ascii_methods_on_intrinsics"
+impl_pr_id = 68984
+
+#[[versions.features]]
+#title = "`Once::is_completed`"
+#flag = "once_is_completed"
+#tracking_issue_id = 54890
+#stabilization_pr_id = 68945
+
+[[versions.features]]
+title = "`{f32, f64}::{LOG2_10, LOG10_2}`"
+flag = "extra_log_consts"
+tracking_issue_id = 50540
+stabilization_pr_id = 69249
+items = ["f32::LOG2_10", "f32::LOG10_2", "f64::LOG2_10", "f64::LOG10_2"]
+
+[[versions.features]]
+title = "`From<Vec<NonZeroU8>>` implementation for `CString`"
+flag = "cstring_from_vec_of_nonzerou8"
+impl_pr_id = 64069
 
 [[versions.features]]
 title = "`iter::once_with`"
@@ -16,7 +101,7 @@ impl_pr_id = 68742
 
 [[versions]]
 number = "1.42"
-channel = "beta"
+blog_post_path = "2020/03/12/Rust-1.42.html"
 gh_milestone_id = 69
 
 [[versions.features]]
