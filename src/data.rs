@@ -11,11 +11,7 @@ pub struct FeatureData {
     /// Feature slug, used for the permalink. If a feature flag exists, this
     /// can be omitted, then the flag is used for the permalink.
     pub slug: &'static str,
-    /// The channel (stable / beta / nightly)
-    pub channel: Channel,
-    /// The Rust version that stabilized this feature (None for unstable
-    /// nightly-only features)
-    pub version: Option<&'static str>,
+    pub version: Option<&'static VersionData>,
     /// RFC id (https://github.com/rust-lang/rfcs/pull/{id})
     pub rfc_id: Option<u64>,
     /// Implementation PR id (https://github.com/rust-lang/rust/pull/{id})

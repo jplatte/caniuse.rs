@@ -34,9 +34,10 @@ impl Component for FeatureEntry {
 
     fn view(&self) -> Html {
         let f = self.props.data;
+        let v = f.version;
 
         let maybe_flag = match f.flag {
-            Some(flag) if f.version.is_none() => html! {
+            Some(flag) if v.is_none() => html! {
                 <div class="flag">
                     {"Feature flag: "}{view_text(flag)}
                 </div>
@@ -46,10 +47,10 @@ impl Component for FeatureEntry {
             }
         };
 
-        let support_indicator = match f.version {
+        let support_indicator = match v {
             None => html! { <div class="version none">{"Unstable"}</div> },
-            Some(v) => {
-                let classes = match f.channel {
+            Some(version) => {
+                let classes = match version.channel {
                     Channel::Nightly => "version nightly",
                     Channel::Beta => "version beta",
                     Channel::Stable => "version stable",
@@ -57,8 +58,8 @@ impl Component for FeatureEntry {
 
                 html! {
                     <div class=classes>
-                        <RouterAnchor route=AppRoute::Version(v.into())>
-                            {"Rust "}{v}
+                        <RouterAnchor route=AppRoute::Version(version.number.into())>
+                            {"Rust "}{version.number}
                         </RouterAnchor>
                     </div>
                 }

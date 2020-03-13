@@ -34,7 +34,7 @@ impl Component for FeaturePage {
         // TODO: Colorization?
         let version = match f.version {
             Some(v) => html! {
-                <RouterAnchor route=AppRoute::Version(v.into())>{v}</RouterAnchor>
+                <RouterAnchor route=AppRoute::Version(v.number.into())>{v.number}</RouterAnchor>
             },
             None => html! { "none (unstable)" },
         };

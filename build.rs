@@ -1,6 +1,5 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
-    convert::TryInto,
     default::Default,
     env,
     error::Error,
@@ -16,19 +15,13 @@ use serde::{Deserialize, Serialize};
 use tera::{Context, Tera};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-struct FeatureList {
-    unstable: UnstableFeatureList,
-    versions: Vec<VersionedFeatureList>,
+struct FeatureToml {
+    versions: Vec<FeatureList>,
+    unstable: FeatureList,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-struct UnstableFeatureList {
-    #[serde(default)]
-    features: Vec<Feature>,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-struct VersionedFeatureList {
+struct VersionData {
     /// Rust version number, e.g. "1.0.0"
     number: String,
     /// The channel (stable / beta / nightly)
@@ -38,16 +31,22 @@ struct VersionedFeatureList {
     blog_post_path: Option<String>,
     /// GitHub milestone id (https://github.com/rust-lang/rust/milestone/{id})
     gh_milestone_id: Option<u64>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct FeatureList {
+    #[serde(flatten)]
+    version: Option<VersionData>,
     /// List of features (to be) stabilized in this release
     #[serde(default)]
-    features: Vec<Feature>,
+    features: Vec<FeatureData>,
 }
 
 /// A "feature", as tracked by this app. Can be a nightly Rust feature, a
 /// stabilized API, or anything else that one version of Rust (deliberately)
 /// supports while a previous one didn't support it.
 #[derive(Clone, Debug, Deserialize, Serialize)]
-struct Feature {
+struct FeatureData {
     /// Short description to identify the feature
     title: String,
     /// Feature flag name, for things that were previously or are still Rust
@@ -102,11 +101,11 @@ fn main() -> Result<(), Box<dyn Error>> {
     println!("cargo:rerun-if-changed=templates/skel.html");
 
     let features_raw = fs::read("features.toml")?;
-    let feature_list: FeatureList = toml::from_slice(&features_raw)?;
+    let feature_toml: FeatureToml = toml::from_slice(&features_raw)?;
 
     // TODO: Add a filter that replaces `` by <code></code>
     let tera = Tera::new("templates/*")?;
-    let ctx = Context::from_serialize(&feature_list)?;
+    let ctx = Context::from_serialize(&feature_toml)?;
     fs::write("public/index.html", tera.render("index.html", &ctx)?)?;
     fs::write("public/nightly.html", tera.render("nightly.html", &ctx)?)?;
 
@@ -114,98 +113,95 @@ fn main() -> Result<(), Box<dyn Error>> {
     let out_path = Path::new(&out_dir).join("features.rs");
     let mut out = BufWriter::new(File::create(out_path)?);
 
-    write!(out, "{}", generate_versions(&feature_list.versions))?;
-
-    let all_features = feature_list
-        .versions
-        .iter()
-        .flat_map(|version| {
-            let number: Option<&str> = Some(&version.number);
-            version.features.iter().map(move |f| (version.channel, number, f))
-        })
-        .chain(feature_list.unstable.features.iter().map(|f| (Channel::Nightly, None, f)));
-    write!(out, "{}", generate_features(all_features))?;
+    write!(out, "{}", generate_data(feature_toml))?;
 
     Ok(())
 }
 
-fn generate_versions(versions: &[VersionedFeatureList]) -> TokenStream {
-    let versions = versions.iter().map(|version| {
-        let number = &version.number;
-        let channel = Ident::new(&format!("{:?}", version.channel), Span::call_site());
-        let blog_post_path = option_literal(&version.blog_post_path);
-        let gh_milestone_id = option_literal(&version.gh_milestone_id);
-
-        quote! {
-            VersionData {
-                number: #number,
-                channel: Channel::#channel,
-                blog_post_path: #blog_post_path,
-                gh_milestone_id: #gh_milestone_id,
-            }
-        }
-    });
-
-    quote! {
-        pub const VERSIONS: &[VersionData] = &[#(#versions),*];
-    }
-}
-
-fn generate_features<'a>(
-    features: impl Iterator<Item = (Channel, Option<&'a str>, &'a Feature)>,
-) -> TokenStream {
+fn generate_data(feature_toml: FeatureToml) -> TokenStream {
     let mut monogram_index = BTreeMap::new();
     let mut bigram_index = BTreeMap::new();
     let mut trigram_index = BTreeMap::new();
 
-    let features = features.enumerate().map(|(idx, (channel, version, feature))| {
-        assert!(
-            !feature.items.iter().any(|i| i.contains('`')),
-            "items are always wrapped in code blocks and should not contain any '`'.",
-        );
+    let mut versions = Vec::new();
+    let mut features = Vec::new();
 
-        let idx = idx.try_into().expect("At most 65536 features");
+    let mut feat_idx = 0;
 
-        add_feature_ngrams(1, &mut monogram_index, feature, idx);
-        add_feature_ngrams(2, &mut bigram_index, feature, idx);
-        add_feature_ngrams(3, &mut trigram_index, feature, idx);
+    for v in feature_toml.versions {
+        let v_idx = v.version.map(|d| {
+            let number = &d.number;
+            let channel = Ident::new(&format!("{:?}", d.channel), Span::call_site());
+            let blog_post_path = option_literal(&d.blog_post_path);
+            let gh_milestone_id = option_literal(&d.gh_milestone_id);
 
-        let title = &feature.title;
-        let flag = option_literal(&feature.flag);
-        let slug = feature
-            .slug
-            .as_ref()
-            .or_else(|| feature.flag.as_ref())
-            .unwrap_or_else(|| panic!("feature '{}' needs a feature flag or slug", title));
-        let channel = Ident::new(&format!("{:?}", channel), Span::call_site());
-        let version = option_literal(&version);
-        let rfc_id = option_literal(&feature.rfc_id);
-        let impl_pr_id = option_literal(&feature.impl_pr_id);
-        let tracking_issue_id = option_literal(&feature.tracking_issue_id);
-        let stabilization_pr_id = option_literal(&feature.stabilization_pr_id);
-        let doc_path = option_literal(&feature.doc_path);
-        let edition_guide_path = option_literal(&feature.edition_guide_path);
-        let unstable_book_path = option_literal(&feature.unstable_book_path);
-        let items = &feature.items;
+            versions.push(quote! {
+                VersionData {
+                    number: #number,
+                    channel: Channel::#channel,
+                    blog_post_path: #blog_post_path,
+                    gh_milestone_id: #gh_milestone_id,
+                }
+            });
 
-        quote! {
-            FeatureData {
-                title: #title,
-                flag: #flag,
-                slug: #slug,
-                channel: Channel::#channel,
-                version: #version,
-                rfc_id: #rfc_id,
-                impl_pr_id: #impl_pr_id,
-                tracking_issue_id: #tracking_issue_id,
-                stabilization_pr_id: #stabilization_pr_id,
-                doc_path: #doc_path,
-                edition_guide_path: #edition_guide_path,
-                unstable_book_path: #unstable_book_path,
-                items: &[#(#items),*],
-            }
+            versions.len() - 1
+        });
+
+        for f in v.features {
+            assert!(
+                !f.items.iter().any(|i| i.contains('`')),
+                "items are always wrapped in code blocks and should not contain any '`'.",
+            );
+
+            add_feature_ngrams(1, &mut monogram_index, &f, feat_idx);
+            add_feature_ngrams(2, &mut bigram_index, &f, feat_idx);
+            add_feature_ngrams(3, &mut trigram_index, &f, feat_idx);
+
+            let title = &f.title;
+            let flag = option_literal(&f.flag);
+            let slug = f
+                .slug
+                .as_ref()
+                .or_else(|| f.flag.as_ref())
+                .unwrap_or_else(|| panic!("feature '{}' needs a feature flag or slug", title));
+            let rfc_id = option_literal(&f.rfc_id);
+            let impl_pr_id = option_literal(&f.impl_pr_id);
+            let tracking_issue_id = option_literal(&f.tracking_issue_id);
+            let stabilization_pr_id = option_literal(&f.stabilization_pr_id);
+            let doc_path = option_literal(&f.doc_path);
+            let edition_guide_path = option_literal(&f.edition_guide_path);
+            let unstable_book_path = option_literal(&f.unstable_book_path);
+            let items = &f.items;
+
+            let version = match v_idx {
+                Some(idx) => quote!(Some(&VERSIONS[#idx])),
+                None => quote!(None),
+            };
+
+            features.push(quote! {
+                FeatureData {
+                    title: #title,
+                    flag: #flag,
+                    slug: #slug,
+                    version: #version,
+                    rfc_id: #rfc_id,
+                    impl_pr_id: #impl_pr_id,
+                    tracking_issue_id: #tracking_issue_id,
+                    stabilization_pr_id: #stabilization_pr_id,
+                    doc_path: #doc_path,
+                    edition_guide_path: #edition_guide_path,
+                    unstable_book_path: #unstable_book_path,
+                    items: &[#(#items),*],
+                }
+            });
+
+            feat_idx += 1;
         }
-    });
+    }
+
+    let versions = quote! {
+        pub const VERSIONS: &[VersionData] = &[#(#versions),*];
+    };
 
     let features = quote! {
         #[allow(clippy::unreadable_literal)]
@@ -269,6 +265,7 @@ fn generate_features<'a>(
     };
 
     quote! {
+        #versions
         #features
         #monogram_feature_index
         #bigram_feature_index
@@ -286,7 +283,7 @@ fn option_literal<T: ToTokens>(opt: &Option<T>) -> TokenStream {
 fn add_feature_ngrams(
     n: usize,
     index: &mut BTreeMap<Vec<u8>, BTreeSet<u16>>,
-    feature: &Feature,
+    feature: &FeatureData,
     idx: u16,
 ) {
     let mut strings = vec![&feature.title];
