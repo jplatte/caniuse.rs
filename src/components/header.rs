@@ -9,7 +9,7 @@ use yew::{
 use yew_router::agent::RouteAgent;
 
 use crate::{
-    icons::{fa_bars, fa_question_circle},
+    icons::{fa_bars, fa_moon, fa_question_circle, fa_sun},
     services::click::{ClickService, ClickTask},
     util::{document, document_element, window},
     AppRoute, RouterAnchor,
@@ -113,10 +113,14 @@ impl Component for Header {
         let set_theme = |theme: &'static str| self.link.callback(move |_| Msg::UpdateTheme(theme));
 
         let root: HtmlElement = document_element().dyn_into().unwrap();
-        let (light_btn_class, dark_btn_class) = if root.dataset().get("theme").unwrap() == "dark" {
-            ("", "active")
+        let theme_anchor = if root.dataset().get("theme").unwrap() == "dark" {
+            html! {
+                <a onclick=set_theme("light")>{fa_sun()}{"Light theme"}</a>
+            }
         } else {
-            ("active", "")
+            html! {
+                <a onclick=set_theme("dark")>{fa_moon()}{"Dark theme"}</a>
+            }
         };
 
         html! {
@@ -131,18 +135,10 @@ impl Component for Header {
                     <nav>
                         {menu_button}
                         <ul class={"menu ".to_owned() + menu_classes}>
-                            <li class="theme-select">
-                                <span>{"Theme"}</span>
-                                <button class=light_btn_class onclick=set_theme("light")>
-                                    {"Light"}
-                                </button>
-                                <button class=dark_btn_class onclick=set_theme("dark")>
-                                    {"Dark"}
-                                </button>
-                            </li>
+                            <li>{theme_anchor}</li>
                             <li>
                                 <RouterAnchor route=AppRoute::About>
-                                    {"About"}{fa_question_circle()}
+                                    {fa_question_circle()}{"About"}
                                 </RouterAnchor>
                             </li>
                         </ul>

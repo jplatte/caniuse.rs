@@ -220,7 +220,7 @@ header nav button {
     padding: 0;
     top: 3.15rem; /* 2.65rem from top to lower button edge + .5rem margin */
     right: 0;
-    width: 12rem;
+    width: 10rem;
 
     list-style: none;
     background-color: var(--button-hover-bg);
@@ -251,7 +251,7 @@ header nav button {
     border-bottom-color: var(--button-hover-bg);
 }
 
-.menu li.theme-select, .menu a {
+.menu a {
     padding: .45em .6em;
 }
 
@@ -261,50 +261,18 @@ header nav button {
 
 .menu a {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .menu a svg {
     height: 17px;
+    margin-right: .4em;
 }
 
 .menu path {
     fill: var(--text-color);
-}
-
-.theme-select {
-    display: flex;
-    align-items: center;
-}
-
-.theme-select span {
-    margin-right: auto;
-}
-
-.theme-select button {
-    margin-left: .5em;
-    padding: .1em .45em;
-    width: initial;
-    height: initial;
-
-    color: var(--heading-color);
-    background-color: var(--button-hover-bg);
-    box-shadow: none;
-    border-bottom: solid 1pt transparent;
-    border-radius: 0;
-    transition: none;
-}
-
-.theme-select button:hover {
-    background-color: var(--button-hover-bg);
-    box-shadow: none;
-}
-
-.theme-select button.active {
-    background-color: var(--button-hover-bg);
-    box-shadow: none;
-    border-bottom-color: var(--heading-color)
 }
 
 .ext-links {
