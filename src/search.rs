@@ -1,5 +1,6 @@
-use crate::data::{
-    FeatureData, FEATURES, FEATURE_BIGRAM_INDEX, FEATURE_MONOGRAM_INDEX, FEATURE_TRIGRAM_INDEX,
+use crate::{
+    data::{FEATURE_BIGRAM_INDEX, FEATURE_MONOGRAM_INDEX, FEATURE_TRIGRAM_INDEX},
+    data2::{FeatureData, FeatureToml, VersionData},
 };
 
 /// Search query contains '`' or a non-ascii character
@@ -22,9 +23,10 @@ pub fn extract_search_terms(query: &str) -> Result<Vec<String>, InvalidSearchQue
 }
 
 pub fn run_search(
+    data: &FeatureToml,
     search_terms: &[String],
     search_scores: &mut Vec<(u16, f64)>,
-) -> Vec<FeatureData> {
+) -> Vec<(Option<VersionData>, FeatureData)> {
     for (i, (idx, score)) in search_scores.iter_mut().enumerate() {
         *idx = i as u16;
         *score = 0.0;
@@ -80,16 +82,19 @@ pub fn run_search(
         }
     }
 
+    let features: Vec<_> = data.features().collect();
+
     search_scores.sort_by(|(idx_a, score_a), (idx_b, score_b)| {
         score_a.partial_cmp(score_b).unwrap().reverse().then_with(|| {
             // Prefer features with shorter titles if scores are equal
-            FEATURES[*idx_a as usize].title.len().cmp(&FEATURES[*idx_b as usize].title.len())
+            features[*idx_a as usize].1.title.len().cmp(&features[*idx_b as usize].1.title.len())
         })
     });
     search_scores
         .iter()
         .filter(|(_, score)| *score >= 0.25)
-        .map(|(idx, _)| FEATURES[*idx as usize])
+        .map(|(idx, _)| features[*idx as usize])
+        .map(|(v, f)| (v.clone(), f.clone()))
         .collect()
 }
 

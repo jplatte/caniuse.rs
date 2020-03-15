@@ -1,14 +1,15 @@
 use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
 use crate::{
-    data::{Channel, FeatureData},
+    data2::{Channel, FeatureData, VersionData},
     util::{view_text, Void},
     AppRoute, RouterAnchor,
 };
 
 #[derive(Clone, Properties)]
 pub struct Props {
-    pub data: FeatureData,
+    pub feature: FeatureData,
+    pub version: Option<VersionData>,
 }
 
 pub struct FeatureEntry {
@@ -33,10 +34,10 @@ impl Component for FeatureEntry {
     }
 
     fn view(&self) -> Html {
-        let f = self.props.data;
-        let v = f.version;
+        let f = &self.props.feature;
+        let v = &self.props.version;
 
-        let maybe_flag = match f.flag {
+        let maybe_flag = match &f.flag {
             Some(flag) if v.is_none() => html! {
                 <div class="flag">
                     {"Feature flag: "}{view_text(flag)}
@@ -58,19 +59,21 @@ impl Component for FeatureEntry {
 
                 html! {
                     <div class=classes>
-                        <RouterAnchor route=AppRoute::Version(version.number.into())>
-                            {"Rust "}{version.number}
+                        <RouterAnchor route=AppRoute::Version(version.number.clone())>
+                            {"Rust "}{&version.number}
                         </RouterAnchor>
                     </div>
                 }
             }
         };
 
+        let slug = f.slug().to_owned();
+
         html! {
             <div class="feature-entry">
                 <div class="box">
-                    <RouterAnchor route=AppRoute::Feature(f.slug.into()) classes="title">
-                        <h3>{view_text(f.title)}</h3>
+                    <RouterAnchor route=AppRoute::Feature(slug) classes="title">
+                        <h3>{view_text(&f.title)}</h3>
                     </RouterAnchor>
                     {maybe_flag}
                 </div>

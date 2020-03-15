@@ -478,3 +478,34 @@ input[type = 'search']::-webkit-search-results-button,
 input[type = 'search']::-webkit-search-results-decoration {
     display: none;
 }
+
+.loading-indicator {
+    font-size: 110%;
+    color: var(--text-muted-color);
+}
+
+.loading-indicator svg {
+    width: 1em;
+    height: 1em;
+    margin: 0 .25em 0 .5rem;
+    animation: spin 2s linear infinite;
+}
+
+.loading-indicator span {
+    position: relative;
+    bottom: .15em;
+}
+
+.loading-indicator path {
+    fill: var(--text-muted-color);
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0turn);
+    }
+
+    to {
+        transform: rotate(1turn);
+    }
+}

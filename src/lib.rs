@@ -4,6 +4,7 @@ use wasm_bindgen::prelude::wasm_bindgen;
 use yew_router::Switch;
 
 mod data;
+mod data2;
 mod icons;
 mod search;
 mod util;
@@ -27,7 +28,7 @@ mod services {
     pub mod scroll;
 }
 
-use data::{FeatureData, VersionData, FEATURES, VERSIONS};
+use data::{VersionData, VERSIONS};
 use util::document;
 
 #[derive(Clone, Debug, Switch)]

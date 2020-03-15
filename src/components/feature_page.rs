@@ -3,13 +3,15 @@ use std::fmt::Display;
 use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
 use crate::{
+    data2::{FeatureData, VersionData},
     util::{back_button, view_text, Void},
-    AppRoute, FeatureData, RouterAnchor,
+    AppRoute, RouterAnchor,
 };
 
 #[derive(Clone, Properties)]
 pub struct Props {
-    pub data: FeatureData,
+    pub feature: FeatureData,
+    pub version: Option<VersionData>,
 }
 
 pub struct FeaturePage {
@@ -29,17 +31,18 @@ impl Component for FeaturePage {
     }
 
     fn view(&self) -> Html {
-        let f = &self.props.data;
+        let f = &self.props.feature;
+        let v = &self.props.version;
 
         // TODO: Colorization?
-        let version = match f.version {
+        let version = match v {
             Some(v) => html! {
-                <RouterAnchor route=AppRoute::Version(v.number.into())>{v.number}</RouterAnchor>
+                <RouterAnchor route=AppRoute::Version(v.number.clone())>{&v.number}</RouterAnchor>
             },
             None => html! { "none (unstable)" },
         };
 
-        let info = match f.flag {
+        let info = match &f.flag {
             Some(flag) => html! {
                 <div class="info">
                     <span>{"Since version:"}</span>
@@ -75,22 +78,23 @@ impl Component for FeaturePage {
             "https://github.com/rust-lang/rust/pull/",
             f.stabilization_pr_id,
         );
-        let maybe_doc_link = maybe_link("Documentation", "https://doc.rust-lang.org/", f.doc_path);
+        let maybe_doc_link =
+            maybe_link("Documentation", "https://doc.rust-lang.org/", f.doc_path.as_ref());
         let maybe_edition_guide_link = maybe_link(
             "Edition Guide",
             "https://doc.rust-lang.org/edition-guide/",
-            f.edition_guide_path,
+            f.edition_guide_path.as_ref(),
         );
         let maybe_unstable_book_link = maybe_link(
             "Unstable book",
             "https://doc.rust-lang.org/unstable-book/",
-            f.unstable_book_path,
+            f.unstable_book_path.as_ref(),
         );
 
         let maybe_items = if f.items.is_empty() {
             html! {}
         } else {
-            view_items(f.items)
+            view_items(&f.items)
         };
 
         html! {
@@ -98,7 +102,7 @@ impl Component for FeaturePage {
                 {back_button()}
                 <div class="box">
                     <h3 class="title">
-                        {view_text(f.title)}
+                        {view_text(&f.title)}
                     </h3>
                     {info}
                     <ul class="links">
@@ -117,7 +121,7 @@ impl Component for FeaturePage {
     }
 }
 
-fn view_items(items: &[&str]) -> Html {
+fn view_items(items: &[String]) -> Html {
     let items = items.iter().map(|i| html! { <li><code>{i}</code></li> });
     html! {
         <div class="items">

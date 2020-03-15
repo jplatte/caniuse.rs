@@ -124,12 +124,11 @@ fn generate_data(feature_toml: FeatureToml) -> TokenStream {
     let mut trigram_index = BTreeMap::new();
 
     let mut versions = Vec::new();
-    let mut features = Vec::new();
 
     let mut feat_idx = 0;
 
     for v in feature_toml.versions {
-        let v_idx = v.version.map(|d| {
+        if let Some(d) = &v.version {
             let number = &d.number;
             let channel = Ident::new(&format!("{:?}", d.channel), Span::call_site());
             let blog_post_path = option_literal(&d.blog_post_path);
@@ -143,9 +142,7 @@ fn generate_data(feature_toml: FeatureToml) -> TokenStream {
                     gh_milestone_id: #gh_milestone_id,
                 }
             });
-
-            versions.len() - 1
-        });
+        }
 
         for f in v.features {
             assert!(
@@ -157,55 +154,12 @@ fn generate_data(feature_toml: FeatureToml) -> TokenStream {
             add_feature_ngrams(2, &mut bigram_index, &f, feat_idx);
             add_feature_ngrams(3, &mut trigram_index, &f, feat_idx);
 
-            let title = &f.title;
-            let flag = option_literal(&f.flag);
-            let slug = f
-                .slug
-                .as_ref()
-                .or_else(|| f.flag.as_ref())
-                .unwrap_or_else(|| panic!("feature '{}' needs a feature flag or slug", title));
-            let rfc_id = option_literal(&f.rfc_id);
-            let impl_pr_id = option_literal(&f.impl_pr_id);
-            let tracking_issue_id = option_literal(&f.tracking_issue_id);
-            let stabilization_pr_id = option_literal(&f.stabilization_pr_id);
-            let doc_path = option_literal(&f.doc_path);
-            let edition_guide_path = option_literal(&f.edition_guide_path);
-            let unstable_book_path = option_literal(&f.unstable_book_path);
-            let items = &f.items;
-
-            let version = match v_idx {
-                Some(idx) => quote!(Some(&VERSIONS[#idx])),
-                None => quote!(None),
-            };
-
-            features.push(quote! {
-                FeatureData {
-                    title: #title,
-                    flag: #flag,
-                    slug: #slug,
-                    version: #version,
-                    rfc_id: #rfc_id,
-                    impl_pr_id: #impl_pr_id,
-                    tracking_issue_id: #tracking_issue_id,
-                    stabilization_pr_id: #stabilization_pr_id,
-                    doc_path: #doc_path,
-                    edition_guide_path: #edition_guide_path,
-                    unstable_book_path: #unstable_book_path,
-                    items: &[#(#items),*],
-                }
-            });
-
             feat_idx += 1;
         }
     }
 
     let versions = quote! {
         pub const VERSIONS: &[VersionData] = &[#(#versions),*];
-    };
-
-    let features = quote! {
-        #[allow(clippy::unreadable_literal)]
-        pub const FEATURES: &[FeatureData] = &[#(#features),*];
     };
 
     let monogram_index_insert_stmts = monogram_index.into_iter().map(|(k, v)| {
@@ -266,7 +220,6 @@ fn generate_data(feature_toml: FeatureToml) -> TokenStream {
 
     quote! {
         #versions
-        #features
         #monogram_feature_index
         #bigram_feature_index
         #trigram_feature_index

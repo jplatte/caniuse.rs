@@ -11,16 +11,17 @@ use yew::{
 
 use crate::{
     components::FeatureEntry,
+    data2::{FeatureData, FeatureToml, VersionData},
     search::{extract_search_terms, run_search},
     services::scroll::{ScrollService, ScrollTask},
     util::{document_body, window},
-    FeatureData, FEATURES,
 };
 
 pub struct Index {
     link: ComponentLink<Self>,
+    data: FeatureToml,
     current_search_terms: Vec<String>,
-    current_search_results: Vec<FeatureData>,
+    current_search_results: Vec<(Option<VersionData>, FeatureData)>,
     items_visible: usize,
     search_scores: Vec<(u16, f64)>,
 
@@ -35,6 +36,7 @@ pub enum Msg {
 
 #[derive(Clone, Properties)]
 pub struct Props {
+    pub data: FeatureToml,
     pub search_query: String,
 }
 
@@ -44,18 +46,25 @@ impl Component for Index {
     type Message = Msg;
     type Properties = Props;
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(props: Props, link: ComponentLink<Self>) -> Self {
         let _scroll_task = ScrollService::new().register(link.callback(|_| Msg::Update));
         let _resize_task = ResizeService::new().register(link.callback(|_| Msg::Update));
         let _timeout_task =
             TimeoutService::new().spawn(Duration::from_secs(0), link.callback(|_| Msg::Update));
 
+        let search_terms = extract_search_terms(&props.search_query).unwrap_or_default();
+        let mut search_scores = vec![(0, 0.0); props.data.features().count()];
+
+        let current_search_results = run_search(&props.data, &search_terms, &mut search_scores);
+        let current_search_terms = search_terms;
+
         Self {
             link,
-            current_search_terms: Vec::new(),
-            current_search_results: Vec::new(),
+            data: props.data,
+            current_search_terms,
+            current_search_results,
             items_visible: BATCH_SIZE,
-            search_scores: vec![(0, 0.0); FEATURES.len()],
+            search_scores,
 
             _scroll_task,
             _resize_task,
@@ -87,7 +96,8 @@ impl Component for Index {
     fn change(&mut self, props: Props) -> ShouldRender {
         let search_terms = extract_search_terms(&props.search_query).unwrap_or_default();
 
-        self.current_search_results = run_search(&search_terms, &mut self.search_scores);
+        self.current_search_results =
+            run_search(&props.data, &search_terms, &mut self.search_scores);
         self.current_search_terms = search_terms;
 
         self.items_visible = BATCH_SIZE;
@@ -99,13 +109,17 @@ impl Component for Index {
 
     fn view(&self) -> Html {
         if self.current_search_terms.is_empty() {
-            let list = FEATURES.iter().map(|&f| html! { <FeatureEntry data=f /> });
+            let list = self.data.features().map(|(v, f)| {
+                html! {
+                    <FeatureEntry feature=f.clone() version=v.clone() />
+                }
+            });
             html! { <div class="feature-list">{ for list.take(self.items_visible) }</div> }
         } else if self.current_search_results.is_empty() {
             html! { <div class="box muted">{"Nothing found, sorry."}</div> }
         } else {
-            let list = self.current_search_results.iter().map(|&f| {
-                html! { <FeatureEntry data=f /> }
+            let list = self.current_search_results.iter().map(|(v, f)| {
+                html! { <FeatureEntry feature=f.clone() version=v.clone() /> }
             });
 
             html! { <div class="feature-list">{ for list.take(self.items_visible) }</div> }

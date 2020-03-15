@@ -110,6 +110,7 @@ checksum = "130aac562c0dd69c56b3b1cc8ffd2e17be31d0b6c25b61c96b76231aa23e39e1"
 name = "caniuse-rs"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "gloo",
  "once_cell",
  "proc-macro2",
