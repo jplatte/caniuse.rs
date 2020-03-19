@@ -2,13 +2,13 @@ use std::{
     collections::{BTreeMap, BTreeSet},
     default::Default,
     env,
-    error::Error,
     fmt::Debug,
     fs::{self, File},
-    io::{BufWriter, Write},
+    io::{self, BufWriter, Write},
     path::Path,
 };
 
+use anyhow::Context as _;
 use proc_macro2::{Ident, Span, TokenStream};
 use quote::{quote, ToTokens};
 use serde::{Deserialize, Serialize};
@@ -94,7 +94,7 @@ impl Default for Channel {
     }
 }
 
-fn main() -> Result<(), Box<dyn Error>> {
+fn main() -> anyhow::Result<()> {
     println!("cargo:rerun-if-changed=features.toml");
     println!("cargo:rerun-if-changed=templates/index.html");
     println!("cargo:rerun-if-changed=templates/nightly.html");
@@ -104,16 +104,30 @@ fn main() -> Result<(), Box<dyn Error>> {
     let feature_toml: FeatureToml = toml::from_slice(&features_raw)?;
 
     // TODO: Add a filter that replaces `` by <code></code>
-    let tera = Tera::new("templates/*")?;
+    let tera = Tera::new("templates/*").context("loading templates")?;
+
+    // Try to create `public` directory
+    fs::create_dir("public")
+        .or_else(|e| if e.kind() == io::ErrorKind::AlreadyExists { Ok(()) } else { Err(e) })
+        .context("creating dir public")?;
+
     let ctx = Context::from_serialize(&feature_toml)?;
-    fs::write("public/index.html", tera.render("index.html", &ctx)?)?;
-    fs::write("public/nightly.html", tera.render("nightly.html", &ctx)?)?;
+    fs::write(
+        "public/index.html",
+        tera.render("index.html", &ctx).context("rendering index.html")?,
+    )
+    .context("writing public/index.html")?;
+    fs::write(
+        "public/nightly.html",
+        tera.render("nightly.html", &ctx).context("rendering nightly.html")?,
+    )
+    .context("writing public/nightly.html")?;
 
     let out_dir = env::var("OUT_DIR").unwrap();
     let out_path = Path::new(&out_dir).join("features.rs");
-    let mut out = BufWriter::new(File::create(out_path)?);
+    let mut out = BufWriter::new(File::create(out_path).context("creating $OUT_DIR/features.rs")?);
 
-    write!(out, "{}", generate_data(feature_toml))?;
+    write!(out, "{}", generate_data(feature_toml)).context("writing features.rs")?;
 
     Ok(())
 }
