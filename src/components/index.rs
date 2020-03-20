@@ -1,4 +1,4 @@
-use std::time::Duration;
+use std::{rc::Rc, time::Duration};
 
 use yew::{
     html,
@@ -35,7 +35,7 @@ pub enum Msg {
 
 #[derive(Clone, Properties)]
 pub struct Props {
-    pub search_query: String,
+    pub search_query: Rc<String>,
 }
 
 const BATCH_SIZE: usize = 12;

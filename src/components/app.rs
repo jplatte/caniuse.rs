@@ -1,3 +1,5 @@
+use std::rc::Rc;
+
 use web_sys::{HtmlElement, KeyboardEvent};
 use yew::{
     html,
@@ -19,7 +21,7 @@ pub struct App {
     link: ComponentLink<Self>,
     input_ref: NodeRef,
     router: Box<dyn Bridge<RouteAgent>>,
-    search_query: String,
+    search_query: Rc<String>,
 
     _key_listener_handle: KeyListenerHandle,
 }
@@ -27,7 +29,7 @@ pub struct App {
 pub enum Msg {
     Update,
     FocusInput,
-    Search(String),
+    Search(Rc<String>),
 }
 
 impl Component for App {
@@ -52,7 +54,7 @@ impl Component for App {
             link,
             input_ref: NodeRef::default(),
             router,
-            search_query: String::new(),
+            search_query: Rc::new(String::new()),
             _key_listener_handle,
         }
     }
@@ -93,7 +95,7 @@ impl Component for App {
         html! {
             <>
                 <Header input_ref=self.input_ref.clone()
-                    oninput=self.link.callback(|e: InputData| Msg::Search(e.value)) />
+                    oninput=self.link.callback(|e: InputData| Msg::Search(Rc::new(e.value))) />
                 <ExtLinks />
                 <div class="page">
                     <Router render=render_route />
