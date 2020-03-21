@@ -1,0 +1,5 @@
++++
+title = "types implementing `Termination` as the return type for `#[test]`s"
+flag = "termination_trait_test"
+tracking_issue_id = 48854
++++

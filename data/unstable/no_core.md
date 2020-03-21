@@ -1,0 +1,5 @@
++++
+title = "`#![no_core]`"
+flag = "no_core"
+tracking_issue_id = 29639
++++

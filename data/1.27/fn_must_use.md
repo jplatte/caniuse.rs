@@ -1,0 +1,6 @@
++++
+title = "`#[must_use]` on functions"
+flag = "fn_must_use"
+rfc_id = 1940
+tracking_issue_id = 43302
++++

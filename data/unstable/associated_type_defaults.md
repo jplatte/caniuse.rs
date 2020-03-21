@@ -1,0 +1,5 @@
++++
+title = "default values for associated types"
+flag = "associated_type_defaults"
+tracking_issue_id = 29661
++++

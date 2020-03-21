@@ -1,0 +1,5 @@
++++
+title = "associated types in struct expressions and patterns"
+tracking_issue_id = 37544
+stabilization_pr_id = 39282
++++

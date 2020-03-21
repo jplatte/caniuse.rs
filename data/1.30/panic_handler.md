@@ -1,0 +1,5 @@
++++
+title = "`#[panic_handler]`"
+flag = "panic_handler"
+tracking_issue_id = 44489
++++

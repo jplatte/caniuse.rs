@@ -1,0 +1,5 @@
++++
+title = "`#[naked]` functions"
+flag = "naked_functions"
+tracking_issue_id = 32408
++++

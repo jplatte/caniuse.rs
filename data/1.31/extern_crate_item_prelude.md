@@ -1,0 +1,5 @@
++++
+title = "`extern crate foo as bar;`"
+flag = "extern_crate_item_prelude"
+tracking_issue_id = 55599
++++

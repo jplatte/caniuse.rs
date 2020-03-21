@@ -1,0 +1,6 @@
++++
+title = "tuple struct and tuple variant constructors in `const fn`"
+flag = "const_constructor"
+tracking_issue_id = 61456
+stabilization_pr_id = 65188
++++

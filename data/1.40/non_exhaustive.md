@@ -1,0 +1,7 @@
++++
+title = "`#![non_exhaustive]`"
+flag = "non_exhaustive"
+rfc_id = 2008
+tracking_issue_id = 44109
+stabilization_pr_id = 64639
++++

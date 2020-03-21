@@ -1,0 +1,9 @@
++++
+title = "the `?` operator"
+flag = "question_mark"
+rfc_id = 243
+impl_pr_id = 31954
+tracking_issue_id = 31436
+stabilization_pr_id = 36995
+edition_guide_path = "rust-2018/error-handling-and-panics/the-question-mark-operator-for-easier-error-handling.html"
++++

@@ -1,0 +1,5 @@
++++
+title = "`u8::is_ascii` as `const fn`"
+flag = "const_ascii_methods_on_intrinsics"
+impl_pr_id = 68984
++++

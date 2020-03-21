@@ -1,0 +1,4 @@
++++
+title = "`alloc::Layout::from_size_align_unchecked` as `const fn`"
+impl_pr_id = 60370
++++

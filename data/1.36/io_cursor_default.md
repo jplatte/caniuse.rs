@@ -1,0 +1,4 @@
++++
+title = "`Default` implementation for `io::Cursor`"
+impl_pr_id = 60234
++++

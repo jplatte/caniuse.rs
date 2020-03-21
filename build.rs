@@ -4,23 +4,23 @@ use std::{
     env,
     fmt::Debug,
     fs::{self, File},
-    io::{self, BufWriter, Write},
+    io::{self, BufRead, BufReader, BufWriter, Write},
     path::Path,
 };
 
-use anyhow::Context as _;
+use anyhow::{bail, Context as _};
 use proc_macro2::{Ident, Span, TokenStream};
 use quote::{quote, ToTokens};
 use serde::{Deserialize, Serialize};
 use tera::{Context, Tera};
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
-struct FeatureToml {
+#[derive(Serialize)]
+struct Data {
     versions: Vec<FeatureList>,
     unstable: FeatureList,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Deserialize, Serialize)]
 struct VersionData {
     /// Rust version number, e.g. "1.0.0"
     number: String,
@@ -33,19 +33,17 @@ struct VersionData {
     gh_milestone_id: Option<u64>,
 }
 
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Serialize)]
 struct FeatureList {
-    #[serde(flatten)]
     version: Option<VersionData>,
     /// List of features (to be) stabilized in this release
-    #[serde(default)]
     features: Vec<FeatureData>,
 }
 
 /// A "feature", as tracked by this app. Can be a nightly Rust feature, a
 /// stabilized API, or anything else that one version of Rust (deliberately)
 /// supports while a previous one didn't support it.
-#[derive(Clone, Debug, Deserialize, Serialize)]
+#[derive(Deserialize, Serialize)]
 struct FeatureData {
     /// Short description to identify the feature
     title: String,
@@ -54,7 +52,8 @@ struct FeatureData {
     flag: Option<String>,
     /// Feature slug, used for the permalink. If a feature flag exists, this
     /// can be omitted, then the flag is used for the permalink.
-    slug: Option<String>,
+    #[serde(skip_deserializing)] // filled from filename or flag
+    slug: String,
     /// RFC id (https://github.com/rust-lang/rfcs/pull/{id})
     rfc_id: Option<u64>,
     /// Implementation PR id (https://github.com/rust-lang/rust/pull/{id})
@@ -95,13 +94,11 @@ impl Default for Channel {
 }
 
 fn main() -> anyhow::Result<()> {
-    println!("cargo:rerun-if-changed=features.toml");
     println!("cargo:rerun-if-changed=templates/index.html");
     println!("cargo:rerun-if-changed=templates/nightly.html");
     println!("cargo:rerun-if-changed=templates/skel.html");
 
-    let features_raw = fs::read("features.toml")?;
-    let feature_toml: FeatureToml = toml::from_slice(&features_raw)?;
+    let data = collect_data()?;
 
     // TODO: Add a filter that replaces `` by <code></code>
     let tera = Tera::new("templates/*").context("loading templates")?;
@@ -111,7 +108,7 @@ fn main() -> anyhow::Result<()> {
         .or_else(|e| if e.kind() == io::ErrorKind::AlreadyExists { Ok(()) } else { Err(e) })
         .context("creating dir public")?;
 
-    let ctx = Context::from_serialize(&feature_toml)?;
+    let ctx = Context::from_serialize(&data)?;
     fs::write(
         "public/index.html",
         tera.render("index.html", &ctx).context("rendering index.html")?,
@@ -127,12 +124,96 @@ fn main() -> anyhow::Result<()> {
     let out_path = Path::new(&out_dir).join("features.rs");
     let mut out = BufWriter::new(File::create(out_path).context("creating $OUT_DIR/features.rs")?);
 
-    write!(out, "{}", generate_data(feature_toml)).context("writing features.rs")?;
+    write!(out, "{}", generate_output(data)).context("writing features.rs")?;
 
     Ok(())
 }
 
-fn generate_data(feature_toml: FeatureToml) -> TokenStream {
+fn collect_data() -> anyhow::Result<Data> {
+    let mut data = Data {
+        versions: Vec::new(),
+        unstable: FeatureList { version: None, features: Vec::new() },
+    };
+
+    for entry in fs::read_dir("data").context("opening data/")? {
+        let dir = entry?;
+        assert!(dir.file_type()?.is_dir(), "expected only directories in data/");
+
+        let dir_name = dir.file_name().into_string().unwrap();
+        println!("cargo:rerun-if-changed=data/{}", dir_name);
+
+        let features = match dir_name.as_str() {
+            "unstable" => &mut data.unstable.features,
+            _ => {
+                let version_data_raw = fs::read(dir.path().join("version.toml"))?;
+                let version_data = toml::from_slice(&version_data_raw)?;
+                data.versions
+                    .push(FeatureList { version: Some(version_data), features: Vec::new() });
+                &mut data.versions.last_mut().unwrap().features
+            }
+        };
+
+        for entry in
+            fs::read_dir(dir.path()).with_context(|| format!("opening data/{}", dir_name))?
+        {
+            let file = entry?;
+            let file_name = file.file_name().into_string().unwrap();
+            println!("cargo:rerun-if-changed=data/{}/{}", dir_name, file_name);
+
+            if file_name == "version.toml" {
+                continue;
+            }
+
+            assert!(
+                file_name.ends_with(".md"),
+                "expected only .md files and version.toml in data/*"
+            );
+            let feature_file = BufReader::new(
+                File::open(file.path())
+                    .with_context(|| format!("opening data/{}/{}", dir_name, file_name))?,
+            );
+
+            let mut feature_file_lines = feature_file.lines();
+            let mut feature_file_frontmatter = String::new();
+            assert_eq!(
+                match feature_file_lines.next() {
+                    Some(Ok(s)) => s,
+                    _ => bail!("reading first line of data/{}/{} failed", dir_name, file_name),
+                },
+                "+++",
+                "expected frontmatter at the beginning of data/{}/{}",
+                dir_name,
+                file_name
+            );
+
+            loop {
+                match feature_file_lines.next() {
+                    Some(Ok(s)) if s == "+++" => break,
+                    Some(Ok(s)) => {
+                        feature_file_frontmatter += s.as_str();
+                        feature_file_frontmatter.push('\n');
+                    }
+                    _ => bail!("reading frontmatter of data/{}/{} failed", dir_name, file_name),
+                }
+            }
+
+            // TODO: Read file contents after frontmatter
+
+            let mut feature: FeatureData =
+                toml::from_str(&feature_file_frontmatter).with_context(|| {
+                    format!("deserializing frontmatter of data/{}/{}", dir_name, file_name)
+                })?;
+
+            //             [   file_name without '.md'    ]
+            feature.slug = file_name[..file_name.len() - 3].to_owned();
+            features.push(feature);
+        }
+    }
+
+    Ok(data)
+}
+
+fn generate_output(feature_toml: Data) -> TokenStream {
     let mut monogram_index = BTreeMap::new();
     let mut bigram_index = BTreeMap::new();
     let mut trigram_index = BTreeMap::new();
@@ -173,11 +254,7 @@ fn generate_data(feature_toml: FeatureToml) -> TokenStream {
 
             let title = &f.title;
             let flag = option_literal(&f.flag);
-            let slug = f
-                .slug
-                .as_ref()
-                .or_else(|| f.flag.as_ref())
-                .unwrap_or_else(|| panic!("feature '{}' needs a feature flag or slug", title));
+            let slug = f.slug;
             let rfc_id = option_literal(&f.rfc_id);
             let impl_pr_id = option_literal(&f.impl_pr_id);
             let tracking_issue_id = option_literal(&f.tracking_issue_id);

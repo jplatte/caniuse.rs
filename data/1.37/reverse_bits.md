@@ -1,0 +1,22 @@
++++
+title = "`reverse_bits` integer methods"
+flag = "reverse_bits"
+items = [
+    "i8::reverse_bits",
+    "i16::reverse_bits",
+    "i32::reverse_bits",
+    "i64::reverse_bits",
+    "i128::reverse_bits",
+    "isize::reverse_bits",
+    "u8::reverse_bits",
+    "u16::reverse_bits",
+    "u32::reverse_bits",
+    "u64::reverse_bits",
+    "u128::reverse_bits",
+    "usize::reverse_bits",
+    "Wrapping<T>::reverse_bits",
+]
+impl_pr_id = 48573
+tracking_issue_id = 48763
+stabilization_pr_id = 61364
++++

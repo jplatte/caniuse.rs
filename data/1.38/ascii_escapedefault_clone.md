@@ -1,0 +1,4 @@
++++
+title = "`Clone` implementation for `ascii::EscapeDefault`"
+impl_pr_id = 63421
++++

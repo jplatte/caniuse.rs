@@ -1,0 +1,7 @@
++++
+title = "`#[repr(align(N))]`"
+flag = "repr_align"
+rfc_id = 1358
+tracking_issue_id = 33626
+stabilization_pr_id = 47006
++++

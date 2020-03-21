@@ -1,0 +1,10 @@
++++
+title = "`as_deref` and `as_deref_mut` on `Option`"
+flag = "option_deref"
+tracking_issue_id = 50264
+stabilization_pr_id = 64708
+items = [
+    "Option::as_deref",
+    "Option::as_deref_mut",
+]
++++

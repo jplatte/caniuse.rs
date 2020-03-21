@@ -1,0 +1,6 @@
++++
+title = "`#[plugin_registrar]`"
+flag = "plugin_registrar"
+tracking_issue_id = 29597
+unstable_book_path = "language-features/plugin-registrar.html"
++++

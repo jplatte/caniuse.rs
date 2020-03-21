@@ -1,0 +1,8 @@
++++
+title = "nested groups in imports"
+flag = "use_nested_groups"
+rfc_id = 2128
+tracking_issue_id = 44494
+stabilization_pr_id = 47948
+edition_guide_path = "rust-2018/module-system/nested-imports-with-use.html"
++++
