@@ -1,5 +1,5 @@
 +++
-title = "float ↔ bytes conversion"
+title = "float ↔ bytes conversion functions"
 flag = "float_to_from_bytes"
 items = [
     "f32::to_ne_bytes",

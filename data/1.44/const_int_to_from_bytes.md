@@ -1,6 +1,5 @@
 +++
-title = "integer ↔ bytes conversion functions"
-flag = "int_to_from_bytes"
+title = "integer ↔ bytes conversion functions as `const fn`"
 items = [
     "i8::to_ne_bytes", "i8::to_le_bytes", "i8::to_be_bytes",
     "i8::from_ne_bytes", "i8::from_le_bytes", "i8::from_be_bytes",
