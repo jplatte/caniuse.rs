@@ -1,0 +1,5 @@
++++
+title = "`sync::Weak::new`"
+flag = "downgraded_weak"
+impl_pr_id = 33699
++++
