@@ -10,10 +10,11 @@ use std::{
 };
 
 use anyhow::{bail, Context as _};
+use itertools::Itertools as _;
 use proc_macro2::{Ident, Span, TokenStream};
 use quote::{quote, ToTokens};
 use serde::{Deserialize, Serialize};
-use tera::{Context, Tera};
+use tera::{Context, Tera, Value};
 
 #[derive(Serialize)]
 struct Data {
@@ -102,7 +103,15 @@ fn main() -> anyhow::Result<()> {
     let data = collect_data()?;
 
     // TODO: Add a filter that replaces `` by <code></code>
-    let tera = Tera::new("templates/*").context("loading templates")?;
+    let mut tera = Tera::new("templates/*").context("loading templates")?;
+    tera.register_filter("code_backticks", |val: &Value, _: &_| -> tera::Result<Value> {
+        let input: String = tera::from_value(val.clone())?;
+        let output: String = input
+            .split('`')
+            .interleave_shortest(["<code>", "</code>"].iter().copied().cycle())
+            .collect();
+        Ok(tera::to_value(output)?)
+    });
 
     // Try to create `public` directory
     fs::create_dir("public")
