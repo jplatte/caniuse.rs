@@ -1,4 +1,5 @@
 use std::{
+    cmp::Reverse,
     collections::{BTreeMap, BTreeSet},
     default::Default,
     env,
@@ -210,6 +211,13 @@ fn collect_data() -> anyhow::Result<Data> {
             features.push(feature);
         }
     }
+
+    data.versions.sort_unstable_by_key(|v| {
+        let num_str = &v.version.as_ref().unwrap().number;
+        assert!(&num_str[..2] == "1.");
+        let num: u16 = num_str[2..].parse().unwrap();
+        Reverse(num)
+    });
 
     Ok(data)
 }
