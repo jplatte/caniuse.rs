@@ -1,6 +1,6 @@
 import init, { run } from '../pkg/caniuse_rs.js';
 
-let theme;
+var theme;
 try {
     // Restore theme if set
     theme = localStorage.getItem("theme");
@@ -18,10 +18,20 @@ if (typeof theme !== "string") {
 
 document.documentElement.dataset.theme = theme;
 
-// Load main app
-// TODO: Fallback to showing <noscript> tag if wasm is not available
-async function main() {
-    await init('/caniuse_rs.wasm');
-    run();
+if ('WebAssembly' in window) {
+    var noscript_tag = document.body.querySelector("noscript");
+    noscript_tag.parentElement.removeChild(noscript_tag);
+    document.body.appendChild(document.createElement("main"));
+
+    // Load main app
+    async function main() {
+        await init('/caniuse_rs.wasm');
+        run();
+    }
+    main()
+} else {
+    // With scripts enabled, the noscript tag's contents are not interpreted as
+    // HTML. As such, no matter what combination of tags and text it contains,
+    // when this code is executed, the whole content will just be one text node.
+    document.body.innerHTML = document.body.querySelector("noscript").innerText;
 }
-main()
