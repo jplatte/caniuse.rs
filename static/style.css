@@ -176,11 +176,12 @@ header .inner,
 }
 
 .caniuse {
-    flex: 1;
+    width: calc(100% - 6.2rem);
     display: flex;
     font-size: 110%;
     padding: .5rem;
     color: var(--heading-color);
+    align-items: flex-end;
 }
 
 .caniuse input {
@@ -195,7 +196,8 @@ header .inner,
     flex: 1;
     margin: 0 .6em;
     position: relative;
-    min-width: 8em;
+    min-width: 6em;
+    height: 1.5rem;
     bottom: -1px;
     color: var(--text-color);
     border-bottom: 1px solid var(--text-muted-color);
@@ -371,7 +373,7 @@ code {
 }
 
 .box {
-    flex-grow: 1;
+    width: calc(100% - 6.2rem);
     padding: .5rem;
     background: var(--box-bg);
     position: relative;
@@ -387,6 +389,16 @@ code {
 
 .page > button {
     margin-bottom: 1em;
+}
+
+.title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+a.title {
+    display: block;
+    text-decoration: none;
 }
 
 a.title:hover {
