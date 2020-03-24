@@ -39,16 +39,14 @@ impl Component for FeaturePage {
             None => html! { "none (unstable)" },
         };
 
-        let info = match f.flag {
+        let flag_info = match f.flag {
             Some(flag) => html! {
-                <div class="info">
-                    <span>{"Since version:"}</span>
-                    <span>{version}</span>
+                <>
                     <span>{"Feature flag:"}</span>
                     <span>{view_text(flag)}</span>
-                </div>
+                </>
             },
-            None => html! { <div>{version}</div> },
+            None => html! {},
         };
 
         fn maybe_link<T: Display>(text: &str, link_base: &str, opt_rest: Option<T>) -> Html {
@@ -100,7 +98,11 @@ impl Component for FeaturePage {
                     <h3 class="title">
                         {view_text(f.title)}
                     </h3>
-                    {info}
+                    <div class="info">
+                        <span>{"Since version:"}</span>
+                        <span>{version}</span>
+                        {flag_info}
+                    </div>
                     <ul class="links">
                         {maybe_rfc_link}
                         {maybe_impl_pr_link}
