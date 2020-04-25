@@ -28,6 +28,11 @@ impl Component for FeaturePage {
         match void {}
     }
 
+    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+        self.props = props;
+        true
+    }
+
     fn view(&self) -> Html {
         let f = &self.props.data;
 
