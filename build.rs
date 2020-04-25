@@ -300,12 +300,12 @@ fn generate_output(feature_toml: Data) -> TokenStream {
     }
 
     let versions = quote! {
-        pub const VERSIONS: &[VersionData] = &[#(#versions),*];
+        pub static VERSIONS: &[VersionData] = &[#(#versions),*];
     };
 
     let features = quote! {
         #[allow(clippy::unreadable_literal)]
-        pub const FEATURES: &[FeatureData] = &[#(#features),*];
+        pub static FEATURES: &[FeatureData] = &[#(#features),*];
     };
 
     let monogram_index_insert_stmts = monogram_index.into_iter().map(|(k, v)| {
@@ -316,7 +316,7 @@ fn generate_output(feature_toml: Data) -> TokenStream {
     });
 
     let monogram_feature_index = quote! {
-        pub const FEATURE_MONOGRAM_INDEX: once_cell::sync::Lazy<std::collections::HashMap<u8, &[u16]>> =
+        pub static FEATURE_MONOGRAM_INDEX: once_cell::sync::Lazy<std::collections::HashMap<u8, &[u16]>> =
             once_cell::sync::Lazy::new(|| {
                 let mut index = std::collections::HashMap::new();
                 #(#monogram_index_insert_stmts)*
@@ -336,7 +336,7 @@ fn generate_output(feature_toml: Data) -> TokenStream {
     });
 
     let bigram_feature_index = quote! {
-        pub const FEATURE_BIGRAM_INDEX: once_cell::sync::Lazy<std::collections::HashMap<[u8; 2], &[u16]>> =
+        pub static FEATURE_BIGRAM_INDEX: once_cell::sync::Lazy<std::collections::HashMap<[u8; 2], &[u16]>> =
             once_cell::sync::Lazy::new(|| {
                 let mut index = std::collections::HashMap::new();
                 #(#bigram_index_insert_stmts)*
@@ -356,7 +356,7 @@ fn generate_output(feature_toml: Data) -> TokenStream {
     });
 
     let trigram_feature_index = quote! {
-        pub const FEATURE_TRIGRAM_INDEX: once_cell::sync::Lazy<std::collections::HashMap<[u8; 3], &[u16]>> =
+        pub static FEATURE_TRIGRAM_INDEX: once_cell::sync::Lazy<std::collections::HashMap<[u8; 3], &[u16]>> =
             once_cell::sync::Lazy::new(|| {
                 let mut index = std::collections::HashMap::new();
                 #(#trigram_index_insert_stmts)*
