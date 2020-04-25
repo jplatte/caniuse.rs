@@ -325,8 +325,8 @@ fn generate_output(feature_toml: Data) -> TokenStream {
     };
 
     let bigram_index_insert_stmts = bigram_index.into_iter().map(|(k, v)| {
-        let [b1, b2] = match &k[..] {
-            &[b1, b2] => [b1, b2],
+        let [b1, b2] = match k[..] {
+            [b1, b2] => [b1, b2],
             _ => unreachable!(),
         };
 
@@ -345,8 +345,8 @@ fn generate_output(feature_toml: Data) -> TokenStream {
     };
 
     let trigram_index_insert_stmts = trigram_index.into_iter().map(|(k, v)| {
-        let [b1, b2, b3] = match &k[..] {
-            &[b1, b2, b3] => [b1, b2, b3],
+        let [b1, b2, b3] = match k[..] {
+            [b1, b2, b3] => [b1, b2, b3],
             _ => unreachable!(),
         };
 
