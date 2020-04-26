@@ -1,0 +1,6 @@
++++
+title = "`std::char::UNICODE_VERSION`"
+flag = "unicode_version"
+tracking_issue_id = 49726
+stabilization_pr_id = 71068
++++
