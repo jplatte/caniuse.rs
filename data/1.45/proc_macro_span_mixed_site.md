@@ -1,0 +1,7 @@
++++
+title = "`proc_macro::Span::mixsed_site`"
+flag = "proc_macro_mixed_site"
+impl_pr_id = 64690
+tracking_issue_id = 65049
+stabilization_pr_id = 68716
++++
