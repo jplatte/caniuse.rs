@@ -1,0 +1,5 @@
++++
+title = "`Box::into_boxed_slice`"
+flag = "box_into_boxed_slice"
+impl_pr_id = 71421
++++
