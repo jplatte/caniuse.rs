@@ -107,6 +107,17 @@ body {
 pre, code {
     font-family: 'Source Code Pro', monospace;
     font-size: 90%;
+
+    color: var(--text-color);
+    background: var(--code-bg);
+    padding: .1em .3em;
+}
+
+pre {
+    /* inline-block has almost the same effect, but at the same time makes the
+       <li> marker move its position for some reason, which inline-flex doesn't
+       do */
+    display: inline-flex;
 }
 
 h3 {
@@ -345,12 +356,6 @@ a, button {
 
 .muted {
     color: var(--text-muted-color);
-}
-
-code {
-    color: var(--text-color);
-    background: var(--code-bg);
-    padding: .1em .3em;
 }
 
 .page {

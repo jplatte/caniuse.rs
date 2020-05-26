@@ -125,7 +125,13 @@ impl Component for FeaturePage {
 }
 
 fn view_items(items: &[&str]) -> Html {
-    let items = items.iter().map(|i| html! { <li><code>{i}</code></li> });
+    let items = items.iter().map(|item| {
+        if item.contains('\n') {
+            html! { <li><pre>{item}</pre></li> }
+        } else {
+            html! { <li><code>{item}</code></li> }
+        }
+    });
     html! {
         <div class="items">
             {"Items"}
