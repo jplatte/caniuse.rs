@@ -4,13 +4,13 @@ use gloo::events::EventListener;
 use web_sys::Element;
 use yew::callback::Callback;
 
-/// A service that fires events when the browser window resizes.
+/// A service that fires events when a specific element is clicked.
 #[derive(Debug)]
 pub struct ClickService {
     elem: Element,
 }
 
-/// A handle to the event listener for resize events.
+/// A handle to the event listener for click events.
 #[must_use]
 #[allow(dead_code)]
 pub struct ClickTask {
@@ -30,7 +30,7 @@ impl ClickService {
         ClickService { elem }
     }
 
-    /// Register a callback that will be called when the browser window Clicks.
+    /// Register a callback that will be called when the user clicks the element.
     pub fn register(&mut self, callback: Callback<()>) -> ClickTask {
         let handle = EventListener::new(&self.elem, "click", move |_| callback.emit(()));
         ClickTask { elem: self.elem.clone(), handle }
