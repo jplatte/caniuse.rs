@@ -1,3 +1,3 @@
 number = "1.44"
-channel = "beta"
 gh_milestone_id = 71
+blog_post_path = "2020/06/04/Rust-1.44.0.html"
