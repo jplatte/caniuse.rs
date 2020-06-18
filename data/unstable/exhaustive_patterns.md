@@ -1,6 +1,7 @@
 +++
 title = "exhaustive pattern matching on types that contain uninhabited types"
 flag = "exhaustive_patterns"
+rfc_id = 1872
+impl_pr_id = 47630
 tracking_issue_id = 51085
-stabilization_pr_id = 56362
 +++
