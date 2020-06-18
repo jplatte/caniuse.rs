@@ -39,7 +39,7 @@ impl Component for FeatureEntry {
         let maybe_flag = match f.flag {
             Some(flag) if v.is_none() => html! {
                 <div class="flag">
-                    {"Feature flag: "}{view_text(flag)}
+                    {"Feature flag: "}<code>{view_text(flag)}</code>
                 </div>
             },
             _ => {

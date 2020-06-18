@@ -48,7 +48,7 @@ impl Component for FeaturePage {
             Some(flag) => html! {
                 <>
                     <span>{"Feature flag:"}</span>
-                    <span>{view_text(flag)}</span>
+                    <span><code>{view_text(flag)}</code></span>
                 </>
             },
             None => html! {},
