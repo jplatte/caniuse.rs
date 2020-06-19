@@ -1,0 +1,20 @@
++++
+title = "`AtomicN::{fetch_min, fetch_max}`"
+flag = "atomic_min_max"
+impl_pr_id = 48658
+tracking_issue_id = 48655
+stabilization_pr_id = 72324
+items = [
+    "AtomicI8::fetch_min", "AtomicI8::fetch_max",
+    "AtomicI16::fetch_min", "AtomicI16::fetch_max",
+    "AtomicI32::fetch_min", "AtomicI32::fetch_max",
+    "AtomicI64::fetch_min", "AtomicI64::fetch_max",
+    "AtomicIsize::fetch_min", "AtomicIsize::fetch_max",
+
+    "AtomicU8::fetch_min", "AtomicU8::fetch_max",
+    "AtomicU16::fetch_min", "AtomicU16::fetch_max",
+    "AtomicU32::fetch_min", "AtomicU32::fetch_max",
+    "AtomicU64::fetch_min", "AtomicU64::fetch_max",
+    "AtomicUsize::fetch_min", "AtomicUsize::fetch_max",
+]
++++
