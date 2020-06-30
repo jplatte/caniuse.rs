@@ -1,0 +1,22 @@
++++
+title = "`leading_ones` integer methods"
+flag = "leading_trailing_ones"
+impl_pr_id = 68165
+tracking_issue_id = 57969
+stabilization_pr_id = 730321
+items = [
+    "i8::leading_ones",
+    "i16::leading_ones",
+    "i32::leading_ones",
+    "i64::leading_ones",
+    "i128::leading_ones",
+    "isize::leading_ones",
+
+    "u8::leading_ones",
+    "u16::leading_ones",
+    "u32::leading_ones",
+    "u64::leading_ones",
+    "u128::leading_ones",
+    "usize::leading_ones",
+]
++++
