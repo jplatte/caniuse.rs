@@ -1,0 +1,9 @@
++++
+title = "`PartialEq<Vec<_>>` implementations for slices"
+flag = "partialeq_vec_for_ref_slice"
+impl_pr_id = 71660
+items = [
+    "impl<'_, A, B> PartialEq<Vec<B>> for &'_ [A] where A: PartialEq<B>",
+    "impl<'_, A, B> PartialEq<Vec<B>> for &'_ mut [A] where A: PartialEq<B>",
+]
++++
