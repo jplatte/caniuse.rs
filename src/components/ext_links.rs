@@ -65,7 +65,7 @@ impl Component for ExtLinks {
                         <a href="https://liberapay.com/jplatte/">
                             {liberapay_icon()}{"Liberapay"}
                         </a>
-                        <button onclick=onclick>{fa_angle_right()}</button>
+                        <button type="button" onclick=onclick>{fa_angle_right()}</button>
                     </div>
                 </div>
             }
@@ -74,7 +74,7 @@ impl Component for ExtLinks {
 
             html! {
                 <div class="ext-links closed">
-                    <button onclick=onclick>{fa_angle_left()}</button>
+                    <button type="button" onclick=onclick>{fa_angle_left()}</button>
                 </div>
             }
         }
