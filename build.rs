@@ -52,9 +52,8 @@ struct FeatureData {
     /// Feature flag name, for things that were previously or are still Rust
     /// nightly features with such a thing (`#![feature(...)]`)
     flag: Option<String>,
-    /// Feature slug, used for the permalink. If a feature flag exists, this
-    /// can be omitted, then the flag is used for the permalink.
-    #[serde(skip_deserializing)] // filled from filename or flag
+    /// Feature slug, used for the permalink. Filled from filename.
+    #[serde(skip_deserializing)]
     slug: String,
     /// RFC id (https://github.com/rust-lang/rfcs/pull/{id})
     rfc_id: Option<u64>,

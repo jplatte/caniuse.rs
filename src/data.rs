@@ -8,8 +8,7 @@ pub struct FeatureData {
     /// Feature flag name, for things that were previously or are still Rust
     /// nightly features with such a thing (`#![feature(...)]`)
     pub flag: Option<&'static str>,
-    /// Feature slug, used for the permalink. If a feature flag exists, this
-    /// can be omitted, then the flag is used for the permalink.
+    /// Feature slug, used for the permalink.
     pub slug: &'static str,
     pub version: Option<&'static VersionData>,
     /// RFC id (https://github.com/rust-lang/rfcs/pull/{id})
