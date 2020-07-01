@@ -360,12 +360,12 @@ a, button {
 
 .page {
     max-width: var(--max-page-width);
-    margin: 5rem auto 0;
-    padding: 1rem;
+    margin: 0 auto;
+    padding: 6rem 1rem 1rem;
 }
 
 .ext-links.closed + .page {
-    margin-top: 3.5rem;
+    padding-top: 4.5rem;
 }
 
 .feature-list {
