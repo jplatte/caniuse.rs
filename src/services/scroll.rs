@@ -20,13 +20,8 @@ impl fmt::Debug for ScrollTask {
 }
 
 impl ScrollService {
-    /// Creates a new ScrollService.
-    pub fn new() -> ScrollService {
-        ScrollService
-    }
-
     /// Register a callback that will be called when the browser window resizes.
-    pub fn register(&mut self, callback: Callback<()>) -> ScrollTask {
+    pub fn register(callback: Callback<()>) -> ScrollTask {
         ScrollTask(EventListener::new(&window(), "scroll", move |_| callback.emit(())))
     }
 }

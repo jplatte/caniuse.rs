@@ -45,7 +45,7 @@ impl Component for Index {
     type Properties = Props;
 
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-        let _scroll_task = ScrollService::new().register(link.callback(|_| Msg::Update));
+        let _scroll_task = ScrollService::register(link.callback(|_| Msg::Update));
         let _resize_task = ResizeService::new().register(link.callback(|_| Msg::Update));
         let _timeout_task =
             TimeoutService::spawn(Duration::from_secs(0), link.callback(|_| Msg::Update));
