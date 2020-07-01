@@ -1,5 +1,5 @@
 +++
-title = "`From<Cow<'_, _>` implementations for `Box`ed types"
+title = "`From<Cow<'_, _>>` implementations for `Box`ed types"
 flag = "box_from_cow"
 impl_pr_id = 71447
 items = [
