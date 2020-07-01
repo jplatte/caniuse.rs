@@ -76,6 +76,10 @@ impl Component for App {
         }
     }
 
+    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+        false
+    }
+
     fn view(&self) -> Html {
         type Router = yew_router::router::Router<AppRoute>;
         let search_query = self.search_query.clone();
@@ -104,8 +108,9 @@ impl Component for App {
         }
     }
 
-    fn mounted(&mut self) -> ShouldRender {
-        self.link.send_message(Msg::FocusInput);
-        false
+    fn rendered(&mut self, first_render: bool) {
+        if first_render {
+            self.link.send_message(Msg::FocusInput);
+        }
     }
 }

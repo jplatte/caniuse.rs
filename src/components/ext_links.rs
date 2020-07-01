@@ -45,6 +45,10 @@ impl Component for ExtLinks {
         true
     }
 
+    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+        false
+    }
+
     fn view(&self) -> Html {
         if self.visible {
             let onclick = self.link.callback(|_| Msg::Hide);

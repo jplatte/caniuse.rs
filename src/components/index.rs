@@ -48,7 +48,7 @@ impl Component for Index {
         let _scroll_task = ScrollService::new().register(link.callback(|_| Msg::Update));
         let _resize_task = ResizeService::new().register(link.callback(|_| Msg::Update));
         let _timeout_task =
-            TimeoutService::new().spawn(Duration::from_secs(0), link.callback(|_| Msg::Update));
+            TimeoutService::spawn(Duration::from_secs(0), link.callback(|_| Msg::Update));
 
         Self {
             link,
@@ -73,8 +73,10 @@ impl Component for Index {
 
                 if distance_to_bottom < inner_height {
                     self.items_visible += BATCH_SIZE;
-                    self._timeout_task = TimeoutService::new()
-                        .spawn(Duration::from_secs(0), self.link.callback(|_| Msg::Update));
+                    self._timeout_task = TimeoutService::spawn(
+                        Duration::from_secs(0),
+                        self.link.callback(|_| Msg::Update),
+                    );
 
                     true
                 } else {
@@ -91,8 +93,8 @@ impl Component for Index {
         self.current_search_terms = search_terms;
 
         self.items_visible = BATCH_SIZE;
-        self._timeout_task = TimeoutService::new()
-            .spawn(Duration::from_secs(0), self.link.callback(|_| Msg::Update));
+        self._timeout_task =
+            TimeoutService::spawn(Duration::from_secs(0), self.link.callback(|_| Msg::Update));
 
         true
     }

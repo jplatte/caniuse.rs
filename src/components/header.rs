@@ -1,12 +1,10 @@
 use std::mem;
 
 use wasm_bindgen::JsCast;
-use web_sys::HtmlElement;
+use web_sys::{HtmlElement, MouseEvent};
 use yew::{
-    html, Bridge, Bridged, Callback, Component, ComponentLink, Html, InputData, NodeRef,
-    Properties, ShouldRender,
+    html, Callback, Component, ComponentLink, Html, InputData, NodeRef, Properties, ShouldRender,
 };
-use yew_router::agent::RouteAgent;
 
 use crate::{
     icons::{fa_bars, fa_moon, fa_question_circle, fa_sun},
@@ -21,7 +19,6 @@ pub struct Header {
     is_menu_open: bool,
 
     document_click_task: Option<ClickTask>,
-    _router: Box<dyn Bridge<RouteAgent>>,
 }
 
 pub enum Msg {
@@ -42,10 +39,7 @@ impl Component for Header {
     type Properties = Props;
 
     fn create(props: Props, link: ComponentLink<Self>) -> Self {
-        // Workaround for the RouterAnchor click handler unconditionally preventing the default
-        // handler (and thus the click service handler) from running.
-        let _router = RouteAgent::bridge(link.callback(|_| Msg::CloseMenu));
-        Self { link, props, is_menu_open: false, document_click_task: None, _router }
+        Self { link, props, is_menu_open: false, document_click_task: None }
     }
 
     fn update(&mut self, msg: Msg) -> ShouldRender {
@@ -100,9 +94,14 @@ impl Component for Header {
                 "menu active",
             )
         } else {
+            let open_menu = self.link.callback(|ev: MouseEvent| {
+                ev.stop_propagation();
+                Msg::OpenMenu
+            });
+
             (
                 html! {
-                    <button type="button" onclick=self.link.callback(|_| Msg::OpenMenu)>
+                    <button type="button" onclick=open_menu>
                         {fa_bars()}
                     </button>
                 },
