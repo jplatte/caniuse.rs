@@ -98,7 +98,7 @@ impl Component for App {
 
         html! {
             <>
-                <Header input_ref=self.input_ref.clone() search_query=self.search_query.clone()
+                <Header input_ref=self.input_ref.clone()
                     oninput=self.link.callback(|e: InputData| Msg::Search(Rc::new(e.value))) />
                 <ExtLinks />
                 <div class="page">

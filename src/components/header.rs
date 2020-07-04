@@ -1,4 +1,4 @@
-use std::{mem, rc::Rc};
+use std::mem;
 
 use wasm_bindgen::JsCast;
 use web_sys::{HtmlElement, MouseEvent};
@@ -32,7 +32,6 @@ pub struct Props {
     #[prop_or_default]
     pub input_ref: NodeRef,
     pub oninput: Callback<InputData>,
-    pub search_query: Rc<String>,
 }
 
 impl Component for Header {
@@ -129,7 +128,6 @@ impl Component for Header {
                     <div class="caniuse">
                         <label for="query">{"Can I use"}</label>
                         <input ref=self.props.input_ref.clone() id="query" type="search"
-                            value=self.props.search_query.clone()
                             oninput=self.props.oninput.clone() />
                         {"?"}
                     </div>
