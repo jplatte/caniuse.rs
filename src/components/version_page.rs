@@ -54,7 +54,7 @@ impl Component for VersionPage {
                     <h3 class="title">{"Rust "}{v.number}</h3>
                     <div class="info">
                         <span>{"Release date:"}</span>
-                        <span>{v.release_date}</span>
+                        <time datetime={v.release_date}>{v.release_date}</time>
                     </div>
                     <ul class="links">
                         {maybe_blog_link}
