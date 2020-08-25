@@ -1,2 +1,4 @@
 number = "1.2"
+release_date = "2015-08-07"
+release_notes = "version-120-2015-08-07"
 blog_post_path = "2015/08/06/Rust-1.2.html"

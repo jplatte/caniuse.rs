@@ -36,6 +36,11 @@ impl Component for VersionPage {
 
         let maybe_blog_link =
             maybe_link("Blog post", "https://blog.rust-lang.org/", v.blog_post_path);
+        let maybe_release_notes = maybe_link(
+            "Release notes",
+            "https://github.com/rust-lang/rust/blob/master/RELEASES.md#",
+            v.release_notes,
+        );
         let maybe_gh_milestone_link = maybe_link(
             "GitHub milestone",
             "https://github.com/rust-lang/rust/milestone/",
@@ -47,8 +52,13 @@ impl Component for VersionPage {
                 {back_button()}
                 <div class="box">
                     <h3 class="title">{"Rust "}{v.number}</h3>
+                    <div class="info">
+                        <span>{"Release date:"}</span>
+                        <time datetime={v.release_date}>{v.release_date}</time>
+                    </div>
                     <ul class="links">
                         {maybe_blog_link}
+                        {maybe_release_notes}
                         {maybe_gh_milestone_link}
                     </ul>
                 </div>

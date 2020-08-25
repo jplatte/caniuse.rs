@@ -1,3 +1,4 @@
 number = "1.47"
+release_date = "2020-10-08"
 channel = "nightly"
 gh_milestone_id = 74

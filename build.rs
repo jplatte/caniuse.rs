@@ -29,6 +29,10 @@ struct VersionData {
     /// The channel (stable / beta / nightly)
     #[serde(default)]
     channel: Channel,
+    /// Release date, in format "yyyy-mm-dd"
+    release_date: String,
+    /// Release notes (https://github.com/rust-lang/rust/blob/master/RELEASES.md#{anchor})
+    release_notes: Option<String>,
     /// Blog post path (https://blog.rust-lang.org/{path})
     blog_post_path: Option<String>,
     /// GitHub milestone id (https://github.com/rust-lang/rust/milestone/{id})
@@ -235,6 +239,8 @@ fn generate_output(feature_toml: Data) -> TokenStream {
         let v_idx = v.version.map(|d| {
             let number = &d.number;
             let channel = Ident::new(&format!("{:?}", d.channel), Span::call_site());
+            let release_date = &d.release_date;
+            let release_notes = option_literal(&d.release_notes);
             let blog_post_path = option_literal(&d.blog_post_path);
             let gh_milestone_id = option_literal(&d.gh_milestone_id);
 
@@ -242,6 +248,8 @@ fn generate_output(feature_toml: Data) -> TokenStream {
                 VersionData {
                     number: #number,
                     channel: Channel::#channel,
+                    release_date: #release_date,
+                    release_notes: #release_notes,
                     blog_post_path: #blog_post_path,
                     gh_milestone_id: #gh_milestone_id,
                 }
