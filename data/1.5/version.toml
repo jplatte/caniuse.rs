@@ -1,3 +1,5 @@
 number = "1.5"
+release_date = "2015-12-10"
+release_notes = "version-150-2015-12-10"
 gh_milestone_id = 27
 blog_post_path = "2015/12/10/Rust-1.5.html"

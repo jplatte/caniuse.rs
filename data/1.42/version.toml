@@ -1,3 +1,5 @@
 number = "1.42"
+release_date = "2020-03-12"
+release_notes = "version-1420-2020-03-12"
 gh_milestone_id = 69
 blog_post_path = "2020/03/12/Rust-1.42.html"
