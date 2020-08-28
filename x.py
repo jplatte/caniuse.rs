@@ -1,32 +1,41 @@
 #!/usr/bin/env python3
 
+import functools
 import os
 import shutil
 import subprocess
 import sys
 
 
+def usage():
+    print(
+        """
+        usage: ./x.py <command> [options...] [-- <extra_options>...]
+            commands: build, serve, deploy
+            options:
+                --dev          Create a development build. Passed to wasm-pack.
+                --profiling    Create a profiling build. Passed to wasm-pack.
+                --release      Create a release build. Passed to wasm-pack.
+            extra options will be passed to cargo build
+        """
+    )
+    sys.exit(1)
+
+
 def main():
     if len(sys.argv) < 2:
-        print(
-            """
-            usage: ./x.py <command> [options...] [-- <extra_options>...]
-                commands: build, deploy
-                options:
-                    --dev        Create a development build. Passed to wasm-pack.
-                    --profiling  Create a profiling build. Passed to wasm-pack.
-                    --release    Create a release build. Passed to wasm-pack.
-                extra options will be passed to cargo build
-            """
-        )
-        sys.exit(1)
+        usage()
 
     command = sys.argv[1]
 
     if command == "build":
         build()
+    elif command == "serve":
+        serve()
     elif command == "deploy":
         deploy()
+    else:
+        usage()
 
 
 def run(*args):
@@ -44,6 +53,14 @@ def build():
     run(
         "cp", "-r", *static_files, "public/",
     )
+
+
+def serve():
+    from http import server
+
+    build()
+    handler = functools.partial(server.SimpleHTTPRequestHandler, directory="public/")
+    server.test(handler, bind='127.0.0.1')
 
 
 def deploy():
