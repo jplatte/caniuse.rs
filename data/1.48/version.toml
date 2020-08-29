@@ -1,0 +1,4 @@
+number = "1.48"
+release_date = "2020-11-18"
+channel = "nightly"
+gh_milestone_id = 75
