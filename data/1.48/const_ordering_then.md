@@ -1,0 +1,6 @@
++++
+title = "`cmp::Ordering::then` as `const fn`"
+flag = "const_ordering"
+impl_pr_id = 76198
+tracking_issue_id = 76113
++++
