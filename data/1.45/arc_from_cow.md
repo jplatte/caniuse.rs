@@ -1,5 +1,5 @@
 +++
-title = "`impl From<Cow<'_, _>>` for `Arc<_>`"
+title = "`impl From<Cow<'_, T>>` for `Arc<T>`"
 flag = "shared_from_cow"
 impl_pr_id = 71447
 items = ["""
