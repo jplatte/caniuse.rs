@@ -1,0 +1,7 @@
++++
+title = "`Result::as_ref` as `const fn`"
+flag = "const_result"
+impl_pr_id = 67685
+tracking_issue_id = 67520
+stabilization_pr_id = 76136
++++
