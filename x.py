@@ -59,8 +59,11 @@ def serve():
     from http import server
 
     build()
+    address = ('', 8000)
     handler = functools.partial(server.SimpleHTTPRequestHandler, directory="public/")
-    server.test(handler, bind='127.0.0.1')
+    httpd = server.HTTPServer(address, handler)
+    print("Starting development server on http://localhost:8000")
+    httpd.serve_forever()
 
 
 def deploy():
