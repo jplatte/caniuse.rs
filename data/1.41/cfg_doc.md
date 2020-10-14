@@ -1,0 +1,6 @@
++++
+title = "`#[cfg(doc)]`"
+flag = "doc_cfg"
+impl_pr_id = 53076
+stabilization_pr_id = 61351
++++
