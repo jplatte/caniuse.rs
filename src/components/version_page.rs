@@ -47,14 +47,23 @@ impl Component for VersionPage {
             v.gh_milestone_id,
         );
 
+        let maybe_release_date = match v.release_date {
+            Some(release_date) => html! {
+                <>
+                    <span>{"Release date:"}</span>
+                    <time datetime=release_date>{release_date}</time>
+                </>
+            },
+            None => html! {},
+        };
+
         html! {
             <>
                 {back_button()}
                 <div class="box">
                     <h3 class="title">{"Rust "}{v.number}</h3>
                     <div class="info">
-                        <span>{"Release date:"}</span>
-                        <time datetime={v.release_date}>{v.release_date}</time>
+                        {maybe_release_date}
                     </div>
                     <ul class="links">
                         {maybe_blog_link}
