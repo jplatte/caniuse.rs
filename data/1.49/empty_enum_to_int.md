@@ -1,0 +1,4 @@
++++
+title = "uninhabited enum to integer casts"
+impl_pr_id = 76199
++++
