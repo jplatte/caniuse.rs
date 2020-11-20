@@ -38,7 +38,7 @@ pub struct Props {
     pub search_query: Rc<String>,
 }
 
-const BATCH_SIZE: usize = 12;
+const BATCH_SIZE: usize = 20;
 
 impl Component for Index {
     type Message = Msg;
