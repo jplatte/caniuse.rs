@@ -171,7 +171,8 @@ fn collect_data() -> anyhow::Result<Data> {
 
             assert!(
                 file_name.ends_with(".md"),
-                "expected only .md files and version.toml in data/*"
+                "expected only .md files and version.toml in data/*, found `{}`",
+                file_name,
             );
             let feature_file = BufReader::new(
                 File::open(file.path())
