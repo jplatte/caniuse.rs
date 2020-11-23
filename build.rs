@@ -50,6 +50,7 @@ struct FeatureList {
 /// stabilized API, or anything else that one version of Rust (deliberately)
 /// supports while a previous one didn't support it.
 #[derive(Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
 struct FeatureData {
     /// Short description to identify the feature
     title: String,
