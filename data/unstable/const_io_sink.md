@@ -1,0 +1,6 @@
++++
+title = "`io::sink` as `const fn`"
+flag = "const_io_structs"
+impl_pr_id = 78811
+tracking_issue_id = 78812
++++
