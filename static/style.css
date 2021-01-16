@@ -368,8 +368,12 @@ a, button {
     padding-top: 4.5rem;
 }
 
+.feature-list:first-child {
+    margin-top: -1rem;
+}
+
 .feature-list {
-    margin: -1rem 0;
+    margin-bottom: -1rem;
 }
 
 .feature-entry {

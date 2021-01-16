@@ -1,8 +1,9 @@
 use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
 use crate::{
-    util::{back_button, maybe_link, Void},
-    VersionData,
+    components::FeatureEntry,
+    util::{back_button, maybe_link, window, Void},
+    VersionData, FEATURES,
 };
 
 #[derive(Clone, Properties)]
@@ -19,6 +20,11 @@ impl Component for VersionPage {
     type Properties = Props;
 
     fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
+        // Ugly hack because I don't want to write my own component that resets
+        // the scroll position on route change. See also
+        // https://github.com/yewstack/yew/issues/1099
+        window().scroll_to_with_x_and_y(0.0, 0.0);
+
         Self { props }
     }
 
@@ -57,6 +63,11 @@ impl Component for VersionPage {
             None => html! {},
         };
 
+        let features = FEATURES
+            .iter()
+            .filter(|f| matches!(f.version, Some(fv) if fv.number == v.number))
+            .map(|&f| html! { <FeatureEntry key=f.slug data=f show_version=false /> });
+
         html! {
             <>
                 {back_button()}
@@ -71,6 +82,7 @@ impl Component for VersionPage {
                         {maybe_gh_milestone_link}
                     </ul>
                 </div>
+                <div class="feature-list">{ for features }</div>
             </>
         }
     }

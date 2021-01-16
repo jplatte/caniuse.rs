@@ -9,6 +9,8 @@ use crate::{
 #[derive(Clone, Properties)]
 pub struct Props {
     pub data: FeatureData,
+    #[prop_or(true)]
+    pub show_version: bool,
 }
 
 pub struct FeatureEntry {
@@ -47,23 +49,27 @@ impl Component for FeatureEntry {
             }
         };
 
-        let support_indicator = match v {
-            None => html! { <div class="version none">{"Unstable"}</div> },
-            Some(version) => {
-                let classes = match version.channel {
-                    Channel::Nightly => "version nightly",
-                    Channel::Beta => "version beta",
-                    Channel::Stable => "version stable",
-                };
+        let support_indicator = if self.props.show_version {
+            match v {
+                None => html! { <div class="version none">{"Unstable"}</div> },
+                Some(version) => {
+                    let classes = match version.channel {
+                        Channel::Nightly => "version nightly",
+                        Channel::Beta => "version beta",
+                        Channel::Stable => "version stable",
+                    };
 
-                html! {
-                    <div class=classes>
-                        <RouterAnchor route=AppRoute::Version(version.number.into())>
-                            {"Rust "}{version.number}
-                        </RouterAnchor>
-                    </div>
+                    html! {
+                        <div class=classes>
+                            <RouterAnchor route=AppRoute::Version(version.number.into())>
+                                {"Rust "}{version.number}
+                            </RouterAnchor>
+                        </div>
+                    }
                 }
             }
+        } else {
+            html! {}
         };
 
         html! {
