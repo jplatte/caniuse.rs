@@ -1,0 +1,7 @@
++++
+title = "by-value `[T; N]` iterator `core::array::IntoIter`"
+flag = "array_value_iter"
+impl_pr_id = 62959
+tracking_issue_id = 65798
+stabilization_pr_id = 80470
++++
