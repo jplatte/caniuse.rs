@@ -1,5 +1,5 @@
 +++
-title = "`impl Rem<NonZeroU{0}> for u{0}`"
+title = "`Rem<NonZeroU{0}>` implementation for `u{0}`"
 flag = "nonzero_div"
 impl_pr_id = 79134
 items = [
