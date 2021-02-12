@@ -1,0 +1,4 @@
++++
+title = "safe assignment to `ManuallyDrop<T>` in `union`s"
+impl_pr_id = 78068
++++

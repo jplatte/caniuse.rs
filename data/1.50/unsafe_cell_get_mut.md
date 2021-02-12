@@ -1,0 +1,7 @@
++++
+title = "`UnsafeCell::get_mut`"
+flag = "unsafe_cell_get_mut"
+impl_pr_id = 76936
+tracking_issue_id = 76943
+stabilization_pr_id = 79485
++++
