@@ -119,6 +119,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "serde",
+ "serde_json",
  "tera",
  "toml",
  "wasm-bindgen",

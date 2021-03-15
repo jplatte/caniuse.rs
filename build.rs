@@ -14,6 +14,7 @@ use anyhow::{bail, Context as _};
 use proc_macro2::{Ident, Span, TokenStream};
 use quote::{quote, ToTokens};
 use serde::{Deserialize, Serialize};
+use serde_json::json;
 use tera::{Context, Tera};
 
 #[derive(Serialize)]
@@ -130,7 +131,11 @@ fn main() -> anyhow::Result<()> {
     let out_path = Path::new(&out_dir).join("features.rs");
     let mut out = BufWriter::new(File::create(out_path).context("creating $OUT_DIR/features.rs")?);
 
-    write!(out, "{}", generate_output(data)).context("writing features.rs")?;
+    let (code, json) = generate_output(data);
+    write!(out, "{}", code).context("writing features.rs")?;
+
+    fs::write("public/features.json", serde_json::to_string_pretty(&json)?)
+        .context("writing public/features.json")?;
 
     Ok(())
 }
@@ -227,7 +232,9 @@ fn collect_data() -> anyhow::Result<Data> {
     Ok(data)
 }
 
-fn generate_output(data: Data) -> TokenStream {
+fn generate_output(data: Data) -> (TokenStream, serde_json::Value) {
+    let mut json = json!({ "versions": {}, "features": [] });
+
     let mut monogram_index = BTreeMap::new();
     let mut bigram_index = BTreeMap::new();
     let mut trigram_index = BTreeMap::new();
@@ -239,6 +246,15 @@ fn generate_output(data: Data) -> TokenStream {
 
     for v in data.versions.into_iter().chain(iter::once(data.unstable)) {
         let v_idx = v.version.map(|d| {
+            json["versions"][&d.number] = json!({
+                "number": &d.number,
+                "channel": &d.channel,
+                "release_date": &d.release_date,
+                "release_notes": &d.release_notes,
+                "blog_post_path": &d.blog_post_path,
+                "gh_milestone_id": &d.gh_milestone_id,
+            });
+
             let number = &d.number;
             let channel = Ident::new(&format!("{:?}", d.channel), Span::call_site());
             let release_date = option_literal(&d.release_date);
@@ -257,7 +273,7 @@ fn generate_output(data: Data) -> TokenStream {
                 }
             });
 
-            versions.len() - 1
+            (versions.len() - 1, d.number.clone())
         });
 
         for f in v.features {
@@ -269,6 +285,24 @@ fn generate_output(data: Data) -> TokenStream {
             add_feature_ngrams(1, &mut monogram_index, &f, feat_idx);
             add_feature_ngrams(2, &mut bigram_index, &f, feat_idx);
             add_feature_ngrams(3, &mut trigram_index, &f, feat_idx);
+
+            let v = v_idx.as_ref().map(|(_, v)| v);
+
+            let json_features = json["features"].as_array_mut().unwrap();
+            json_features.push(json!({
+                "title": &f.title,
+                "flag": &f.flag,
+                "slug": &f.slug,
+                "version": v,
+                "rfc_id": &f.rfc_id,
+                "impl_pr_id": &f.impl_pr_id,
+                "tracking_issue_id": &f.tracking_issue_id,
+                "stabilization_pr_id": &f.stabilization_pr_id,
+                "doc_path": &f.doc_path,
+                "edition_guide_path": &f.edition_guide_path,
+                "unstable_book_path": &f.unstable_book_path,
+                "items": &f.items,
+            }));
 
             let title = &f.title;
             let flag = option_literal(&f.flag);
@@ -283,7 +317,7 @@ fn generate_output(data: Data) -> TokenStream {
             let items = &f.items;
 
             let version = match v_idx {
-                Some(idx) => quote!(Some(&VERSIONS[#idx])),
+                Some((idx, _)) => quote!(Some(&VERSIONS[#idx])),
                 None => quote!(None),
             };
 
@@ -373,13 +407,15 @@ fn generate_output(data: Data) -> TokenStream {
             });
     };
 
-    quote! {
+    let stream = quote! {
         #versions
         #features
         #monogram_feature_index
         #bigram_feature_index
         #trigram_feature_index
-    }
+    };
+
+    (stream, json)
 }
 
 fn option_literal<T: ToTokens>(opt: &Option<T>) -> TokenStream {
