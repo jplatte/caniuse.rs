@@ -227,7 +227,7 @@ fn collect_data() -> anyhow::Result<Data> {
     Ok(data)
 }
 
-fn generate_output(feature_toml: Data) -> TokenStream {
+fn generate_output(data: Data) -> TokenStream {
     let mut monogram_index = BTreeMap::new();
     let mut bigram_index = BTreeMap::new();
     let mut trigram_index = BTreeMap::new();
@@ -237,7 +237,7 @@ fn generate_output(feature_toml: Data) -> TokenStream {
 
     let mut feat_idx = 0;
 
-    for v in feature_toml.versions.into_iter().chain(iter::once(feature_toml.unstable)) {
+    for v in data.versions.into_iter().chain(iter::once(data.unstable)) {
         let v_idx = v.version.map(|d| {
             let number = &d.number;
             let channel = Ident::new(&format!("{:?}", d.channel), Span::call_site());
