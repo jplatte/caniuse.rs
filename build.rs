@@ -31,12 +31,16 @@ struct VersionData {
     #[serde(default)]
     channel: Channel,
     /// Release date, in format "yyyy-mm-dd"
+    #[serde(skip_serializing_if = "Option::is_none")]
     release_date: Option<String>,
     /// Release notes (https://github.com/rust-lang/rust/blob/master/RELEASES.md#{anchor})
+    #[serde(skip_serializing_if = "Option::is_none")]
     release_notes: Option<String>,
     /// Blog post path (https://blog.rust-lang.org/{path})
+    #[serde(skip_serializing_if = "Option::is_none")]
     blog_post_path: Option<String>,
     /// GitHub milestone id (https://github.com/rust-lang/rust/milestone/{id})
+    #[serde(skip_serializing_if = "Option::is_none")]
     gh_milestone_id: Option<u64>,
 }
 
@@ -57,30 +61,38 @@ struct FeatureData {
     title: String,
     /// Feature flag name, for things that were previously or are still Rust
     /// nightly features with such a thing (`#![feature(...)]`)
+    #[serde(skip_serializing_if = "Option::is_none")]
     flag: Option<String>,
     /// Feature slug, used for the permalink. Filled from filename.
     #[serde(skip_deserializing)]
     slug: String,
     /// RFC id (https://github.com/rust-lang/rfcs/pull/{id})
+    #[serde(skip_serializing_if = "Option::is_none")]
     rfc_id: Option<u64>,
     /// Implementation PR id (https://github.com/rust-lang/rust/pull/{id})
     ///
     /// Only for small features that were implemented in one PR.
+    #[serde(skip_serializing_if = "Option::is_none")]
     impl_pr_id: Option<u64>,
     /// Tracking issue id (https://github.com/rust-lang/rust/issues/{id})
+    #[serde(skip_serializing_if = "Option::is_none")]
     tracking_issue_id: Option<u64>,
     /// Stabilization PR id (https://github.com/rust-lang/rust/pull/{id})
+    #[serde(skip_serializing_if = "Option::is_none")]
     stabilization_pr_id: Option<u64>,
     /// Documentation path (https://doc.rust-lang.org/{path})
+    #[serde(skip_serializing_if = "Option::is_none")]
     doc_path: Option<String>,
     /// Edition guide path (https://doc.rust-lang.org/edition-guide/{path})
+    #[serde(skip_serializing_if = "Option::is_none")]
     edition_guide_path: Option<String>,
     /// Unstable book path (https://doc.rust-lang.org/unstable-book/{path})
+    #[serde(skip_serializing_if = "Option::is_none")]
     unstable_book_path: Option<String>,
     /// Language items (functions, structs, modules) that are part of this
     /// feature (unless this feature is exactly one item and that item is
     /// already used as the title)
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     items: Vec<String>,
 }
 
@@ -233,7 +245,7 @@ fn collect_data() -> anyhow::Result<Data> {
 }
 
 fn generate_output(data: Data) -> (TokenStream, serde_json::Value) {
-    let mut json = json!({ "versions": {}, "features": [] });
+    let mut json = json!({ "versions": {}, "features": {} });
 
     let mut monogram_index = BTreeMap::new();
     let mut bigram_index = BTreeMap::new();
@@ -246,14 +258,7 @@ fn generate_output(data: Data) -> (TokenStream, serde_json::Value) {
 
     for v in data.versions.into_iter().chain(iter::once(data.unstable)) {
         let v_idx = v.version.map(|d| {
-            json["versions"][&d.number] = json!({
-                "number": &d.number,
-                "channel": &d.channel,
-                "release_date": &d.release_date,
-                "release_notes": &d.release_notes,
-                "blog_post_path": &d.blog_post_path,
-                "gh_milestone_id": &d.gh_milestone_id,
-            });
+            json["versions"][&d.number] = serde_json::to_value(&d).unwrap();
 
             let number = &d.number;
             let channel = Ident::new(&format!("{:?}", d.channel), Span::call_site());
@@ -288,21 +293,9 @@ fn generate_output(data: Data) -> (TokenStream, serde_json::Value) {
 
             let v = v_idx.as_ref().map(|(_, v)| v);
 
-            let json_features = json["features"].as_array_mut().unwrap();
-            json_features.push(json!({
-                "title": &f.title,
-                "flag": &f.flag,
-                "slug": &f.slug,
-                "version": v,
-                "rfc_id": &f.rfc_id,
-                "impl_pr_id": &f.impl_pr_id,
-                "tracking_issue_id": &f.tracking_issue_id,
-                "stabilization_pr_id": &f.stabilization_pr_id,
-                "doc_path": &f.doc_path,
-                "edition_guide_path": &f.edition_guide_path,
-                "unstable_book_path": &f.unstable_book_path,
-                "items": &f.items,
-            }));
+            json["features"][&f.slug] = serde_json::to_value(&f).unwrap();
+            json["features"][&f.slug]["version"] = serde_json::to_value(&v).unwrap();
+            json["features"][&f.slug].as_object_mut().unwrap().remove("slug");
 
             let title = &f.title;
             let flag = option_literal(&f.flag);
