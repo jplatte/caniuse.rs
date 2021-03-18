@@ -14,6 +14,7 @@ use anyhow::{bail, Context as _};
 use proc_macro2::{Ident, Span, TokenStream};
 use quote::{quote, ToTokens};
 use serde::{Deserialize, Serialize};
+use serde_json::json;
 use tera::{Context, Tera};
 
 #[derive(Serialize)]
@@ -30,12 +31,16 @@ struct VersionData {
     #[serde(default)]
     channel: Channel,
     /// Release date, in format "yyyy-mm-dd"
+    #[serde(skip_serializing_if = "Option::is_none")]
     release_date: Option<String>,
     /// Release notes (https://github.com/rust-lang/rust/blob/master/RELEASES.md#{anchor})
+    #[serde(skip_serializing_if = "Option::is_none")]
     release_notes: Option<String>,
     /// Blog post path (https://blog.rust-lang.org/{path})
+    #[serde(skip_serializing_if = "Option::is_none")]
     blog_post_path: Option<String>,
     /// GitHub milestone id (https://github.com/rust-lang/rust/milestone/{id})
+    #[serde(skip_serializing_if = "Option::is_none")]
     gh_milestone_id: Option<u64>,
 }
 
@@ -56,30 +61,38 @@ struct FeatureData {
     title: String,
     /// Feature flag name, for things that were previously or are still Rust
     /// nightly features with such a thing (`#![feature(...)]`)
+    #[serde(skip_serializing_if = "Option::is_none")]
     flag: Option<String>,
     /// Feature slug, used for the permalink. Filled from filename.
     #[serde(skip_deserializing)]
     slug: String,
     /// RFC id (https://github.com/rust-lang/rfcs/pull/{id})
+    #[serde(skip_serializing_if = "Option::is_none")]
     rfc_id: Option<u64>,
     /// Implementation PR id (https://github.com/rust-lang/rust/pull/{id})
     ///
     /// Only for small features that were implemented in one PR.
+    #[serde(skip_serializing_if = "Option::is_none")]
     impl_pr_id: Option<u64>,
     /// Tracking issue id (https://github.com/rust-lang/rust/issues/{id})
+    #[serde(skip_serializing_if = "Option::is_none")]
     tracking_issue_id: Option<u64>,
     /// Stabilization PR id (https://github.com/rust-lang/rust/pull/{id})
+    #[serde(skip_serializing_if = "Option::is_none")]
     stabilization_pr_id: Option<u64>,
     /// Documentation path (https://doc.rust-lang.org/{path})
+    #[serde(skip_serializing_if = "Option::is_none")]
     doc_path: Option<String>,
     /// Edition guide path (https://doc.rust-lang.org/edition-guide/{path})
+    #[serde(skip_serializing_if = "Option::is_none")]
     edition_guide_path: Option<String>,
     /// Unstable book path (https://doc.rust-lang.org/unstable-book/{path})
+    #[serde(skip_serializing_if = "Option::is_none")]
     unstable_book_path: Option<String>,
     /// Language items (functions, structs, modules) that are part of this
     /// feature (unless this feature is exactly one item and that item is
     /// already used as the title)
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
     items: Vec<String>,
 }
 
@@ -130,7 +143,11 @@ fn main() -> anyhow::Result<()> {
     let out_path = Path::new(&out_dir).join("features.rs");
     let mut out = BufWriter::new(File::create(out_path).context("creating $OUT_DIR/features.rs")?);
 
-    write!(out, "{}", generate_output(data)).context("writing features.rs")?;
+    let (code, json) = generate_output(data);
+    write!(out, "{}", code).context("writing features.rs")?;
+
+    fs::write("public/features.json", serde_json::to_string_pretty(&json)?)
+        .context("writing public/features.json")?;
 
     Ok(())
 }
@@ -227,7 +244,9 @@ fn collect_data() -> anyhow::Result<Data> {
     Ok(data)
 }
 
-fn generate_output(data: Data) -> TokenStream {
+fn generate_output(data: Data) -> (TokenStream, serde_json::Value) {
+    let mut json = json!({ "versions": {}, "features": {} });
+
     let mut monogram_index = BTreeMap::new();
     let mut bigram_index = BTreeMap::new();
     let mut trigram_index = BTreeMap::new();
@@ -238,7 +257,9 @@ fn generate_output(data: Data) -> TokenStream {
     let mut feat_idx = 0;
 
     for v in data.versions.into_iter().chain(iter::once(data.unstable)) {
-        let v_idx = v.version.map(|d| {
+        let v_idx = v.version.as_ref().map(|d| {
+            json["versions"][&d.number] = serde_json::to_value(d).unwrap();
+
             let number = &d.number;
             let channel = Ident::new(&format!("{:?}", d.channel), Span::call_site());
             let release_date = option_literal(&d.release_date);
@@ -269,6 +290,14 @@ fn generate_output(data: Data) -> TokenStream {
             add_feature_ngrams(1, &mut monogram_index, &f, feat_idx);
             add_feature_ngrams(2, &mut bigram_index, &f, feat_idx);
             add_feature_ngrams(3, &mut trigram_index, &f, feat_idx);
+
+            json["features"][&f.slug] = {
+                let mut feat_json = serde_json::to_value(&f).unwrap();
+                feat_json["version"] =
+                    serde_json::to_value(&v.version.as_ref().map(|d| &d.number)).unwrap();
+                feat_json.as_object_mut().unwrap().remove("slug");
+                feat_json
+            };
 
             let title = &f.title;
             let flag = option_literal(&f.flag);
@@ -373,13 +402,15 @@ fn generate_output(data: Data) -> TokenStream {
             });
     };
 
-    quote! {
+    let stream = quote! {
         #versions
         #features
         #monogram_feature_index
         #bigram_feature_index
         #trigram_feature_index
-    }
+    };
+
+    (stream, json)
 }
 
 fn option_literal<T: ToTokens>(opt: &Option<T>) -> TokenStream {
