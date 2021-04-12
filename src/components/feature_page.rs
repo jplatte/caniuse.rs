@@ -59,7 +59,7 @@ impl Component for FeaturePage {
                 Some(id) => html! { <li><a href=format!("{}{}", link_base, id)>{text}</a></li> },
                 None => html! {},
             }
-        };
+        }
 
         let maybe_rfc_link =
             maybe_link("RFC", "https://github.com/rust-lang/rfcs/issues/", f.rfc_id);
