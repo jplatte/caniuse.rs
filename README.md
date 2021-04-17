@@ -19,10 +19,11 @@ changes.
 Pre-requisites:
 
 - cargo
-- wasm-pack (`cargo install wasm-pack`)
 - Python 3
+- [wasm-pack][] (website has install instructions, to build from source use `cargo install wasm-pack`)
 - [rollup][] (`npm install --global rollup` if you have [npm installed][npm])
 
+[wasm-pack]: https://rustwasm.github.io/wasm-pack/installer/
 [rollup]: https://www.rollupjs.org/guide/en/
 [npm]: https://www.npmjs.com/get-npm
 
