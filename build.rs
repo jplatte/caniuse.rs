@@ -4,13 +4,13 @@ use std::{
     default::Default,
     env,
     fmt::Debug,
-    fs::{self, File},
-    io::{self, BufRead, BufReader, BufWriter, Write},
+    io::{BufRead, BufReader, BufWriter, Write},
     iter,
     path::Path,
 };
 
 use anyhow::{bail, Context as _};
+use fs_err::{self as fs, File};
 use proc_macro2::{Ident, Span, TokenStream};
 use quote::{quote, ToTokens};
 use serde::{Deserialize, Serialize};
@@ -121,33 +121,23 @@ fn main() -> anyhow::Result<()> {
 
     // TODO: Add a filter that replaces `` by <code></code>
     let tera = Tera::new("templates/*").context("loading templates")?;
-
-    // Try to create `public` directory
-    fs::create_dir("public")
-        .or_else(|e| if e.kind() == io::ErrorKind::AlreadyExists { Ok(()) } else { Err(e) })
-        .context("creating dir public")?;
+    fs::create_dir_all("public")?;
 
     let ctx = Context::from_serialize(&data)?;
-    fs::write(
-        "public/index.html",
-        tera.render("index.html", &ctx).context("rendering index.html")?,
-    )
-    .context("writing public/index.html")?;
-    fs::write(
-        "public/nightly.html",
-        tera.render("nightly.html", &ctx).context("rendering nightly.html")?,
-    )
-    .context("writing public/nightly.html")?;
+    let index_html = BufWriter::new(File::create("public/index.html")?);
+    tera.render_to("index.html", &ctx, index_html).context("rendering index.html")?;
 
-    let out_dir = env::var("OUT_DIR").unwrap();
-    let out_path = Path::new(&out_dir).join("features.rs");
-    let mut out = BufWriter::new(File::create(out_path).context("creating $OUT_DIR/features.rs")?);
+    let nightly_html = BufWriter::new(File::create("public/nightly.html")?);
+    tera.render_to("nightly.html", &ctx, nightly_html).context("rendering nightly.html")?;
 
     let (code, json) = generate_output(data);
-    write!(out, "{}", code).context("writing features.rs")?;
 
-    fs::write("public/features.json", serde_json::to_string_pretty(&json)?)
-        .context("writing public/features.json")?;
+    let mut features_rs =
+        BufWriter::new(File::create(Path::new(&env::var("OUT_DIR").unwrap()).join("features.rs"))?);
+    write!(features_rs, "{}", code).context("writing features.rs")?;
+
+    let features_json = BufWriter::new(File::create("public/features.json")?);
+    serde_json::to_writer_pretty(features_json, &json)?;
 
     Ok(())
 }
@@ -158,7 +148,7 @@ fn collect_data() -> anyhow::Result<Data> {
         unstable: FeatureList { version: None, features: Vec::new() },
     };
 
-    for entry in fs::read_dir("data").context("opening data/")? {
+    for entry in fs::read_dir("data")? {
         let dir = entry?;
         assert!(dir.file_type()?.is_dir(), "expected only directories in data/");
 
@@ -176,9 +166,7 @@ fn collect_data() -> anyhow::Result<Data> {
             }
         };
 
-        for entry in
-            fs::read_dir(dir.path()).with_context(|| format!("opening data/{}", dir_name))?
-        {
+        for entry in fs::read_dir(dir.path())? {
             let file = entry?;
             let file_name = file.file_name().into_string().unwrap();
             println!("cargo:rerun-if-changed=data/{}/{}", dir_name, file_name);
@@ -194,10 +182,7 @@ fn collect_data() -> anyhow::Result<Data> {
                     file_name,
                 ),
             };
-            let feature_file = BufReader::new(
-                File::open(file.path())
-                    .with_context(|| format!("opening data/{}/{}", dir_name, file_name))?,
-            );
+            let feature_file = BufReader::new(File::open(file.path())?);
 
             let mut feature_file_lines = feature_file.lines();
             let mut feature_file_frontmatter = String::new();
