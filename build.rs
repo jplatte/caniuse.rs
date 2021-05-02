@@ -187,11 +187,13 @@ fn collect_data() -> anyhow::Result<Data> {
                 continue;
             }
 
-            assert!(
-                file_name.ends_with(".md"),
-                "expected only .md files and version.toml in data/*, found `{}`",
-                file_name,
-            );
+            let slug = match file_name.strip_suffix(".md") {
+                Some(basename) => basename.to_owned(),
+                None => panic!(
+                    "expected only .md files and version.toml in data/*, found `{}`",
+                    file_name,
+                ),
+            };
             let feature_file = BufReader::new(
                 File::open(file.path())
                     .with_context(|| format!("opening data/{}/{}", dir_name, file_name))?,
@@ -223,14 +225,11 @@ fn collect_data() -> anyhow::Result<Data> {
 
             // TODO: Read file contents after frontmatter
 
-            let mut feature: FeatureData =
-                toml::from_str(&feature_file_frontmatter).with_context(|| {
-                    format!("deserializing frontmatter of data/{}/{}", dir_name, file_name)
-                })?;
+            let feature = toml::from_str(&feature_file_frontmatter).with_context(|| {
+                format!("deserializing frontmatter of data/{}/{}", dir_name, file_name)
+            })?;
 
-            //             [   file_name without '.md'    ]
-            feature.slug = file_name[..file_name.len() - 3].to_owned();
-            features.push(feature);
+            features.push(FeatureData { slug, ..feature });
         }
     }
 
