@@ -60,7 +60,7 @@ pub fn view_text(mut text: &str) -> Html {
     }
 
     // Use the rest of the text verbatim
-    res.add_child(VNode::VText(VText::new(text.into())));
+    res.add_child(VNode::VText(VText::new(text.to_owned())));
 
     list_to_node(res)
 }
