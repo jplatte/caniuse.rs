@@ -1,5 +1,6 @@
 use std::{rc::Rc, time::Duration};
 
+use gloo::events::EventListener;
 use yew::{
     html,
     services::{
@@ -12,7 +13,6 @@ use yew::{
 use crate::{
     components::FeatureEntry,
     search::{extract_search_terms, run_search},
-    services::scroll::{ScrollService, ScrollTask},
     util::{document_body, window},
     FeatureData, FEATURES,
 };
@@ -24,7 +24,7 @@ pub struct Index {
     items_visible: usize,
     search_scores: Vec<(u16, f64)>,
 
-    _scroll_task: ScrollTask,
+    _scroll_listener: EventListener,
     _resize_task: ResizeTask,
     _timeout_task: TimeoutTask,
 }
@@ -45,7 +45,10 @@ impl Component for Index {
     type Properties = Props;
 
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-        let _scroll_task = ScrollService::register(link.callback(|_| Msg::Update));
+        let _scroll_listener = EventListener::new(&window(), "scroll", {
+            let link = link.clone();
+            move |_| link.send_message(Msg::Update)
+        });
         let _resize_task = ResizeService::register(link.callback(|_| Msg::Update));
         let _timeout_task =
             TimeoutService::spawn(Duration::from_secs(0), link.callback(|_| Msg::Update));
@@ -57,7 +60,7 @@ impl Component for Index {
             items_visible: BATCH_SIZE,
             search_scores: vec![(0, 0.0); FEATURES.len()],
 
-            _scroll_task,
+            _scroll_listener,
             _resize_task,
             _timeout_task,
         }
