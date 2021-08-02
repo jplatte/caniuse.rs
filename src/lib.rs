@@ -22,9 +22,6 @@ mod components {
         feature_page::FeaturePage, header::Header, index::Index, version_page::VersionPage,
     };
 }
-mod services {
-    pub mod click;
-}
 
 use data::{FeatureData, VersionData, FEATURES, VERSIONS};
 use util::document;

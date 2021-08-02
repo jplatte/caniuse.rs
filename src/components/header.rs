@@ -1,5 +1,6 @@
 use std::mem;
 
+use gloo::events::EventListener;
 use wasm_bindgen::JsCast;
 use web_sys::{HtmlElement, MouseEvent};
 use yew::{
@@ -8,8 +9,7 @@ use yew::{
 
 use crate::{
     icons::{fa_bars, fa_moon, fa_question_circle, fa_sun},
-    services::click::{ClickService, ClickTask},
-    util::{document, document_element, window},
+    util::{document_body, document_element, window},
     AppRoute, RouterAnchor,
 };
 
@@ -18,7 +18,7 @@ pub struct Header {
     props: Props,
     is_menu_open: bool,
 
-    document_click_task: Option<ClickTask>,
+    document_click_listener: Option<EventListener>,
 }
 
 pub enum Msg {
@@ -39,24 +39,25 @@ impl Component for Header {
     type Properties = Props;
 
     fn create(props: Props, link: ComponentLink<Self>) -> Self {
-        Self { link, props, is_menu_open: false, document_click_task: None }
+        Self { link, props, is_menu_open: false, document_click_listener: None }
     }
 
     fn update(&mut self, msg: Msg) -> ShouldRender {
         match msg {
             Msg::OpenMenu => {
                 if !self.is_menu_open {
-                    self.document_click_task = Some(
-                        ClickService::new(document().body().unwrap().into())
-                            .register(self.link.callback(|_| Msg::CloseMenu)),
-                    );
+                    self.document_click_listener =
+                        Some(EventListener::new(&document_body(), "click", {
+                            let link = self.link.clone();
+                            move |_| link.send_message(Msg::CloseMenu)
+                        }));
                 }
 
                 !mem::replace(&mut self.is_menu_open, true)
             }
             Msg::CloseMenu => {
                 if self.is_menu_open {
-                    self.document_click_task = None;
+                    self.document_click_listener = None;
                 }
 
                 mem::replace(&mut self.is_menu_open, false)
