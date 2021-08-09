@@ -113,9 +113,8 @@ impl Default for Channel {
 }
 
 fn main() -> anyhow::Result<()> {
-    println!("cargo:rerun-if-changed=templates/index.html");
-    println!("cargo:rerun-if-changed=templates/nightly.html");
-    println!("cargo:rerun-if-changed=templates/skel.html");
+    println!("cargo:rerun-if-changed=data");
+    println!("cargo:rerun-if-changed=templates");
 
     let data = collect_data()?;
 
@@ -153,7 +152,6 @@ fn collect_data() -> anyhow::Result<Data> {
         assert!(dir.file_type()?.is_dir(), "expected only directories in data/");
 
         let dir_name = dir.file_name().into_string().unwrap();
-        println!("cargo:rerun-if-changed=data/{}", dir_name);
 
         let features = match dir_name.as_str() {
             "unstable" => &mut data.unstable.features,
@@ -169,7 +167,6 @@ fn collect_data() -> anyhow::Result<Data> {
         for entry in fs::read_dir(dir.path())? {
             let file = entry?;
             let file_name = file.file_name().into_string().unwrap();
-            println!("cargo:rerun-if-changed=data/{}/{}", dir_name, file_name);
 
             if file_name == "version.toml" {
                 continue;
