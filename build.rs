@@ -1,3 +1,5 @@
+#![feature(array_windows)]
+
 use std::{
     cmp::Reverse,
     collections::{BTreeMap, BTreeSet},
@@ -277,9 +279,9 @@ fn generate_output(data: Data) -> (TokenStream, serde_json::Value) {
                 "items are always wrapped in code blocks and should not contain any '`'.",
             );
 
-            add_feature_ngrams(1, &mut monogram_index, &f, feat_idx);
-            add_feature_ngrams(2, &mut bigram_index, &f, feat_idx);
-            add_feature_ngrams(3, &mut trigram_index, &f, feat_idx);
+            add_feature_ngrams::<1>(&mut monogram_index, &f, feat_idx);
+            add_feature_ngrams::<2>(&mut bigram_index, &f, feat_idx);
+            add_feature_ngrams::<3>(&mut trigram_index, &f, feat_idx);
 
             json["features"][&f.slug] = {
                 let mut feat_json = serde_json::to_value(&f).unwrap();
@@ -336,10 +338,9 @@ fn generate_output(data: Data) -> (TokenStream, serde_json::Value) {
         pub static FEATURES: &[FeatureData] = &[#(#features),*];
     };
 
-    let monogram_index_insert_stmts = monogram_index.into_iter().map(|(k, v)| {
-        let byte = k[0];
+    let monogram_index_insert_stmts = monogram_index.into_iter().map(|([b], v)| {
         quote! {
-            index.insert(#byte, &[#(#v),*] as &[u16]);
+            index.insert(#b, &[#(#v),*] as &[u16]);
         }
     });
 
@@ -352,12 +353,7 @@ fn generate_output(data: Data) -> (TokenStream, serde_json::Value) {
             });
     };
 
-    let bigram_index_insert_stmts = bigram_index.into_iter().map(|(k, v)| {
-        let [b1, b2] = match k[..] {
-            [b1, b2] => [b1, b2],
-            _ => unreachable!(),
-        };
-
+    let bigram_index_insert_stmts = bigram_index.into_iter().map(|([b1, b2], v)| {
         quote! {
             index.insert([#b1, #b2], &[#(#v),*] as &[u16]);
         }
@@ -372,12 +368,7 @@ fn generate_output(data: Data) -> (TokenStream, serde_json::Value) {
             });
     };
 
-    let trigram_index_insert_stmts = trigram_index.into_iter().map(|(k, v)| {
-        let [b1, b2, b3] = match k[..] {
-            [b1, b2, b3] => [b1, b2, b3],
-            _ => unreachable!(),
-        };
-
+    let trigram_index_insert_stmts = trigram_index.into_iter().map(|([b1, b2, b3], v)| {
         quote! {
             index.insert([#b1, #b2, #b3], &[#(#v),*] as &[u16]);
         }
@@ -410,9 +401,8 @@ fn option_literal<T: ToTokens>(opt: &Option<T>) -> TokenStream {
     }
 }
 
-fn add_feature_ngrams(
-    n: usize,
-    index: &mut BTreeMap<Vec<u8>, BTreeSet<u16>>,
+fn add_feature_ngrams<const N: usize>(
+    index: &mut BTreeMap<[u8; N], BTreeSet<u16>>,
     feature: &FeatureData,
     idx: u16,
 ) {
@@ -423,9 +413,9 @@ fn add_feature_ngrams(
     strings.extend(feature.items.iter());
 
     for string in strings {
-        for trigram in string.as_bytes().windows(n) {
-            if trigram.iter().all(|&byte| byte.is_ascii_graphic() && byte != b'`') {
-                index.entry(trigram.to_owned()).or_default().insert(idx);
+        for ngram in string.as_bytes().array_windows() {
+            if ngram.iter().all(|&byte| byte.is_ascii_graphic() && byte != b'`') {
+                index.entry(*ngram).or_default().insert(idx);
             }
         }
     }
