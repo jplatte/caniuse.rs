@@ -1,10 +1,10 @@
 use std::rc::Rc;
 
+use gloo::events::EventListener;
+use wasm_bindgen::JsCast;
 use web_sys::{HtmlElement, KeyboardEvent};
 use yew::{
-    html,
-    services::keyboard::{KeyListenerHandle, KeyboardService},
-    Bridge, Bridged, Component, ComponentLink, Html, InputData, NodeRef, ShouldRender,
+    html, Bridge, Bridged, Component, ComponentLink, Html, InputData, NodeRef, ShouldRender,
 };
 use yew_router::{
     agent::{RouteAgent, RouteRequest},
@@ -23,7 +23,7 @@ pub struct App {
     router: Box<dyn Bridge<RouteAgent>>,
     search_query: Rc<String>,
 
-    _key_listener_handle: KeyListenerHandle,
+    _key_listener: EventListener,
 }
 
 pub enum Msg {
@@ -40,22 +40,19 @@ impl Component for App {
         let router = RouteAgent::bridge(link.callback(|_| Msg::Update));
 
         let link2 = link.clone();
-        let _key_listener_handle = KeyboardService::register_key_press(
-            &document(),
-            (move |e: KeyboardEvent| {
-                if e.key().as_str() == "s" {
-                    link2.send_message(Msg::FocusInput);
-                }
-            })
-            .into(),
-        );
+        let _key_listener = EventListener::new(&document(), "keypress", move |event| {
+            let event = event.dyn_ref::<KeyboardEvent>().expect("wrong event type");
+            if event.key().as_str() == "s" {
+                link2.send_message(Msg::FocusInput);
+            }
+        });
 
         Self {
             link,
             input_ref: NodeRef::default(),
             router,
             search_query: Rc::new(String::new()),
-            _key_listener_handle,
+            _key_listener,
         }
     }
 

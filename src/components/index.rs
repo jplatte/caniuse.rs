@@ -1,14 +1,7 @@
-use std::{rc::Rc, time::Duration};
+use std::rc::Rc;
 
-use gloo::events::EventListener;
-use yew::{
-    html,
-    services::{
-        resize::{ResizeService, ResizeTask},
-        timeout::{TimeoutService, TimeoutTask},
-    },
-    Component, ComponentLink, Html, Properties, ShouldRender,
-};
+use gloo::{events::EventListener, timers::callback::Timeout};
+use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
 use crate::{
     components::FeatureEntry,
@@ -25,8 +18,8 @@ pub struct Index {
     search_scores: Vec<(u16, f64)>,
 
     _scroll_listener: EventListener,
-    _resize_task: ResizeTask,
-    _timeout_task: TimeoutTask,
+    _resize_listener: EventListener,
+    _timeout: Timeout,
 }
 
 pub enum Msg {
@@ -49,9 +42,14 @@ impl Component for Index {
             let link = link.clone();
             move |_| link.send_message(Msg::Update)
         });
-        let _resize_task = ResizeService::register(link.callback(|_| Msg::Update));
-        let _timeout_task =
-            TimeoutService::spawn(Duration::from_secs(0), link.callback(|_| Msg::Update));
+        let _resize_listener = EventListener::new(&window(), "resize", {
+            let link = link.clone();
+            move |_| link.send_message(Msg::Update)
+        });
+        let _timeout = Timeout::new(0, {
+            let link = link.clone();
+            move || link.send_message(Msg::Update)
+        });
 
         Self {
             link,
@@ -61,8 +59,8 @@ impl Component for Index {
             search_scores: vec![(0, 0.0); FEATURES.len()],
 
             _scroll_listener,
-            _resize_task,
-            _timeout_task,
+            _resize_listener,
+            _timeout,
         }
     }
 
@@ -76,10 +74,10 @@ impl Component for Index {
 
                 if distance_to_bottom < inner_height {
                     self.items_visible += BATCH_SIZE;
-                    self._timeout_task = TimeoutService::spawn(
-                        Duration::from_secs(0),
-                        self.link.callback(|_| Msg::Update),
-                    );
+                    self._timeout = Timeout::new(0, {
+                        let link = self.link.clone();
+                        move || link.send_message(Msg::Update)
+                    });
 
                     true
                 } else {
@@ -96,8 +94,10 @@ impl Component for Index {
         self.current_search_terms = search_terms;
 
         self.items_visible = BATCH_SIZE;
-        self._timeout_task =
-            TimeoutService::spawn(Duration::from_secs(0), self.link.callback(|_| Msg::Update));
+        self._timeout = Timeout::new(0, {
+            let link = self.link.clone();
+            move || link.send_message(Msg::Update)
+        });
 
         true
     }
