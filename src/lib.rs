@@ -10,7 +10,6 @@ mod util;
 mod components {
     mod about;
     mod app;
-    mod ext_links;
     mod feature_entry;
     mod feature_page;
     mod header;
@@ -18,12 +17,12 @@ mod components {
     mod version_page;
 
     pub use self::{
-        about::About, app::App, ext_links::ExtLinks, feature_entry::FeatureEntry,
-        feature_page::FeaturePage, header::Header, index::Index, version_page::VersionPage,
+        about::About, app::App, feature_entry::FeatureEntry, feature_page::FeaturePage,
+        header::Header, index::Index, version_page::VersionPage,
     };
 }
 
-use data::{FeatureData, VersionData, FEATURES, VERSIONS};
+use data::{Channel, FeatureData, VersionData, FEATURES, VERSIONS};
 use util::document;
 
 #[derive(Clone, Debug, Switch)]
@@ -34,6 +33,10 @@ enum AppRoute {
     Version(String),
     #[to = "/about"]
     About,
+    #[to = "/recent"]
+    RecentlyStabilized,
+    #[to = "/unstable"]
+    Unstable,
     #[to = "/"]
     Index,
 }

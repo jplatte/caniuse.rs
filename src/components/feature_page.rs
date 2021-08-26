@@ -3,7 +3,7 @@ use std::fmt::Display;
 use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
 use crate::{
-    util::{back_button, view_text, Void},
+    util::{home_button, view_text, Void},
     AppRoute, FeatureData, RouterAnchor,
 };
 
@@ -98,7 +98,7 @@ impl Component for FeaturePage {
 
         html! {
             <>
-                {back_button()}
+                {home_button()}
                 <div class="box">
                     <h3 class="title">
                         {view_text(f.title)}

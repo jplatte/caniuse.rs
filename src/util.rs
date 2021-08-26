@@ -7,7 +7,7 @@ use yew::{
     Html,
 };
 
-use crate::{AppRoute, RouterButton};
+use crate::{icons::fa_home, AppRoute, RouterButton};
 
 pub enum Void {}
 
@@ -65,15 +65,9 @@ pub fn view_text(mut text: &str) -> Html {
     list_to_node(res)
 }
 
-// TODO: Go back in browser history if the previous page was part of the app
-pub fn back_button() -> Html {
-    // SVG data obtained from Fonticons Inc. under CC BY 4.0, via https://fontawesome.com/
+pub fn home_button() -> Html {
     html! {
-        <RouterButton route=AppRoute::Index>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" aria-label="back">
-                <path d="M257.5 445.1l-22.2 22.2c-9.4 9.4-24.6 9.4-33.9 0L7 273c-9.4-9.4-9.4-24.6 0-33.9L201.4 44.7c9.4-9.4 24.6-9.4 33.9 0l22.2 22.2c9.5 9.5 9.3 25-.4 34.3L136.6 216H424c13.3 0 24 10.7 24 24v32c0 13.3-10.7 24-24 24H136.6l120.5 114.8c9.8 9.3 10 24.8.4 34.3z"/>
-            </svg>
-        </RouterButton>
+        <RouterButton route=AppRoute::Index>{fa_home()}</RouterButton>
     }
 }
 

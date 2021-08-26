@@ -5,13 +5,14 @@ use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
 use crate::{
     components::FeatureEntry,
-    search::{extract_search_terms, run_search},
+    search::{extract_search_terms, run_search, InvalidSearchQuery},
     util::{document_body, window},
-    FeatureData, FEATURES,
+    AppRoute, Channel, FeatureData, RouterAnchor, VersionData, FEATURES,
 };
 
 pub struct Index {
     link: ComponentLink<Self>,
+    show: ContentsToRender,
     current_search_terms: Vec<String>,
     current_search_results: Vec<FeatureData>,
     items_visible: usize,
@@ -22,13 +23,33 @@ pub struct Index {
     _timeout: Timeout,
 }
 
+enum ContentsToRender {
+    Explore(Explore),
+    SearchResults,
+    EmptySearchResults,
+    InvalidSearchResults,
+}
+
 pub enum Msg {
     Update,
 }
 
 #[derive(Clone, Properties)]
 pub struct Props {
-    pub search_query: Rc<String>,
+    pub show: IndexContents,
+}
+
+#[derive(Clone)]
+pub enum IndexContents {
+    Explore(Explore),
+    SearchResults { search_query: Rc<String> },
+}
+
+#[derive(Clone, Copy, PartialEq)]
+pub enum Explore {
+    Stable,
+    RecentlyStabilized,
+    Unstable,
 }
 
 const BATCH_SIZE: usize = 20;
@@ -37,7 +58,7 @@ impl Component for Index {
     type Message = Msg;
     type Properties = Props;
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         let _scroll_listener = EventListener::new(&window(), "scroll", {
             let link = link.clone();
             move |_| link.send_message(Msg::Update)
@@ -48,12 +69,19 @@ impl Component for Index {
         });
         let _timeout = create_timeout(link.clone());
 
+        let mut current_search_terms = Vec::new();
+        let mut current_search_results = Vec::new();
+        let mut search_scores = vec![(0, 0.0); FEATURES.len()];
+        let show =
+            show(props, &mut current_search_terms, &mut current_search_results, &mut search_scores);
+
         Self {
             link,
-            current_search_terms: Vec::new(),
-            current_search_results: Vec::new(),
+            show,
+            current_search_terms,
+            current_search_results,
             items_visible: BATCH_SIZE,
-            search_scores: vec![(0, 0.0); FEATURES.len()],
+            search_scores,
 
             _scroll_listener,
             _resize_listener,
@@ -82,10 +110,12 @@ impl Component for Index {
     }
 
     fn change(&mut self, props: Props) -> ShouldRender {
-        let search_terms = extract_search_terms(&props.search_query).unwrap_or_default();
-
-        self.current_search_results = run_search(&search_terms, &mut self.search_scores);
-        self.current_search_terms = search_terms;
+        self.show = show(
+            props,
+            &mut self.current_search_terms,
+            &mut self.current_search_results,
+            &mut self.search_scores,
+        );
 
         self.items_visible = BATCH_SIZE;
         self._timeout = create_timeout(self.link.clone());
@@ -94,18 +124,98 @@ impl Component for Index {
     }
 
     fn view(&self) -> Html {
-        if self.current_search_terms.is_empty() {
-            let list = FEATURES.iter().map(|&f| html! { <FeatureEntry key=f.slug data=f /> });
-            html! { <div class="feature-list">{ for list.take(self.items_visible) }</div> }
-        } else if self.current_search_results.is_empty() {
-            html! { <div class="box muted">{"Nothing found, sorry."}</div> }
-        } else {
-            let list = self.current_search_results.iter().map(|&f| {
-                html! { <FeatureEntry key=f.slug data=f /> }
-            });
+        match &self.show {
+            ContentsToRender::Explore(ex) => {
+                let list = FEATURES
+                    .iter()
+                    .filter(|f| {
+                        matches!(
+                            (ex, f.version),
+                            (Explore::Stable, Some(VersionData { channel: Channel::Stable, .. }))
+                                | (
+                                    Explore::RecentlyStabilized,
+                                    Some(VersionData {
+                                        channel: Channel::Beta | Channel::Nightly,
+                                        ..
+                                    }),
+                                )
+                                | (Explore::Unstable, None)
+                        )
+                    })
+                    .map(|&f| html! { <FeatureEntry key=f.slug data=f /> });
 
-            html! { <div class="feature-list">{ for list.take(self.items_visible) }</div> }
+                let index_link_class = active_if(*ex == Explore::Stable);
+                let recent_link_class = active_if(*ex == Explore::RecentlyStabilized);
+                let unstable_link_class = active_if(*ex == Explore::Unstable);
+
+                html! {
+                    <>
+                        <nav class="explore">
+                            <div class="inner">
+                                <RouterAnchor route=AppRoute::Index classes=index_link_class>
+                                    {"Stable"}
+                                </RouterAnchor>
+                                <RouterAnchor route=AppRoute::RecentlyStabilized
+                                    classes=recent_link_class>
+                                    {"Recently Stabilized"}
+                                </RouterAnchor>
+                                <RouterAnchor route=AppRoute::Unstable classes=unstable_link_class>
+                                    {"Unstable"}
+                                </RouterAnchor>
+                            </div>
+                        </nav>
+                        <div class="feature-list">{ for list.take(self.items_visible) }</div>
+                    </>
+                }
+            }
+            ContentsToRender::SearchResults => {
+                let list = self.current_search_results.iter().map(|&f| {
+                    html! { <FeatureEntry key=f.slug data=f /> }
+                });
+
+                html! { <div class="feature-list">{ for list.take(self.items_visible) }</div> }
+            }
+            ContentsToRender::EmptySearchResults => {
+                html! { <div class="box muted">{"Nothing found, sorry."}</div> }
+            }
+            ContentsToRender::InvalidSearchResults => {
+                html! { <div class="box muted">{"Invalid search terms."}</div> }
+            }
         }
+    }
+}
+
+fn show(
+    props: Props,
+    current_search_terms: &mut Vec<String>,
+    current_search_results: &mut Vec<FeatureData>,
+    search_scores: &mut Vec<(u16, f64)>,
+) -> ContentsToRender {
+    match props.show {
+        IndexContents::Explore(ex) => ContentsToRender::Explore(ex),
+        IndexContents::SearchResults { search_query } => {
+            match extract_search_terms(&search_query) {
+                Ok(search_terms) => {
+                    *current_search_results = run_search(&search_terms, search_scores);
+                    *current_search_terms = search_terms;
+
+                    if current_search_results.is_empty() {
+                        ContentsToRender::EmptySearchResults
+                    } else {
+                        ContentsToRender::SearchResults
+                    }
+                }
+                Err(InvalidSearchQuery) => ContentsToRender::InvalidSearchResults,
+            }
+        }
+    }
+}
+
+fn active_if(cond: bool) -> String {
+    if cond {
+        "active".to_owned()
+    } else {
+        String::new()
     }
 }
 

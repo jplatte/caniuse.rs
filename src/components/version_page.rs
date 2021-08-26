@@ -2,7 +2,7 @@ use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
 use crate::{
     components::FeatureEntry,
-    util::{back_button, maybe_link, window, Void},
+    util::{home_button, maybe_link, window, Void},
     VersionData, FEATURES,
 };
 
@@ -70,7 +70,7 @@ impl Component for VersionPage {
 
         html! {
             <>
-                {back_button()}
+                {home_button()}
                 <div class="box">
                     <h3 class="title">{"Rust "}{v.number}</h3>
                     <div class="info">

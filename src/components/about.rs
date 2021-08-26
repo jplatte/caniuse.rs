@@ -1,6 +1,6 @@
 use yew::{html, Component, ComponentLink, Html, ShouldRender};
 
-use crate::util::{back_button, Void};
+use crate::util::{home_button, Void};
 
 pub struct About;
 
@@ -23,7 +23,7 @@ impl Component for About {
     fn view(&self) -> Html {
         html! {
             <>
-                {back_button()}
+                {home_button()}
                 <div class="about box">
                     <h3>{"About caniuse.rs"}</h3>
                     <p>

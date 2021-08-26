@@ -12,7 +12,10 @@ use yew_router::{
 };
 
 use crate::{
-    components::{About, ExtLinks, FeaturePage, Header, Index, VersionPage},
+    components::{
+        index::{Explore, IndexContents},
+        About, FeaturePage, Header, Index, VersionPage,
+    },
     util::document,
     AppRoute, FEATURES, VERSIONS,
 };
@@ -80,8 +83,21 @@ impl Component for App {
     fn view(&self) -> Html {
         type Router = yew_router::router::Router<AppRoute>;
         let search_query = self.search_query.clone();
-        let render_route = Router::render(move |route| match route {
-            AppRoute::Index => html! { <Index search_query=search_query.clone() /> },
+        let render_route = Router::render(move |route| match &route {
+            AppRoute::Index | AppRoute::RecentlyStabilized | AppRoute::Unstable => {
+                let show = if search_query.is_empty() {
+                    IndexContents::Explore(match &route {
+                        AppRoute::Index => Explore::Stable,
+                        AppRoute::RecentlyStabilized => Explore::RecentlyStabilized,
+                        AppRoute::Unstable => Explore::Unstable,
+                        _ => unreachable!(),
+                    })
+                } else {
+                    IndexContents::SearchResults { search_query: search_query.clone() }
+                };
+
+                html! { <Index show=show /> }
+            }
             AppRoute::About => html! { <About /> },
             AppRoute::Feature(slug) => match FEATURES.iter().find(|f| f.slug == slug) {
                 Some(&data) => html! { <FeaturePage data=data /> },
@@ -97,7 +113,6 @@ impl Component for App {
             <>
                 <Header input_ref=self.input_ref.clone()
                     oninput=self.link.callback(|e: InputData| Msg::Search(Rc::new(e.value))) />
-                <ExtLinks />
                 <div class="page">
                     <Router render=render_route />
                 </div>
