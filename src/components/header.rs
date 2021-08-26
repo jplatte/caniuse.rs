@@ -88,7 +88,7 @@ impl Component for Header {
         let (menu_button, menu_classes) = if self.is_menu_open {
             (
                 html! {
-                    <button type="button" class="active">
+                    <button type="button" class="active" aria-hidden="true">
                         {fa_bars()}
                     </button>
                 },
@@ -132,7 +132,7 @@ impl Component for Header {
                             oninput=self.props.oninput.clone() />
                         {"?"}
                     </div>
-                    <nav>
+                    <nav aria-label="Site navigation">
                         {menu_button}
                         <ul class={"menu ".to_owned() + menu_classes}>
                             <li>{theme_anchor}</li>
