@@ -46,10 +46,7 @@ impl Component for Index {
             let link = link.clone();
             move |_| link.send_message(Msg::Update)
         });
-        let _timeout = Timeout::new(0, {
-            let link = link.clone();
-            move || link.send_message(Msg::Update)
-        });
+        let _timeout = create_timeout(link.clone());
 
         Self {
             link,
@@ -74,10 +71,7 @@ impl Component for Index {
 
                 if distance_to_bottom < inner_height {
                     self.items_visible += BATCH_SIZE;
-                    self._timeout = Timeout::new(0, {
-                        let link = self.link.clone();
-                        move || link.send_message(Msg::Update)
-                    });
+                    self._timeout = create_timeout(self.link.clone());
 
                     true
                 } else {
@@ -94,10 +88,7 @@ impl Component for Index {
         self.current_search_terms = search_terms;
 
         self.items_visible = BATCH_SIZE;
-        self._timeout = Timeout::new(0, {
-            let link = self.link.clone();
-            move || link.send_message(Msg::Update)
-        });
+        self._timeout = create_timeout(self.link.clone());
 
         true
     }
@@ -116,4 +107,9 @@ impl Component for Index {
             html! { <div class="feature-list">{ for list.take(self.items_visible) }</div> }
         }
     }
+}
+
+// Creates a timeout that lets the browser render the page before calling `fn update()`.
+fn create_timeout(link: ComponentLink<Index>) -> Timeout {
+    Timeout::new(0, move || link.send_message(Msg::Update))
 }
