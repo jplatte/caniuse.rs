@@ -33,6 +33,12 @@ pub struct FeatureData {
     pub items: &'static [&'static str],
 }
 
+impl FeatureData {
+    pub fn is_on_channel(&self, chan: Channel) -> bool {
+        self.version.map(|v| v.channel == chan).unwrap_or(false)
+    }
+}
+
 #[derive(Copy, Clone, Debug)]
 pub struct VersionData {
     /// The version number, without the patch component (e.g. "1.31")
@@ -49,7 +55,7 @@ pub struct VersionData {
     pub blog_post_path: Option<&'static str>,
 }
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, PartialEq)]
 pub enum Channel {
     Nightly,
     Beta,

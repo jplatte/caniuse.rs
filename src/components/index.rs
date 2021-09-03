@@ -7,7 +7,7 @@ use crate::{
     components::FeatureEntry,
     search::{extract_search_terms, run_search, InvalidSearchQuery},
     util::{document_body, window},
-    AppRoute, Channel, FeatureData, RouterAnchor, VersionData, FEATURES,
+    AppRoute, Channel, FeatureData, RouterAnchor, FEATURES,
 };
 
 pub struct Index {
@@ -137,45 +137,19 @@ impl Component for Index {
                     Explore::Stable => {
                         s1 = FEATURES
                             .iter()
-                            .skip_while(|f| {
-                                matches!(
-                                    f.version,
-                                    Some(VersionData {
-                                        channel: Channel::Beta | Channel::Nightly,
-                                        ..
-                                    })
-                                )
-                            })
-                            .take_while(|f| {
-                                matches!(
-                                    f.version,
-                                    Some(VersionData { channel: Channel::Stable, .. })
-                                )
-                            });
+                            .skip_while(|f| !f.is_on_channel(Channel::Stable))
+                            .take_while(|f| f.is_on_channel(Channel::Stable));
 
                         &mut s1
                     }
                     Explore::RecentlyStabilized => {
                         s2 = FEATURES
                             .iter()
-                            .skip_while(|f| {
-                                matches!(
-                                    f.version,
-                                    Some(VersionData { channel: Channel::Nightly, .. })
-                                )
-                            })
-                            .take_while(|f| {
-                                matches!(
-                                    f.version,
-                                    Some(VersionData { channel: Channel::Beta, .. })
-                                )
-                            })
-                            .chain(FEATURES.iter().take_while(|f| {
-                                matches!(
-                                    f.version,
-                                    Some(VersionData { channel: Channel::Nightly, .. })
-                                )
-                            }));
+                            .skip_while(|f| f.is_on_channel(Channel::Nightly))
+                            .take_while(|f| f.is_on_channel(Channel::Beta))
+                            .chain(
+                                FEATURES.iter().take_while(|f| f.is_on_channel(Channel::Nightly)),
+                            );
 
                         &mut s2
                     }
