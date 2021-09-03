@@ -126,27 +126,54 @@ impl Component for Index {
     fn view(&self) -> Html {
         match &self.show {
             ContentsToRender::Explore(ex) => {
-                let list = FEATURES
-                    .iter()
-                    .filter(|f| {
-                        matches!(
-                            (ex, f.version),
-                            (Explore::Stable, Some(VersionData { channel: Channel::Stable, .. }))
-                                | (
-                                    Explore::RecentlyStabilized,
+                // Stack slots, to be able to dynamically dispatch to one of
+                // the iterators without an extra allocation
+                let (mut s1, mut s2, mut s3);
+
+                // Features are sorted by version, with unstable ones being at
+                // the very end, which allows using skip_while + take_while
+                // instead of filter to simplify iteration
+                let features: &mut dyn Iterator<Item = &FeatureData> = match ex {
+                    Explore::Stable => {
+                        s1 = FEATURES
+                            .iter()
+                            .skip_while(|f| {
+                                matches!(
+                                    f.version,
                                     Some(VersionData {
                                         channel: Channel::Beta | Channel::Nightly,
                                         ..
-                                    }),
+                                    })
                                 )
-                                | (Explore::Unstable, None)
-                        )
-                    })
-                    .map(|&f| html! { <FeatureEntry key=f.slug data=f /> });
+                            })
+                            .take_while(|f| {
+                                matches!(
+                                    f.version,
+                                    Some(VersionData { channel: Channel::Stable, .. })
+                                )
+                            });
+                        &mut s1
+                    }
+                    Explore::RecentlyStabilized => {
+                        s2 = FEATURES.iter().take_while(|f| {
+                            matches!(
+                                f.version,
+                                Some(VersionData { channel: Channel::Beta | Channel::Nightly, .. })
+                            )
+                        });
+                        &mut s2
+                    }
+                    Explore::Unstable => {
+                        s3 = FEATURES.iter().skip_while(|f| f.version.is_some());
+                        &mut s3
+                    }
+                };
 
                 let index_link_class = active_if(*ex == Explore::Stable);
                 let recent_link_class = active_if(*ex == Explore::RecentlyStabilized);
                 let unstable_link_class = active_if(*ex == Explore::Unstable);
+
+                let list = features.map(|&f| html! { <FeatureEntry key=f.slug data=f /> });
 
                 html! {
                     <>
