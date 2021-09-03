@@ -152,19 +152,36 @@ impl Component for Index {
                                     Some(VersionData { channel: Channel::Stable, .. })
                                 )
                             });
+
                         &mut s1
                     }
                     Explore::RecentlyStabilized => {
-                        s2 = FEATURES.iter().take_while(|f| {
-                            matches!(
-                                f.version,
-                                Some(VersionData { channel: Channel::Beta | Channel::Nightly, .. })
-                            )
-                        });
+                        s2 = FEATURES
+                            .iter()
+                            .skip_while(|f| {
+                                matches!(
+                                    f.version,
+                                    Some(VersionData { channel: Channel::Nightly, .. })
+                                )
+                            })
+                            .take_while(|f| {
+                                matches!(
+                                    f.version,
+                                    Some(VersionData { channel: Channel::Beta, .. })
+                                )
+                            })
+                            .chain(FEATURES.iter().take_while(|f| {
+                                matches!(
+                                    f.version,
+                                    Some(VersionData { channel: Channel::Nightly, .. })
+                                )
+                            }));
+
                         &mut s2
                     }
                     Explore::Unstable => {
                         s3 = FEATURES.iter().skip_while(|f| f.version.is_some());
+
                         &mut s3
                     }
                 };
@@ -173,7 +190,9 @@ impl Component for Index {
                 let recent_link_class = active_if(*ex == Explore::RecentlyStabilized);
                 let unstable_link_class = active_if(*ex == Explore::Unstable);
 
-                let list = features.map(|&f| html! { <FeatureEntry key=f.slug data=f /> });
+                let list = features
+                    .take(self.items_visible)
+                    .map(|&f| html! { <FeatureEntry key=f.slug data=f /> });
 
                 html! {
                     <>
@@ -191,7 +210,7 @@ impl Component for Index {
                                 </RouterAnchor>
                             </div>
                         </nav>
-                        <div class="feature-list">{ for list.take(self.items_visible) }</div>
+                        <div class="feature-list">{ for list }</div>
                     </>
                 }
             }
@@ -200,7 +219,7 @@ impl Component for Index {
                     html! { <FeatureEntry key=f.slug data=f /> }
                 });
 
-                html! { <div class="feature-list">{ for list.take(self.items_visible) }</div> }
+                html! { <div class="feature-list">{ for list }</div> }
             }
             ContentsToRender::EmptySearchResults => {
                 html! { <div class="box muted">{"Nothing found, sorry."}</div> }
