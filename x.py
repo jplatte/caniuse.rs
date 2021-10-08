@@ -36,6 +36,7 @@ def main():
         deploy()
     else:
         usage()
+        sys.exit(1)
 
 
 def run(*args):
