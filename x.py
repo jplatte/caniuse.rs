@@ -19,12 +19,12 @@ def usage():
             extra options will be passed to cargo build
         """
     )
-    sys.exit(1)
 
 
 def main():
     if len(sys.argv) < 2:
         usage()
+        return
 
     command = sys.argv[1]
 
@@ -36,6 +36,7 @@ def main():
         deploy()
     else:
         usage()
+        sys.exit(1)
 
 
 def run(*args):
