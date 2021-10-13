@@ -32,8 +32,7 @@ impl Component for About {
                     </p>
                     <p>
                         {"You can find the code for this site on "}
-                        <a href="https://github.com/jplatte/caniuse.rs">{"GitHub"}</a>{" and "}
-                        <a href="https://git.sr.ht/~jplatte/caniuse.rs">{"sourcehut"}</a>{"."}
+                        <a href="https://github.com/jplatte/caniuse.rs">{"GitHub"}</a>{"."}
                     </p>
                     <h3>{"About the creator"}</h3>
                     <p>
