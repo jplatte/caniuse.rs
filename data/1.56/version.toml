@@ -1,3 +1,5 @@
 number = "1.56"
-channel = "beta"
+release_date = "2021-10-21"
+release_notes = "version-1560-2021-10-21"
 gh_milestone_id = 85
+blog_post_path = "2021/10/21/Rust-1.56.0.html"
