@@ -1,5 +1,5 @@
 +++
-title = "NonZeroUn::is_power_of_two"
+title = "`NonZero*::is_power_of_two`"
 flag = "nonzero_is_power_of_two"
 impl_pr_id = 81107
 tracking_issue_id = 81106
