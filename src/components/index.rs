@@ -1,12 +1,13 @@
 use std::rc::Rc;
 
 use gloo::{events::EventListener, timers::callback::Timeout};
+use gloo_utils::window;
 use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
 use crate::{
     components::FeatureEntry,
     search::{extract_search_terms, run_search, InvalidSearchQuery},
-    util::{document_body, window},
+    util::document_body,
     AppRoute, Channel, FeatureData, RouterAnchor, FEATURES,
 };
 

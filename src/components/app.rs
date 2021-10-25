@@ -1,6 +1,7 @@
 use std::rc::Rc;
 
 use gloo::events::EventListener;
+use gloo_utils::document;
 use wasm_bindgen::JsCast;
 use web_sys::{HtmlElement, KeyboardEvent};
 use yew::{
@@ -16,7 +17,6 @@ use crate::{
         index::{Explore, IndexContents},
         About, FeaturePage, Header, Index, VersionPage,
     },
-    util::document,
     AppRoute, FEATURES, VERSIONS,
 };
 

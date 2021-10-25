@@ -1,8 +1,9 @@
+use gloo_utils::window;
 use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
 use crate::{
     components::FeatureEntry,
-    util::{home_button, maybe_link, window, Void},
+    util::{home_button, maybe_link, Void},
     VersionData, FEATURES,
 };
 

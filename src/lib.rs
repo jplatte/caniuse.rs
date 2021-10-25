@@ -1,5 +1,6 @@
 #![recursion_limit = "512"]
 
+use gloo_utils::document;
 use wasm_bindgen::prelude::wasm_bindgen;
 use yew_router::Switch;
 
@@ -23,7 +24,6 @@ mod components {
 }
 
 use data::{Channel, FeatureData, VersionData, FEATURES, VERSIONS};
-use util::document;
 
 #[derive(Clone, Debug, Switch)]
 enum AppRoute {

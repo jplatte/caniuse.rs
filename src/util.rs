@@ -1,6 +1,7 @@
 use std::fmt::Display;
 
-use web_sys::{Document, Element, HtmlElement, Window};
+use gloo_utils::document;
+use web_sys::{Element, HtmlElement};
 use yew::{
     html,
     virtual_dom::{VList, VNode, VTag, VText},
@@ -10,14 +11,6 @@ use yew::{
 use crate::{icons::fa_home, AppRoute, RouterButton};
 
 pub enum Void {}
-
-pub fn window() -> Window {
-    web_sys::window().unwrap()
-}
-
-pub fn document() -> Document {
-    window().document().unwrap()
-}
 
 pub fn document_body() -> HtmlElement {
     document().body().unwrap()

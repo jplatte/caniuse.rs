@@ -1,6 +1,7 @@
 use std::mem;
 
 use gloo::events::EventListener;
+use gloo_utils::window;
 use wasm_bindgen::JsCast;
 use web_sys::{HtmlElement, MouseEvent};
 use yew::{
@@ -9,7 +10,7 @@ use yew::{
 
 use crate::{
     icons::{fa_bars, fa_moon, fa_question_circle, fa_sun},
-    util::{document_body, document_element, window},
+    util::{document_body, document_element},
     AppRoute, RouterAnchor,
 };
 
