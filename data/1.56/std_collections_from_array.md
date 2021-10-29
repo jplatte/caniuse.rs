@@ -1,5 +1,5 @@
 +++
-title = "`impl From<[T; N]>` for collections"
+title = "`From<[T; N]>` implementation for collections"
 flag = "std_collections_from_array"
 impl_pr_id = 84111
 items = [
