@@ -1,8 +1,5 @@
 +++
-title = "`Extend<A, B>` implementation for tuples"
+title = "`Extend<A, B>` implementation for `(Extend<A>, Extend<B>)`"
 flag = "extend_for_tuple"
 impl_pr_id = 85835
-items = [
-    "impl Extend<A, B> for (Extend<A>, Extend<B>)",
-]
 +++
