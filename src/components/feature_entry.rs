@@ -1,41 +1,38 @@
-use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
+use yew::{html, Classes, Component, Context, Html, Properties};
 
 use crate::{
     data::{Channel, FeatureData},
     util::{view_text, Void},
-    AppRoute, RouterAnchor,
+    AppRoute, RouterLink,
 };
 
-#[derive(Clone, Properties)]
+#[derive(Clone, PartialEq, Properties)]
 pub struct Props {
     pub data: FeatureData,
     #[prop_or(true)]
     pub show_version: bool,
 }
 
-pub struct FeatureEntry {
-    props: Props,
-}
+pub struct FeatureEntry;
 
 impl Component for FeatureEntry {
     type Message = Void;
     type Properties = Props;
 
-    fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(_: &Context<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, void: Self::Message) -> ShouldRender {
+    fn update(&mut self, _: &Context<Self>, void: Self::Message) -> bool {
         match void {}
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        self.props = props;
+    fn changed(&mut self, _: &Context<Self>) -> bool {
         true
     }
 
-    fn view(&self) -> Html {
-        let f = self.props.data;
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let f = &ctx.props().data;
         let v = f.version;
 
         let maybe_flag = match f.flag {
@@ -49,7 +46,7 @@ impl Component for FeatureEntry {
             }
         };
 
-        let support_indicator = if self.props.show_version {
+        let support_indicator = if ctx.props().show_version {
             match v {
                 None => html! { <div class="version none">{"Unstable"}</div> },
                 Some(version) => {
@@ -60,10 +57,10 @@ impl Component for FeatureEntry {
                     };
 
                     html! {
-                        <div class=classes>
-                            <RouterAnchor route=AppRoute::Version(version.number.into())>
+                        <div class={classes}>
+                            <RouterLink to={AppRoute::Version { number: version.number.into() }}>
                                 {"Rust "}{version.number}
-                            </RouterAnchor>
+                            </RouterLink>
                         </div>
                     }
                 }
@@ -72,12 +69,13 @@ impl Component for FeatureEntry {
             html! {}
         };
 
+        let classes: Classes = "title".into();
         html! {
             <div class="feature-entry">
                 <div class="box">
-                    <RouterAnchor route=AppRoute::Feature(f.slug.into()) classes="title">
+                    <RouterLink to={AppRoute::Feature { name: f.slug.into() }} classes={classes}>
                         <h3>{view_text(f.title)}</h3>
-                    </RouterAnchor>
+                    </RouterLink>
                     {maybe_flag}
                 </div>
                 {support_indicator}

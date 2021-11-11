@@ -11,8 +11,8 @@ crate-type = ["cdylib"]
 gloo = "0.4.2"
 once_cell = "1.4.0"
 wasm-bindgen = "0.2.64"
-yew = "0.18.0"
-yew-router = "0.15.0"
+yew = "0.19.3"
+yew-router = "0.16.0"
 
 [dependencies.web-sys]
 version = "0.3.36"

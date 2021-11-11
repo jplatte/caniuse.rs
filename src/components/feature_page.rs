@@ -1,45 +1,44 @@
 use std::fmt::Display;
 
-use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
+use yew::{html, Component, Context, Html, Properties};
 
 use crate::{
     util::{home_button, view_text, Void},
-    AppRoute, FeatureData, RouterAnchor,
+    AppRoute, FeatureData, RouterLink,
 };
 
-#[derive(Clone, Properties)]
+#[derive(Clone, PartialEq, Properties)]
 pub struct Props {
     pub data: FeatureData,
 }
 
-pub struct FeaturePage {
-    props: Props,
-}
+pub struct FeaturePage;
 
 impl Component for FeaturePage {
     type Message = Void;
     type Properties = Props;
 
-    fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
-        Self { props }
+    fn create(_: &Context<Self>) -> Self {
+        Self
     }
 
-    fn update(&mut self, void: Self::Message) -> ShouldRender {
+    fn update(&mut self, _: &Context<Self>, void: Self::Message) -> bool {
         match void {}
     }
 
-    fn change(&mut self, props: Self::Properties) -> ShouldRender {
-        self.props = props;
+    fn changed(&mut self, _: &Context<Self>) -> bool {
         true
     }
 
-    fn view(&self) -> Html {
-        let f = &self.props.data;
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let f = &ctx.props().data;
 
         // TODO: Colorization?
         let version = match f.version {
             Some(v) => html! {
-                <RouterAnchor route=AppRoute::Version(v.number.into())>{v.number}</RouterAnchor>
+                <RouterLink to={AppRoute::Version { number: v.number.into() }}>
+                    {v.number}
+                </RouterLink>
             },
             None => html! { "none (unstable)" },
         };
@@ -56,7 +55,7 @@ impl Component for FeaturePage {
 
         fn maybe_link<T: Display>(text: &str, link_base: &str, opt_rest: Option<T>) -> Html {
             match opt_rest {
-                Some(id) => html! { <li><a href=format!("{}{}", link_base, id)>{text}</a></li> },
+                Some(id) => html! { <li><a href={format!("{}{}", link_base, id)}>{text}</a></li> },
                 None => html! {},
             }
         }
