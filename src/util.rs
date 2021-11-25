@@ -1,7 +1,5 @@
 use std::fmt::Display;
 
-use gloo_utils::document;
-use web_sys::{Element, HtmlElement};
 use yew::{
     html,
     virtual_dom::{VList, VNode, VTag, VText},
@@ -11,14 +9,6 @@ use yew::{
 use crate::{icons::fa_home, AppRoute, RouterButton};
 
 pub enum Void {}
-
-pub fn document_body() -> HtmlElement {
-    document().body().unwrap()
-}
-
-pub fn document_element() -> Element {
-    document().document_element().unwrap()
-}
 
 pub fn view_text(mut text: &str) -> Html {
     fn list_to_node(list: VList) -> VNode {

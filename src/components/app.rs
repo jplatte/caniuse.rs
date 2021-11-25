@@ -1,7 +1,6 @@
 use std::rc::Rc;
 
-use gloo::events::EventListener;
-use gloo_utils::document;
+use gloo::{events::EventListener, utils::document};
 use wasm_bindgen::JsCast;
 use web_sys::{HtmlElement, KeyboardEvent};
 use yew::{

@@ -1,13 +1,15 @@
 use std::rc::Rc;
 
-use gloo::{events::EventListener, timers::callback::Timeout};
-use gloo_utils::window;
+use gloo::{
+    events::EventListener,
+    timers::callback::Timeout,
+    utils::{body, window},
+};
 use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
 use crate::{
     components::FeatureEntry,
     search::{extract_search_terms, run_search, InvalidSearchQuery},
-    util::document_body,
     AppRoute, Channel, FeatureData, RouterAnchor, FEATURES,
 };
 
@@ -95,8 +97,7 @@ impl Component for Index {
             Msg::Update => {
                 let inner_height = window().inner_height().unwrap().as_f64().unwrap();
                 let scroll_y = window().scroll_y().unwrap();
-                let distance_to_bottom =
-                    document_body().scroll_height() as f64 - scroll_y - inner_height;
+                let distance_to_bottom = body().scroll_height() as f64 - scroll_y - inner_height;
 
                 if distance_to_bottom < inner_height {
                     self.items_visible += BATCH_SIZE;

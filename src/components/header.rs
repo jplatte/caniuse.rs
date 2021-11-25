@@ -1,7 +1,9 @@
 use std::mem;
 
-use gloo::events::EventListener;
-use gloo_utils::window;
+use gloo::{
+    events::EventListener,
+    utils::{body, document_element, window},
+};
 use wasm_bindgen::JsCast;
 use web_sys::{HtmlElement, MouseEvent};
 use yew::{
@@ -10,7 +12,6 @@ use yew::{
 
 use crate::{
     icons::{fa_bars, fa_moon, fa_question_circle, fa_sun},
-    util::{document_body, document_element},
     AppRoute, RouterAnchor,
 };
 
@@ -47,11 +48,10 @@ impl Component for Header {
         match msg {
             Msg::OpenMenu => {
                 if !self.is_menu_open {
-                    self.document_click_listener =
-                        Some(EventListener::new(&document_body(), "click", {
-                            let link = self.link.clone();
-                            move |_| link.send_message(Msg::CloseMenu)
-                        }));
+                    self.document_click_listener = Some(EventListener::new(&body(), "click", {
+                        let link = self.link.clone();
+                        move |_| link.send_message(Msg::CloseMenu)
+                    }));
                 }
 
                 !mem::replace(&mut self.is_menu_open, true)

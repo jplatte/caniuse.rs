@@ -1,6 +1,6 @@
 #![recursion_limit = "512"]
 
-use gloo_utils::document;
+use gloo::utils::document;
 use wasm_bindgen::prelude::wasm_bindgen;
 use yew_router::Switch;
 
