@@ -1,6 +1,0 @@
-+++
-title = "`ManuallyDrop<T>` in `union`s"
-flag = "untagged_unions"
-tracking_issue_id = 55149
-stabilization_pr_id = 77547
-+++

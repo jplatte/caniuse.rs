@@ -1,5 +1,0 @@
-+++
-title = "subslice patterns (`[a, .., b]` and `[a, xs @ .., b]`)"
-flag = "slice_patterns"
-tracking_issue_id = 62254
-+++

@@ -1,3 +1,0 @@
-+++
-title = "alternative registries to crates.io in cargo"
-+++

@@ -1,5 +1,0 @@
-+++
-title = "`String::as_mut_str`"
-flag = "string_as_str"
-impl_pr_id = 30943
-+++

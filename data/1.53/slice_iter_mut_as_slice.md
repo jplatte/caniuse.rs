@@ -1,7 +1,0 @@
-+++
-title = "`slice::IterMut::as_slice`"
-flag = "slice_iter_mut_as_slice"
-impl_pr_id = 58924
-tracking_issue_id = 58957
-stabilization_pr_id = 82771
-+++

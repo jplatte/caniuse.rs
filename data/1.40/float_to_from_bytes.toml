@@ -1,0 +1,17 @@
+title = "float ↔ bytes conversion functions"
+flag = "float_to_from_bytes"
+items = [
+    "f32::to_ne_bytes",
+    "f32::to_le_bytes",
+    "f32::to_be_bytes",
+    "f32::from_ne_bytes",
+    "f32::from_le_bytes",
+    "f32::from_be_bytes",
+
+    "f64::to_ne_bytes",
+    "f64::to_le_bytes",
+    "f64::to_be_bytes",
+    "f64::from_ne_bytes",
+    "f64::from_le_bytes",
+    "f64::from_be_bytes",
+]

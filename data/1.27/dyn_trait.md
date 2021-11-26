@@ -1,6 +1,0 @@
-+++
-title = "`dyn Trait` as a syntax for trait objects"
-flag = "dyn_trait"
-tracking_issue_id = 44662
-edition_guide_path = "rust-2018/trait-system/dyn-trait-for-trait-objects.html"
-+++

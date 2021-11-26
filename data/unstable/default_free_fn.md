@@ -1,6 +1,0 @@
-+++
-title = "the free `default` function (shorthand for `Default::default`)"
-flag = "default_free_fn"
-impl_pr_id = 73001
-tracking_issue_id = 73014
-+++

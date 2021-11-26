@@ -1,0 +1,4 @@
+title = "constants in array repeat expressions"
+flag = "const_in_array_repeat_expressions"
+rfc_id = 2203
+tracking_issue_id = 49147

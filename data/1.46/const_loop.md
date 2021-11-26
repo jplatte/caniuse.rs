@@ -1,7 +1,0 @@
-+++
-title = "`loop` and `while` in constant evaluation"
-flag = "const_loop"
-rfc_id = 2344
-tracking_issue_id = 52000
-stabilization_pr_id = 72437
-+++

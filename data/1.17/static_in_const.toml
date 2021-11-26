@@ -1,0 +1,6 @@
+title = "elision of `'static` lifetimes in `static`s and `const`s"
+flag = "static_in_const"
+rfc_id = 1623
+tracking_issue_id = 35897
+stabilization_pr_id = 39265
+edition_guide_path = "rust-2018/ownership-and-lifetimes/simpler-lifetimes-in-static-and-const.html"

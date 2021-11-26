@@ -1,0 +1,16 @@
+title = "`wrapping_neg` as `const fn`"
+impl_pr_id = 58044
+items = [
+    "i8::wrapping_neg",
+    "i16::wrapping_neg",
+    "i32::wrapping_neg",
+    "i64::wrapping_neg",
+    "i128::wrapping_neg",
+    "isize::wrapping_neg",
+    "u8::wrapping_neg",
+    "u16::wrapping_neg",
+    "u32::wrapping_neg",
+    "u64::wrapping_neg",
+    "u128::wrapping_neg",
+    "usize::wrapping_neg",
+]

@@ -1,4 +1,0 @@
-+++
-title = "proc-macros that generate `macro_rules!` macros"
-stabilization_pr_id = 64035
-+++

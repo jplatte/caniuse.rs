@@ -1,5 +1,0 @@
-+++
-title = "`alloc::Layout::new` as `const fn`"
-flag = "alloc_layout_const_new"
-impl_pr_id = 66254
-+++

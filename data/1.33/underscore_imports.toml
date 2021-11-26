@@ -1,0 +1,9 @@
+title = "underscore imports (impl-only trait imports)"
+flag = "underscore_imports"
+rfc_id = 2166
+tracking_issue_id = 48216
+stabilization_pr_id = 56303
+items = [
+    "extern crate c as _;",
+    "use path as _;",
+]

@@ -1,5 +1,0 @@
-+++
-title = "`#[thread_local]` on `static`s"
-flag = "thread_local"
-tracking_issue_id = 29594
-+++

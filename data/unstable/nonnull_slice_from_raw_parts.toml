@@ -1,0 +1,4 @@
+title = "`NonNull<[T]>::slice_from_raw_parts`"
+flag = "nonnull_slice_from_raw_parts"
+impl_pr_id = 71940
+tracking_issue_id = 71941

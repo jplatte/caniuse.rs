@@ -1,6 +1,0 @@
-+++
-title = "`Cell` with non-`Copy` types"
-flag = "cell_non_copy"
-rfc_id = 1651
-impl_pr_id = 39793
-+++

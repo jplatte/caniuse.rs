@@ -1,4 +1,0 @@
-+++
-title = "`#![no_std]`"
-flag = "no_std"
-+++

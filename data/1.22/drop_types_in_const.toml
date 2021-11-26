@@ -1,0 +1,4 @@
+title = "`Drop` types in constants"
+flag = "drop_types_in_const"
+rfc_id = 1440
+tracking_issue_id = 33156

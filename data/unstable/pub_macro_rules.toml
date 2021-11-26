@@ -1,0 +1,4 @@
+title = "module scoping for `macro_rules!` macros"
+flag = "pub_macro_rules"
+impl_pr_id = 82296
+tracking_issue_id = 78855

@@ -1,0 +1,8 @@
+title = "128 bit integer types"
+flag = "i128_type"
+tracking_issue_id = 35118
+edition_guide_path = "rust-2018/data-types/128-bit-integers.html"
+items = [
+    "i128",
+    "u128",
+]

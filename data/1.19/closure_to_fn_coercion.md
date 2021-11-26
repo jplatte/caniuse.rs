@@ -1,7 +1,0 @@
-+++
-title = "non-capturing closure to function pointer coercion"
-flag = "closure_to_fn_coercion"
-rfc_id = 1558
-tracking_issue_id = 39817
-stabilization_pr_id = 42162
-+++

@@ -1,7 +1,0 @@
-+++
-title = "move and reference bindings in the same match pattern"
-flag = "move_ref_pattern"
-impl_pr_id = 68376
-tracking_issue_id = 68354
-stabilization_pr_id = 76119
-+++

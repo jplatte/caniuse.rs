@@ -1,8 +1,0 @@
-+++
-title = "`?` as the Kleene \"at most one\" operator in `macro_rules!` in the 2018 edition"
-flag = "macro_at_most_once_rep"
-rfc_id = 2298
-tracking_issue_id = 48075
-stabilization_pr_id = 56245
-edition_guide_path = "rust-2018/macros/at-most-once.html"
-+++

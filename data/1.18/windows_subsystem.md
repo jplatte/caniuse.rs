@@ -1,5 +1,0 @@
-+++
-title = "`#![windows_subsystem]`"
-flag = "windows_subsystem"
-tracking_issue_id = 37499
-+++

@@ -1,4 +1,0 @@
-+++
-title = "attribute macros on inline modules"
-stabilization_pr_id = 64273
-+++

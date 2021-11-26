@@ -6,12 +6,12 @@ use std::{
     default::Default,
     env,
     fmt::Debug,
-    io::{BufRead, BufReader, BufWriter, Write},
+    io::{BufWriter, Write},
     iter,
     path::Path,
 };
 
-use anyhow::{bail, Context as _};
+use anyhow::Context as _;
 use fs_err::{self as fs, DirEntry, File};
 use proc_macro2::{Ident, Span, TokenStream};
 use quote::{quote, ToTokens};
@@ -192,43 +192,18 @@ fn collect_features(
             continue;
         }
 
-        let slug = match file_name.strip_suffix(".md") {
+        let slug = match file_name.strip_suffix(".toml") {
             Some(basename) => basename.to_owned(),
             None => {
-                panic!("expected only .md files and version.toml in data/*, found `{}`", file_name,)
+                panic!(
+                    "expected only .toml files and version.toml in data/*, found `{}`",
+                    file_name,
+                )
             }
         };
-        let feature_file = BufReader::new(File::open(file.path())?);
 
-        let mut feature_file_lines = feature_file.lines();
-        let mut feature_file_frontmatter = String::new();
-        assert_eq!(
-            match feature_file_lines.next() {
-                Some(Ok(s)) => s,
-                _ => bail!("reading first line of data/{}/{} failed", dir_name, file_name),
-            },
-            "+++",
-            "expected frontmatter at the beginning of data/{}/{}",
-            dir_name,
-            file_name
-        );
-
-        loop {
-            match feature_file_lines.next() {
-                Some(Ok(s)) if s == "+++" => break,
-                Some(Ok(s)) => {
-                    feature_file_frontmatter += s.as_str();
-                    feature_file_frontmatter.push('\n');
-                }
-                _ => bail!("reading frontmatter of data/{}/{} failed", dir_name, file_name),
-            }
-        }
-
-        // TODO: Read file contents after frontmatter
-
-        let feature = toml::from_str(&feature_file_frontmatter).with_context(|| {
-            format!("deserializing frontmatter of data/{}/{}", dir_name, file_name)
-        })?;
+        let feature = toml::from_str(&fs::read_to_string(file.path())?)
+            .with_context(|| format!("deserializing of data/{}/{}", dir_name, file_name))?;
 
         features.push(FeatureData { slug, ..feature });
     }

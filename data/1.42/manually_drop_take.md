@@ -1,7 +1,0 @@
-+++
-title = "`ManuallyDrop::take`"
-flag = "manually_drop_take"
-impl_pr_id = 55421
-tracking_issue_id = 55422
-stabilization_pr_id = 68066
-+++

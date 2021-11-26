@@ -1,0 +1,5 @@
+title = "`BTreeMap::remove_entry`"
+flag = "btreemap_remove_entry"
+impl_pr_id = 68378
+tracking_issue_id = 66714
+stabilization_pr_id = 70712

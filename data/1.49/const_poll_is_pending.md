@@ -1,5 +1,0 @@
-+++
-title = "`Poll::is_pending` as `const fn`"
-flag = "const_poll"
-impl_pr_id = 76227
-+++

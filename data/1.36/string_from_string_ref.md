@@ -1,4 +1,0 @@
-+++
-title = "`From<&String>` implementation for `String`"
-impl_pr_id = 59825
-+++

@@ -1,8 +1,0 @@
-+++
-title = "`is_null` on pointers to unsized types"
-impl_pr_id = 46094
-items = [
-    "<*const T>::is_null",
-    "<*mut T>::is_null",
-]
-+++

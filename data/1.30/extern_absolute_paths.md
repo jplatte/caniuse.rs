@@ -1,5 +1,0 @@
-+++
-title = "absolute paths as paths from other crates"
-flag = "extern_absolute_paths"
-tracking_issue_id = 44660
-+++

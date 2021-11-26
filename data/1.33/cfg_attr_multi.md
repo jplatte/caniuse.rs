@@ -1,8 +1,0 @@
-+++
-title = "`#[cfg_attr(cfg, attr1, attr2, attr3)]`"
-flag = "cfg_attr_multi"
-rfc_id = 2539
-impl_pr_id = 54862
-tracking_issue_id = 54881
-stabilization_pr_id = 57332
-+++

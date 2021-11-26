@@ -1,6 +1,0 @@
-+++
-title = "`sync::once::Once::is_completed`"
-impl_pr_id = 53027
-tracking_issue_id = 54890
-stabilization_pr_id = 68945
-+++

@@ -1,4 +1,0 @@
-+++
-title = "`#[deprecated]` on macros"
-impl_pr_id = 62042
-+++

@@ -1,4 +1,0 @@
-+++
-title = "`writeln!` without arguments"
-impl_pr_id = 38469
-+++

@@ -1,6 +1,0 @@
-+++
-title = "`#[global_allocator]`"
-flag = "global_allocator"
-tracking_issue_id = 27389
-edition_guide_path = "rust-2018/platform-and-target-support/global-allocators.html"
-+++

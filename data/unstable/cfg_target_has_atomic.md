@@ -1,5 +1,0 @@
-+++
-title = "`cfg(target_has_atomic = ...)`"
-flag = "cfg_target_has_atomic"
-tracking_issue_id = 32976
-+++
