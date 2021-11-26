@@ -1,7 +1,0 @@
-+++
-title = "associated constants in `trait` and `impl` blocks"
-flag = "associated_consts"
-tracking_issue_id = 29646
-stabilization_pr_id = 42809
-edition_guide_path = "rust-2018/trait-system/associated-constants.html"
-+++

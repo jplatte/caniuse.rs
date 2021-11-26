@@ -1,6 +1,0 @@
-+++
-title = "recursive static items"
-flag = "static_recursion"
-tracking_issue_id = 29719
-stabilization_pr_id = 40027
-+++

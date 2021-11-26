@@ -1,7 +1,0 @@
-+++
-title = "`str::rsplit_once`"
-flag = "str_split_once"
-impl_pr_id = 74707
-tracking_issue_id = 74773
-stabilization_pr_id = 81940
-+++

@@ -1,6 +1,0 @@
-+++
-title = "`const unsafe fn`s inside `unsafe` blocks in `const fn`"
-flag = "min_const_unsafe_fn"
-tracking_issue_id = 55607
-stabilization_pr_id = 57067
-+++

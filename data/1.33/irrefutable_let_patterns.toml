@@ -1,0 +1,6 @@
+title = "irrefutable patterns in `if let` and `while let`"
+flag = "irrefutable_let_patterns"
+rfc_id = 2086
+impl_pr_id = 49469
+tracking_issue_id = 44495
+stabilization_pr_id = 57535

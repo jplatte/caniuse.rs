@@ -1,0 +1,5 @@
+title = "`Result::map_or_else`"
+flag = "result_map_or_else"
+impl_pr_id = 53777
+tracking_issue_id = 53268
+stabilization_pr_id = 66322

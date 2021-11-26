@@ -1,0 +1,10 @@
+title = "scoped lints"
+flag = "tool_lints"
+tracking_issue_id = 44690
+stabilization_pr_id = 54870
+items = [
+    "#[allow(tool::lint)]",
+    "#[warn(tool::lint)]",
+    "#[deny(tool::lint)]",
+    "#[forbid(tool::lint)]",
+]

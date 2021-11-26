@@ -1,5 +1,0 @@
-+++
-title = "`mem::needs_drop` as `const fn`"
-flag = "const_needs_drop"
-stabilization_pr_id = 60364
-+++

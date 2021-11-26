@@ -1,7 +1,0 @@
-+++
-title = "the `literal` fragment specifier in `macro_rules!`"
-flag = "macro_literal_matcher"
-rfc_id = 1576
-tracking_issue_id = 35625
-stabilization_pr_id = 56072
-+++

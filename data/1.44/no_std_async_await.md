@@ -1,5 +1,0 @@
-+++
-title = "`async` / `.await` in `#[no_std]` crates"
-impl_pr_id = 69033
-tracking_issue_id = 56974
-+++

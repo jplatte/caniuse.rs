@@ -1,7 +1,0 @@
-+++
-title = "`std::vec::Drain::as_slice`"
-flag = "vec_drain_as_slice"
-impl_pr_id = 58924
-tracking_issue_id = 58957
-stabilization_pr_id = 72584
-+++

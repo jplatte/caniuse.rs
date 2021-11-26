@@ -1,0 +1,5 @@
+title = "let bindings, assignments and destructuring in `const fn`"
+flag = "const_let"
+rfc_id = 2341
+tracking_issue_id = 48821
+stabilization_pr_id = 57175

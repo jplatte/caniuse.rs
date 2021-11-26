@@ -1,4 +1,0 @@
-+++
-title = "`#[must_use]` on traits"
-impl_pr_id = 55663
-+++

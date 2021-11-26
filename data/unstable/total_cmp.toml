@@ -1,0 +1,5 @@
+title = "the `total_cmp` method on float types"
+flag = "total_cmp"
+impl_pr_id = 72568
+tracking_issue_id = 72599
+items = ["f32::total_cmp", "f64::total_cmp"]

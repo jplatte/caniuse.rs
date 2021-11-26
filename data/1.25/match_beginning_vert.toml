@@ -1,0 +1,5 @@
+title = "`|` at the beginning of match arms"
+flag = "match_beginning_vert"
+rfc_id = 1925
+tracking_issue_id = 44101
+stabilization_pr_id = 47947

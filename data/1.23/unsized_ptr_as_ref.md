@@ -1,8 +1,0 @@
-+++
-title = "`as_ref` on pointers to unsized types"
-impl_pr_id = 44932
-items = [
-    "<*const T>::as_ref",
-    "<*mut T>::as_ref",
-]
-+++

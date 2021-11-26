@@ -1,6 +1,0 @@
-+++
-title = "`#[cfg(version(..))]`"
-flag = "cfg_version"
-impl_pr_id = 71314
-tracking_issue_id = 64796
-+++

@@ -1,6 +1,0 @@
-+++
-title = "`eprintln!`"
-rfc_id = 1869
-impl_pr_id = 41192
-tracking_issue_id = 40528
-+++

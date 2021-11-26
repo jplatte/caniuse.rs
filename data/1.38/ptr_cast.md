@@ -1,4 +1,0 @@
-+++
-title = "`cast` method on pointers"
-items = ["<*const T>::cast", "<*mut T>::cast"]
-+++

@@ -1,5 +1,0 @@
-+++
-title = "array to slice casts and coercions in `const fn`"
-tracking_issue_id = 64992
-stabilization_pr_id = 73862
-+++

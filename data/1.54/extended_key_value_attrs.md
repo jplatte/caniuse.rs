@@ -1,7 +1,0 @@
-+++
-title = "macro expansion in key-value attributes"
-flag = "extended_key_value_attributes"
-impl_pr_id = 78837
-tracking_issue_id = 78835
-stabilization_pr_id = 83366
-+++

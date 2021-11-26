@@ -1,6 +1,0 @@
-+++
-title = "`core::future::poll_fn`"
-flag = "future_poll_fn"
-impl_pr_id = 72303
-tracking_issue_id = 72302
-+++

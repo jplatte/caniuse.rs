@@ -1,4 +1,0 @@
-+++
-title = "`Debug` implementation for `std::str::Chars`"
-impl_pr_id = 63000
-+++

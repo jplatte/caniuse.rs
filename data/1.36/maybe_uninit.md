@@ -1,7 +1,0 @@
-+++
-title = "`mem::MaybeUninit`"
-rfc_id = 1892
-impl_pr_id = 53508
-tracking_issue_id = 53491
-stabilization_pr_id = 60445
-+++

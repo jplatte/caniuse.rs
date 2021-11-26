@@ -1,4 +1,0 @@
-+++
-title = "`pin::Pin`"
-flag = "pin"
-+++

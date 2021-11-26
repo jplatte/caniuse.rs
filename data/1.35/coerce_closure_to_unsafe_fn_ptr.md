@@ -1,4 +1,0 @@
-+++
-title = "closure to unsafe function pointer coercions"
-impl_pr_id = 59580
-+++

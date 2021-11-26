@@ -1,3 +1,0 @@
-+++
-title = "`Send` implementation for `AtomicPtr`"
-+++

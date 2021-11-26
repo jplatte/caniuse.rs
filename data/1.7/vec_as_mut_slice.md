@@ -1,6 +1,0 @@
-+++
-title = "`Vec::as_mut_slice`"
-flag = "vec_as_slice"
-tracking_issue_id = 27729
-stabilization_pr_id = 30943
-+++
