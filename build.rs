@@ -149,17 +149,27 @@ fn collect_data() -> anyhow::Result<Data> {
         unstable: FeatureList { version: None, features: Vec::new() },
     };
 
+    let mut versions: BTreeMap<String, VersionData> =
+        toml::from_slice(&fs::read("data/versions.toml")?)?;
+
     for entry in fs::read_dir("data")? {
         let dir = entry?;
-        assert!(dir.file_type()?.is_dir(), "expected only directories in data/");
+        if dir.file_name() == "versions.toml" {
+            continue;
+        }
+        assert!(
+            dir.file_type()?.is_dir(),
+            "other than versions.toml expected only directories in data/"
+        );
 
         let dir_name = dir.file_name().into_string().unwrap();
 
         let features = match dir_name.as_str() {
             "unstable" => &mut data.unstable.features,
             _ => {
-                let version_data_raw = fs::read(dir.path().join("version.toml"))?;
-                let version_data = toml::from_slice(&version_data_raw)?;
+                let version_data = versions
+                    .remove(&dir_name)
+                    .unwrap_or_else(|| panic!("version {} not defined in versions.toml", dir_name));
                 data.versions
                     .push(FeatureList { version: Some(version_data), features: Vec::new() });
                 &mut data.versions.last_mut().unwrap().features
@@ -188,17 +198,10 @@ fn collect_features(
         let file = entry?;
         let file_name = file.file_name().into_string().unwrap();
 
-        if file_name == "version.toml" {
-            continue;
-        }
-
         let slug = match file_name.strip_suffix(".toml") {
             Some(basename) => basename.to_owned(),
             None => {
-                panic!(
-                    "expected only .toml files in data/*, found `{}`",
-                    file_name,
-                )
+                panic!("expected only .toml files in data/*, found `{}`", file_name,)
             }
         };
 

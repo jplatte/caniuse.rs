@@ -1,5 +1,0 @@
-number = "1.23"
-release_date = "2018-01-04"
-release_notes = "version-1230-2018-01-04"
-gh_milestone_id = 40
-blog_post_path = "2018/01/04/Rust-1.23.html"
