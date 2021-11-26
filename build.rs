@@ -196,7 +196,7 @@ fn collect_features(
             Some(basename) => basename.to_owned(),
             None => {
                 panic!(
-                    "expected only .toml files and version.toml in data/*, found `{}`",
+                    "expected only .toml files in data/*, found `{}`",
                     file_name,
                 )
             }
