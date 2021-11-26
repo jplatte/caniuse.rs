@@ -203,7 +203,7 @@ fn collect_features(
         };
 
         let feature = toml::from_str(&fs::read_to_string(file.path())?)
-            .with_context(|| format!("deserializing of data/{}/{}", dir_name, file_name))?;
+            .with_context(|| format!("deserializing data/{}/{}", dir_name, file_name))?;
 
         features.push(FeatureData { slug, ..feature });
     }
