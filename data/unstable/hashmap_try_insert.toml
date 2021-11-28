@@ -1,0 +1,3 @@
+title = "`HashMap::try_insert`"
+flag = "map_try_insert"
+tracking_issue_id = 82766

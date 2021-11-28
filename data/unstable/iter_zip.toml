@@ -1,0 +1,3 @@
+title = "`core::iter::zip`"
+flag = "iter_zip"
+tracking_issue_id = 83574

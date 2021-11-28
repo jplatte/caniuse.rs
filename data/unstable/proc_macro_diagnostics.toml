@@ -1,0 +1,3 @@
+title = "procedural macro diagnostics"
+flag = "proc_macro_diagnostics"
+tracking_issue_id = 54140
