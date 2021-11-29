@@ -56,5 +56,6 @@ specified for a feature:
 * `items`: Language items (functions, structs, modules) that are part of this
   feature – do not specify if this feature is exactly one item and that item
   is already used as the title
+* `aliases`: Alternatives to the `title`
 
 [#16]: https://github.com/jplatte/caniuse.rs/issues/16

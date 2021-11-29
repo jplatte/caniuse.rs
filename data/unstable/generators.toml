@@ -2,3 +2,5 @@ title = "generators"
 flag = "generators"
 rfc_id = 2033
 tracking_issue_id = 43122
+items = ["yield"]
+aliases = ["coroutines"]

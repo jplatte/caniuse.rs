@@ -96,6 +96,9 @@ struct FeatureData {
     /// already used as the title)
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     items: Vec<String>,
+    /// Aliases (alternatives to the title of this feature)
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    aliases: Vec<String>,
 }
 
 #[derive(Copy, Clone, Debug, Deserialize, Serialize)]
@@ -389,6 +392,7 @@ fn add_feature_ngrams<const N: usize>(
         strings.push(f);
     }
     strings.extend(feature.items.iter());
+    strings.extend(feature.aliases.iter());
 
     for string in strings {
         for ngram in string.as_bytes().array_windows() {
