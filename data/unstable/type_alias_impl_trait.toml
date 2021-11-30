@@ -1,0 +1,5 @@
+title = "`impl Trait` in type aliases"
+flag = "type_alias_impl_trait"
+rfc_id = 2515
+tracking_issue_id = 63063
+aliases = ["TAIT"]
