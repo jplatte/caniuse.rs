@@ -1,0 +1,9 @@
+title = "`is_sorted` method family on `Iterator`"
+flag = "is_sorted"
+rfc_id = 2351
+tracking_issue_id = 53485
+items = [
+    "Iterator::is_sorted",
+    "Iterator::is_sorted_by",
+    "Iterator::is_sorted_by_key",
+]

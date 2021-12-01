@@ -1,0 +1,9 @@
+title = "`is_sorted` method family on slices"
+flag = "is_sorted"
+rfc_id = 2351
+tracking_issue_id = 53485
+items = [
+    "[T]::is_sorted",
+    "[T]::is_sorted_by",
+    "[T]::is_sorted_by_key",
+]
