@@ -387,10 +387,12 @@ blog_post_path = "2021/10/21/Rust-1.56.0.html"
 
 ["1.57"]
 number = "1.57"
-channel = "beta"
+release_date = "2021-12-02"
+release_notes = "version-1570-2021-12-02"
 gh_milestone_id = 86
+blog_post_path = "2021/12/02/Rust-1.57.0.html"
 
 ["1.58"]
 number = "1.58"
-channel = "nightly"
+channel = "beta"
 gh_milestone_id = 87
