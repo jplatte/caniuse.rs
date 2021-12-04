@@ -59,3 +59,7 @@ specified for a feature:
 * `aliases`: Alternatives to the `title`
 
 [#16]: https://github.com/jplatte/caniuse.rs/issues/16
+
+## Related Projects
+
+- [alfred-caniuse-rs](https://github.com/robjtede/alfred-caniuse-rs): caniuse.rs lookups as an Alfred workflow (macOS)
