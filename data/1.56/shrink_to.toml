@@ -13,3 +13,4 @@ items = [
     "Vec::shrink_to",
     "VecDeque::shrink_to",
 ]
+doc_path = "std/vec/struct.Vec.html#method.shrink_to"

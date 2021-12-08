@@ -10,3 +10,4 @@ items = [
     "impl From<T; N> for LinkedList<T>",
     "impl From<T; N> for VecDeque<T>",
 ]
+doc_path = "std/collections/struct.VecDeque.html#impl-From<[T%3B%20N]>"

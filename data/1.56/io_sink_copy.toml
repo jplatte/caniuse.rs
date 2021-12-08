@@ -1,2 +1,3 @@
 title = "`Copy` implementation for `io::Sink`"
 impl_pr_id = 86744
+doc_path = "std/io/struct.Sink.html#impl-Copy"
