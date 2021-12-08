@@ -3,3 +3,4 @@ flag = "proc_macro_is_available"
 impl_pr_id = 71400
 tracking_issue_id = 71436
 stabilization_pr_id = 89735
+doc_path = "proc_macro/fn.is_available.html"
