@@ -1,1 +1,2 @@
 title = "`String::new` as `const fn`"
+flag = "const_string_new"

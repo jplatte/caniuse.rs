@@ -1,3 +1,4 @@
 title = "`str::split_whitespace`"
 rfc_id = 1054
 impl_pr_id = 24563
+flag = "split_whitespace"

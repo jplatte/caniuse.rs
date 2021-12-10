@@ -1,1 +1,2 @@
 title = "`[T]::len` as `const fn`"
+flag = "const_slice_len"

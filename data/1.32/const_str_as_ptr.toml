@@ -1,1 +1,2 @@
 title = "`str::as_ptr` as `const fn`"
+flag = "const_str_as_ptr"

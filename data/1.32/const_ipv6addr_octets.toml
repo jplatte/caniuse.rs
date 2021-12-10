@@ -1,1 +1,2 @@
 title = "`Ipv6Addr::octets` as `const fn`"
+flag = "const_ipv6"

@@ -1,1 +1,2 @@
 title = "`slice::repeat`"
+flag = "repeat_generic_slice"

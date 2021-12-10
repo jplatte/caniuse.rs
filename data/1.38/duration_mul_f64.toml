@@ -1,1 +1,2 @@
 title = "`Duration::mul_f64`"
+flag = "duration_float"

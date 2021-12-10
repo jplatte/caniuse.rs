@@ -4,3 +4,4 @@ items = [
     "impl Unpin for *const T",
     "impl Unpin for *mut T",
 ]
+flag = "duration_float"

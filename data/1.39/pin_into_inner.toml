@@ -1,1 +1,2 @@
 title = "`Pin::into_inner`"
+flag = "pin_into_inner"

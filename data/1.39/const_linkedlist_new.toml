@@ -1,1 +1,2 @@
 title = "`LinkedList::new` as `const fn`"
+flag = "const_linked_list_new"
