@@ -1,5 +1,5 @@
 title = "`compile_error!`"
-flag = "compile_error"
+flag = "compile_error_macro"
 rfc_id = 1695
 impl_pr_id = 42620
 tracking_issue_id = 40872
