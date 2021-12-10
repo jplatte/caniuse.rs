@@ -1,1 +1,2 @@
 title = "`Duration::subsec_millis` as `const fn`"
+flag = "duration_consts"

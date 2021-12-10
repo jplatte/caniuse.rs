@@ -1,1 +1,2 @@
 title = "`Instant::saturating_duration_since`"
+flag = "checked_duration_since"

@@ -1,2 +1,3 @@
 title = "`NonNull::dangling` as `const fn`"
 impl_pr_id = 60244
+flag = "const_nonnull_dangling"

@@ -1,1 +1,2 @@
 title = "`NonNull::as_ptr` as `const fn`"
+flag = "const_nonnull_as_ptr"

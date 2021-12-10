@@ -1,1 +1,2 @@
 title = "`ManuallyDrop::new` as `const fn`"
+flag = "const_manually_drop"

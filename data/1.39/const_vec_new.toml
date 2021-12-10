@@ -1,1 +1,2 @@
 title = "`Vec::new` as `const fn`"
+flag = "const_vec_new"

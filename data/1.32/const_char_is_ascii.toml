@@ -1,1 +1,2 @@
 title = "`char::is_ascii` as `const fn`"
+flag = "const_ascii_methods_on_intrinsics"

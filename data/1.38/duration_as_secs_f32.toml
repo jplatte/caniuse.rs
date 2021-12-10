@@ -1,1 +1,2 @@
 title = "`Duration::as_secs_f32`"
+flag = "duration_float"

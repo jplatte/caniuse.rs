@@ -1,1 +1,2 @@
 title = "`mem::take`"
+flag = "mem_take"

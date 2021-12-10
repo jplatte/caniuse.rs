@@ -1,1 +1,2 @@
 title = "`RangeInclusive::start` as `const fn`"
+flag = "const_inclusive_range_methods"

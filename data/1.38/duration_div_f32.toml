@@ -1,1 +1,2 @@
 title = "`Duration::div_f32`"
+flag = "duration_float"

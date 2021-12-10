@@ -1,1 +1,2 @@
 title = "`iter::once`"
+flag = "iter_once"
