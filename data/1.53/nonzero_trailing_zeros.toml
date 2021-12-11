@@ -18,3 +18,4 @@ items = [
     "NonZeroU128::trailing_zeros",
     "NonZeroUsize::trailing_zeros",
 ]
+doc_path = "std/num/struct.NonZeroU32.html#method.trailing_zeros"

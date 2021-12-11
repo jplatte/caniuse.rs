@@ -3,3 +3,4 @@ flag = "duration_zero"
 impl_pr_id = 72790
 tracking_issue_id = 73544
 stabilization_pr_id = 84084
+doc_path = "std/time/struct.Duration.html#associatedconstant.ZERO"

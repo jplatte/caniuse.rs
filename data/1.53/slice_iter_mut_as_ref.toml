@@ -1,3 +1,4 @@
 title = "`AsRef<[T]>` implementation for `slice::IterMut<'_, T>`"
 flag = "slice_iter_mut_as_slice"
 impl_pr_id = 82771
+doc_path = "std/slice/struct.IterMut.html#impl-AsRef<[T]>"
