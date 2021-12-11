@@ -18,3 +18,4 @@ items = [
     "u128::BITS",
     "usize::BITS",
 ]
+doc_path = "std/primitive.u32.html#associatedconstant.BITS"

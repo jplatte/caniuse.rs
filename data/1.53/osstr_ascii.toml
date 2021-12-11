@@ -11,3 +11,4 @@ items = [
     "OsStr::is_ascii",
     "OsStr::eq_ignore_ascii_case",
 ]
+doc_path = "std/ffi/struct.OsStr.html#method.is_ascii"

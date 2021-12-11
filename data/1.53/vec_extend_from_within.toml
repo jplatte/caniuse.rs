@@ -3,3 +3,4 @@ flag = "vec_extent_from_within"
 impl_pr_id = 79015
 tracking_issue_id = 81656
 stabilization_pr_id = 84642
+doc_path = "std/vec/struct.Vec.html#method.extend_from_within"
