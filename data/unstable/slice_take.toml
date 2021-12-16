@@ -1,0 +1,12 @@
+title = "`take` method family on slices"
+flag = "slice_take"
+tracking_issue_id = 62280
+impl_pr_id = 88502
+items = [
+    "[T]::take",
+    "[T]::take_mut",
+    "[T]::take_first",
+    "[T]::take_first_mut",
+    "[T]::take_last",
+    "[T]::take_last_mut",
+]
