@@ -337,3 +337,7 @@ blog_post_path = "2021/12/02/Rust-1.57.0.html"
 ["1.58"]
 channel = "beta"
 gh_milestone_id = 87
+
+["1.59"]
+channel = "nightly"
+gh_milestone_id = 89
