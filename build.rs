@@ -28,7 +28,7 @@ struct Data {
 #[derive(Deserialize, Serialize)]
 struct VersionData {
     /// Rust version number, e.g. "1.0.0"
-    #[serde(skip_deserializing)]
+    #[serde(skip)]
     number: String,
     /// The channel (stable / beta / nightly)
     #[serde(default)]
