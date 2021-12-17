@@ -28,6 +28,7 @@ struct Data {
 #[derive(Deserialize, Serialize)]
 struct VersionData {
     /// Rust version number, e.g. "1.0.0"
+    #[serde(skip_deserializing)]
     number: String,
     /// The channel (stable / beta / nightly)
     #[serde(default)]
@@ -170,9 +171,11 @@ fn collect_data() -> anyhow::Result<Data> {
         let features = match dir_name.as_str() {
             "unstable" => &mut data.unstable.features,
             _ => {
-                let version_data = versions
-                    .remove(&dir_name)
+                let (number, mut version_data) = versions
+                    .remove_entry(&dir_name)
                     .unwrap_or_else(|| panic!("version {} not defined in versions.toml", dir_name));
+                version_data.number = number;
+
                 data.versions
                     .push(FeatureList { version: Some(version_data), features: Vec::new() });
                 &mut data.versions.last_mut().unwrap().features
