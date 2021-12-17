@@ -1,0 +1,5 @@
+title = "`ControlFlow::is_break`"
+# was renamed at stabilization, but the new feature name is not relevant for anything
+flag = "control_flow_enum"
+impl_pr_id = 78200
+stabilization_pr_id = 91091
