@@ -1,0 +1,4 @@
+title = "defaults for const generics"
+flag = "const_generics_defaults"
+tracking_issue_id = 44580
+stabilization_pr_id = 90207
