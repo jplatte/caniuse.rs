@@ -2,3 +2,4 @@ title = "`CStr::from_bytes_with_nul_unchecked` as `const fn`"
 flag = "const_cstr_unchecked"
 tracking_issue_id = 90343
 stabilization_pr_id = 91855
+doc_path = "std/ffi/struct.CStr.html#method.from_bytes_with_nul_unchecked"

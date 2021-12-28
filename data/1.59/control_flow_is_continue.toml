@@ -3,3 +3,4 @@ title = "`ControlFlow::is_continue`"
 flag = "control_flow_enum"
 impl_pr_id = 78200
 stabilization_pr_id = 91091
+doc_path = "std/ops/enum.ControlFlow.html#method.is_continue"
