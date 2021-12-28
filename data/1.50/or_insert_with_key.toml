@@ -7,3 +7,4 @@ items = [
     "collections::btree_map::Entry::or_insert_with_key",
     "collections::hash_map::Entry::or_insert_with_key",
 ]
+doc_path = "std/collections/hash_map/enum.Entry.html#method.or_insert_with_key"

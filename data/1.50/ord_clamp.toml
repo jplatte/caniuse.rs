@@ -3,3 +3,4 @@ flag = "clamp"
 rfc_id = 1961
 tracking_issue_id = 44095
 stabilization_pr_id = 77872
+doc_path = "std/cmp/trait.Ord.html#method.clamp"

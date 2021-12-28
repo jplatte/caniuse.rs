@@ -1,2 +1,3 @@
 title = "`PartialEq<char>` implementation for `proc_macro::Punct`"
 impl_pr_id = 78636
+doc_path = "proc_macro/struct.Punct.html#impl-PartialEq<char>"

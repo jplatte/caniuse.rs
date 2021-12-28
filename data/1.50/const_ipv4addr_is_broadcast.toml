@@ -2,3 +2,4 @@ title = "`Ipv4Addr::is_broadcast` as `const fn`"
 flag = "const_ipv4"
 tracking_issue_id = 76205
 stabilization_pr_id = 79342
+doc_path = "std/net/struct.Ipv4Addr.html#method.is_broadcast"
