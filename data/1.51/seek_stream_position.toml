@@ -3,3 +3,4 @@ flag = "seek_convenience"
 impl_pr_id = 58422
 tracking_issue_id = 59359
 stabilization_pr_id = 70904
+doc_path = "std/io/trait.Seek.html#method.stream_position"

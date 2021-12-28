@@ -9,3 +9,4 @@ items = [
     "impl Div<NonZeroU128> for u128",
     "impl Div<NonZeroUsize> for usize",
 ]
+doc_path = "std/primitive.u32.html#impl-Div<NonZeroU32>"

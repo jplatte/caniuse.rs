@@ -3,3 +3,4 @@ flag = "arc_mutate_strong_count"
 impl_pr_id = 70733
 tracking_issue_id = 71983
 stabilization_pr_id = 79285
+doc_path = "std/sync/struct.Arc.html#method.decrement_strong_count"

@@ -9,3 +9,4 @@ items = [
     "impl Rem<NonZeroU128> for u128",
     "impl Rem<NonZeroUsize> for usize",
 ]
+doc_path = "std/primitive.u32.html#impl-Rem<NonZeroU32>"

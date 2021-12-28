@@ -3,3 +3,4 @@ flag = "slice_strip"
 impl_pr_id = 73414
 tracking_issue_id = 73413
 stabilization_pr_id = 77853
+doc_path = "std/primitive.slice.html#method.strip_suffix"

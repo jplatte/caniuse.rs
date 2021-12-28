@@ -11,3 +11,4 @@ items = [
     "i128::unsigned_abs",
     "isize::unsigned_abs",
 ]
+doc_path = "std/primitive.i32.html#method.unsigned_abs"
