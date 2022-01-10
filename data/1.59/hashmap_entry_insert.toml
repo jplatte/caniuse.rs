@@ -1,0 +1,6 @@
+title = "`hash_map::Entry::insert_entry`"
+flag = "entry_insert"
+impl_pr_id = 64656
+tracking_issue_id = 65225
+stabilization_pr_id = 90345
+doc_path = "nightly/std/collections/hash_map/struct.VacantEntry.html#method.insert_entry"
