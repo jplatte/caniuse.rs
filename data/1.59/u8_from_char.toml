@@ -1,0 +1,3 @@
+title = "`TryFrom<char>` implementation for `u8`"
+impl_pr_id = 84640
+doc_path = "nightly/std/primitive.u8.html#impl-TryFrom<char>"
