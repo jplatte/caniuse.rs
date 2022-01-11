@@ -1,0 +1,4 @@
+title = "`rust-version` in Cargo.toml"
+rfc_id = 2495
+tracking_issue_id = 65262
+aliases = ["MSRV", "Minimum Supported Rust Version"]
