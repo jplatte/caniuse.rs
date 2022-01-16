@@ -1,0 +1,10 @@
+title = "`unwrap_unchecked` methods"
+flag = "option_result_unwrap_unchecked"
+tracking_issue_id = 81383
+impl_pr_id = 80876
+doc_path = "std/option/enum.Option.html#method.unwrap_unchecked"
+items = [
+    "Option::unwrap_unchecked",
+    "Result::unwrap_unchecked",
+    "Result::unwrap_err_unchecked",
+]

@@ -1,0 +1,9 @@
+title = "`is_symlink` methods"
+flag = "is_symlink"
+tracking_issue_id = 85748
+impl_pr_id = 85747
+doc_path = "std/path/struct.Path.html#method.is_symlink"
+items = [
+    "std::path::Path::is_symlink",
+    "std::fs::Metadata::is_symlink",
+]

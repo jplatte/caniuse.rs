@@ -1,0 +1,5 @@
+title = "`{integer}::saturating_div`"
+flag = "saturating_div"
+tracking_issue_id = 87920
+impl_pr_id = 87921
+doc_path = "std/primitive.u32.html#method.saturating_div"

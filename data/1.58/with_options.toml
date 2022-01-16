@@ -1,0 +1,5 @@
+title = "`File::options`"
+flag = "with_options"
+tracking_issue_id = 65439
+impl_pr_id = 65429
+doc_path = "std/fs/struct.File.html#method.options"
