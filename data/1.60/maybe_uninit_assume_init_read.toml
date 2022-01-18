@@ -1,0 +1,4 @@
+title = "`MaybeUninit::assume_init_read`"
+flag = "maybe_uninit_extra"
+tracking_issue_id = 63567
+stabilization_pr_id = 92768
