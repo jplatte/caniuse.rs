@@ -1,0 +1,3 @@
+title = "`Pattern` implementation for `[char; N]`"
+impl_pr_id = 86336
+doc_path = "std/str/pattern/trait.Pattern.html#impl-Pattern%3C%27a%3E-7"

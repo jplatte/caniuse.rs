@@ -1,0 +1,5 @@
+title = "`UnsafeCell::raw_get`"
+flag = "unsafe_cell_raw_get"
+tracking_issue_id = 66358
+stabilization_pr_id = 88551
+doc_path = "std/cell/struct.UnsafeCell.html#method.raw_get"

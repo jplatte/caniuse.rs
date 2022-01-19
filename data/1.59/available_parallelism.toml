@@ -1,0 +1,5 @@
+title = "`std::thread::available_parallelism`"
+flag = "available_parallelism"
+tracking_issue_id = 74479
+stabilization_pr_id = 92632
+doc_path = "std/thread/fn.available_parallelism.html"

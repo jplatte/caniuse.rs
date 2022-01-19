@@ -1,0 +1,5 @@
+title = "`<[T; N]>::as_mut_slice`"
+flag = "array_as_slice"
+tracking_issue_id = 76118
+stabilization_pr_id = 88353
+doc_path = "std/primitive.array.html#method.as_mut_slice"

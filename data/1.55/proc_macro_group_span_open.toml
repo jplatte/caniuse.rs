@@ -1,0 +1,5 @@
+title = "`Group::span_open`"
+flag = "proc_macro_group_span"
+tracking_issue_id = 54725
+stabilization_pr_id = 86136
+doc_path = "proc_macro/struct.Group.html#method.span_open"

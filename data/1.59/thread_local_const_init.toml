@@ -1,0 +1,4 @@
+title = "const-initialized thread locals"
+flag = "thread_local_const_init"
+tracking_issue_id = 84223
+stabilization_pr_id = 91355

@@ -1,0 +1,4 @@
+title = "`Termination` implementation for `Result<Infallible, E>`"
+flag = "termination_trait_lib"
+impl_pr_id = 88601
+doc_path = "std/process/trait.Termination.html#impl-Termination-3"
