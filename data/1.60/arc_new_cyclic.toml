@@ -1,0 +1,5 @@
+title = "`Arc::new_cyclic`"
+flag = "arc_new_cyclic"
+impl_pr_id = 75505
+tracking_issue_id = 75861
+stabilization_pr_id = 90666
