@@ -1,0 +1,8 @@
+title = "inline assembly"
+flag = "asm"
+tracking_issue_id = 72016
+stabilization_pr_id = 91728
+items = [
+    "core::arch::asm",
+    "core::arch::global_asm",
+]
