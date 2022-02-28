@@ -1,5 +1,5 @@
 use gloo::utils::window;
-use yew::{html, Component, Context, Html, Properties};
+use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
 use crate::{
     components::FeatureEntry,
@@ -7,36 +7,39 @@ use crate::{
     VersionData, FEATURES,
 };
 
-#[derive(Clone, PartialEq, Properties)]
+#[derive(Clone, Properties)]
 pub struct Props {
     pub data: VersionData,
 }
 
-pub struct VersionPage;
+pub struct VersionPage {
+    props: Props,
+}
 
 impl Component for VersionPage {
     type Message = Void;
     type Properties = Props;
 
-    fn create(_: &Context<Self>) -> Self {
+    fn create(props: Self::Properties, _: ComponentLink<Self>) -> Self {
         // Ugly hack because I don't want to write my own component that resets
         // the scroll position on route change. See also
         // https://github.com/yewstack/yew/issues/1099
         window().scroll_to_with_x_and_y(0.0, 0.0);
 
-        Self
+        Self { props }
     }
 
-    fn update(&mut self, _: &Context<Self>, void: Self::Message) -> bool {
+    fn update(&mut self, void: Self::Message) -> ShouldRender {
         match void {}
     }
 
-    fn changed(&mut self, _: &Context<Self>) -> bool {
+    fn change(&mut self, props: Self::Properties) -> ShouldRender {
+        self.props = props;
         true
     }
 
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let v = &ctx.props().data;
+    fn view(&self) -> Html {
+        let v = &self.props.data;
 
         let maybe_blog_link =
             maybe_link("Blog post", "https://blog.rust-lang.org/", v.blog_post_path);
@@ -55,7 +58,7 @@ impl Component for VersionPage {
             Some(release_date) => html! {
                 <>
                     <span>{"Release date:"}</span>
-                    <time datetime={release_date}>{release_date}</time>
+                    <time datetime=release_date>{release_date}</time>
                 </>
             },
             None => html! {},
@@ -64,7 +67,7 @@ impl Component for VersionPage {
         let features = FEATURES
             .iter()
             .filter(|f| matches!(f.version, Some(fv) if fv.number == v.number))
-            .map(|&f| html! { <FeatureEntry key={f.slug} data={f} show_version=false /> });
+            .map(|&f| html! { <FeatureEntry key=f.slug data=f show_version=false /> });
 
         html! {
             <>

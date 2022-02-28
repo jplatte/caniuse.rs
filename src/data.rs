@@ -1,7 +1,7 @@
 /// A "feature", as tracked by this app. Can be a nightly Rust feature, a
 /// stabilized API, or anything else that one version of Rust (deliberately)
 /// supports while a previous one didn't support it.
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug)]
 pub struct FeatureData {
     /// Short description to identify the feature
     pub title: &'static str,
@@ -39,7 +39,7 @@ impl FeatureData {
     }
 }
 
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug)]
 pub struct VersionData {
     /// The version number, without the patch component (e.g. "1.31")
     pub number: &'static str,

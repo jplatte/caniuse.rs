@@ -1,4 +1,4 @@
-use yew::{html, Component, Context, Html};
+use yew::{html, Component, ComponentLink, Html, ShouldRender};
 
 use crate::util::{home_button, Void};
 
@@ -8,19 +8,19 @@ impl Component for About {
     type Message = Void;
     type Properties = ();
 
-    fn create(_: &Context<Self>) -> Self {
+    fn create(_: Self::Properties, _: ComponentLink<Self>) -> Self {
         Self
     }
 
-    fn update(&mut self, _: &Context<Self>, msg: Void) -> bool {
+    fn update(&mut self, msg: Void) -> ShouldRender {
         match msg {}
     }
 
-    fn changed(&mut self, _: &Context<Self>) -> bool {
+    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
         false
     }
 
-    fn view(&self, _: &Context<Self>) -> Html {
+    fn view(&self) -> Html {
         html! {
             <>
                 {home_button()}

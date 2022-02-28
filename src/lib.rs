@@ -2,7 +2,7 @@
 
 use gloo::utils::document;
 use wasm_bindgen::prelude::wasm_bindgen;
-use yew_router::Routable;
+use yew_router::Switch;
 
 mod data;
 mod icons;
@@ -25,26 +25,29 @@ mod components {
 
 use data::{Channel, FeatureData, VersionData, FEATURES, VERSIONS};
 
-#[derive(Clone, Debug, PartialEq, Routable)]
+#[derive(Clone, Debug, Switch)]
 enum AppRoute {
-    #[at("/features/:name")]
-    Feature { name: String },
-    #[at("/versions/:number")]
-    Version { number: String },
-    #[at("/about")]
+    #[to = "/features/{}"]
+    Feature(String),
+    #[to = "/versions/{}"]
+    Version(String),
+    #[to = "/about"]
     About,
-    #[at("/recent")]
+    #[to = "/recent"]
     RecentlyStabilized,
-    #[at("/unstable")]
+    #[to = "/unstable"]
     Unstable,
-    #[at("/")]
+    #[to = "/"]
     Index,
 }
 
-type RouterLink = yew_router::components::Link<AppRoute>;
+type RouterAnchor = yew_router::components::RouterAnchor<AppRoute>;
+type RouterButton = yew_router::components::RouterButton<AppRoute>;
 
 #[wasm_bindgen]
 pub fn run() {
+    yew::initialize();
     let page = document().query_selector("main").unwrap().unwrap();
-    yew::start_app_in_element::<components::App>(page);
+    yew::App::<components::App>::new().mount(page);
+    yew::run_loop();
 }

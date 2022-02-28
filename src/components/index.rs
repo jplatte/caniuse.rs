@@ -5,15 +5,16 @@ use gloo::{
     timers::callback::Timeout,
     utils::{body, window},
 };
-use yew::{html, html::Scope, Classes, Component, Context, Html, Properties};
+use yew::{html, Component, ComponentLink, Html, Properties, ShouldRender};
 
 use crate::{
     components::FeatureEntry,
     search::{extract_search_terms, run_search, InvalidSearchQuery},
-    AppRoute, Channel, FeatureData, RouterLink, FEATURES,
+    AppRoute, Channel, FeatureData, RouterAnchor, FEATURES,
 };
 
 pub struct Index {
+    link: ComponentLink<Self>,
     show: ContentsToRender,
     current_search_terms: Vec<String>,
     current_search_results: Vec<FeatureData>,
@@ -36,12 +37,12 @@ pub enum Msg {
     Update,
 }
 
-#[derive(Clone, PartialEq, Properties)]
+#[derive(Clone, Properties)]
 pub struct Props {
     pub show: IndexContents,
 }
 
-#[derive(Clone, PartialEq)]
+#[derive(Clone)]
 pub enum IndexContents {
     Explore(Explore),
     SearchResults { search_query: Rc<String> },
@@ -60,28 +61,25 @@ impl Component for Index {
     type Message = Msg;
     type Properties = Props;
 
-    fn create(ctx: &Context<Self>) -> Self {
+    fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
         let _scroll_listener = EventListener::new(&window(), "scroll", {
-            let link = ctx.link().clone();
+            let link = link.clone();
             move |_| link.send_message(Msg::Update)
         });
         let _resize_listener = EventListener::new(&window(), "resize", {
-            let link = ctx.link().clone();
+            let link = link.clone();
             move |_| link.send_message(Msg::Update)
         });
-        let _timeout = create_timeout(ctx.link().clone());
+        let _timeout = create_timeout(link.clone());
 
         let mut current_search_terms = Vec::new();
         let mut current_search_results = Vec::new();
         let mut search_scores = vec![(0, 0.0); FEATURES.len()];
-        let show = show(
-            ctx.props(),
-            &mut current_search_terms,
-            &mut current_search_results,
-            &mut search_scores,
-        );
+        let show =
+            show(props, &mut current_search_terms, &mut current_search_results, &mut search_scores);
 
         Self {
+            link,
             show,
             current_search_terms,
             current_search_results,
@@ -94,7 +92,7 @@ impl Component for Index {
         }
     }
 
-    fn update(&mut self, ctx: &Context<Self>, msg: Msg) -> bool {
+    fn update(&mut self, msg: Msg) -> ShouldRender {
         match msg {
             Msg::Update => {
                 let inner_height = window().inner_height().unwrap().as_f64().unwrap();
@@ -103,7 +101,7 @@ impl Component for Index {
 
                 if distance_to_bottom < inner_height {
                     self.items_visible += BATCH_SIZE;
-                    self._timeout = create_timeout(ctx.link().clone());
+                    self._timeout = create_timeout(self.link.clone());
 
                     true
                 } else {
@@ -113,21 +111,21 @@ impl Component for Index {
         }
     }
 
-    fn changed(&mut self, ctx: &Context<Self>) -> bool {
+    fn change(&mut self, props: Props) -> ShouldRender {
         self.show = show(
-            ctx.props(),
+            props,
             &mut self.current_search_terms,
             &mut self.current_search_results,
             &mut self.search_scores,
         );
 
         self.items_visible = BATCH_SIZE;
-        self._timeout = create_timeout(ctx.link().clone());
+        self._timeout = create_timeout(self.link.clone());
 
         true
     }
 
-    fn view(&self, _: &Context<Self>) -> Html {
+    fn view(&self) -> Html {
         match &self.show {
             ContentsToRender::Explore(ex) => {
                 // Stack slots, to be able to dynamically dispatch to one of
@@ -170,22 +168,22 @@ impl Component for Index {
 
                 let list = features
                     .take(self.items_visible)
-                    .map(|&f| html! { <FeatureEntry key={f.slug} data={f} /> });
+                    .map(|&f| html! { <FeatureEntry key=f.slug data=f /> });
 
                 html! {
                     <>
                         <nav class="explore">
                             <div class="inner">
-                                <RouterLink to={AppRoute::Index} classes={index_link_class}>
+                                <RouterAnchor route=AppRoute::Index classes=index_link_class>
                                     {"Stable"}
-                                </RouterLink>
-                                <RouterLink to={AppRoute::RecentlyStabilized}
-                                    classes={recent_link_class}>
+                                </RouterAnchor>
+                                <RouterAnchor route=AppRoute::RecentlyStabilized
+                                    classes=recent_link_class>
                                     {"Recently Stabilized"}
-                                </RouterLink>
-                                <RouterLink to={AppRoute::Unstable} classes={unstable_link_class}>
+                                </RouterAnchor>
+                                <RouterAnchor route=AppRoute::Unstable classes=unstable_link_class>
                                     {"Unstable"}
-                                </RouterLink>
+                                </RouterAnchor>
                             </div>
                         </nav>
                         <div class="feature-list">{ for list }</div>
@@ -194,7 +192,7 @@ impl Component for Index {
             }
             ContentsToRender::SearchResults => {
                 let list = self.current_search_results.iter().map(|&f| {
-                    html! { <FeatureEntry key={f.slug} data={f} /> }
+                    html! { <FeatureEntry key=f.slug data=f /> }
                 });
 
                 html! { <div class="feature-list">{ for list }</div> }
@@ -210,38 +208,40 @@ impl Component for Index {
 }
 
 fn show(
-    props: &Props,
+    props: Props,
     current_search_terms: &mut Vec<String>,
     current_search_results: &mut Vec<FeatureData>,
     search_scores: &mut Vec<(u16, f64)>,
 ) -> ContentsToRender {
-    match &props.show {
-        IndexContents::Explore(ex) => ContentsToRender::Explore(*ex),
-        IndexContents::SearchResults { search_query } => match extract_search_terms(search_query) {
-            Ok(search_terms) => {
-                *current_search_results = run_search(&search_terms, search_scores);
-                *current_search_terms = search_terms;
+    match props.show {
+        IndexContents::Explore(ex) => ContentsToRender::Explore(ex),
+        IndexContents::SearchResults { search_query } => {
+            match extract_search_terms(&search_query) {
+                Ok(search_terms) => {
+                    *current_search_results = run_search(&search_terms, search_scores);
+                    *current_search_terms = search_terms;
 
-                if current_search_results.is_empty() {
-                    ContentsToRender::EmptySearchResults
-                } else {
-                    ContentsToRender::SearchResults
+                    if current_search_results.is_empty() {
+                        ContentsToRender::EmptySearchResults
+                    } else {
+                        ContentsToRender::SearchResults
+                    }
                 }
+                Err(InvalidSearchQuery) => ContentsToRender::InvalidSearchResults,
             }
-            Err(InvalidSearchQuery) => ContentsToRender::InvalidSearchResults,
-        },
+        }
     }
 }
 
-fn active_if(cond: bool) -> Classes {
+fn active_if(cond: bool) -> String {
     if cond {
-        "active".into()
+        "active".to_owned()
     } else {
-        Classes::new()
+        String::new()
     }
 }
 
 // Creates a timeout that lets the browser render the page before calling `fn update()`.
-fn create_timeout(scope: Scope<Index>) -> Timeout {
-    Timeout::new(0, move || scope.send_message(Msg::Update))
+fn create_timeout(link: ComponentLink<Index>) -> Timeout {
+    Timeout::new(0, move || link.send_message(Msg::Update))
 }

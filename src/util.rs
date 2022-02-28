@@ -3,17 +3,17 @@ use std::fmt::Display;
 use yew::{
     html,
     virtual_dom::{VList, VNode, VTag, VText},
-    Classes, Html,
+    Html,
 };
 
-use crate::{icons::fa_home, AppRoute, RouterLink};
+use crate::{icons::fa_home, AppRoute, RouterButton};
 
 pub enum Void {}
 
 pub fn view_text(mut text: &str) -> Html {
     fn list_to_node(list: VList) -> VNode {
         if list.len() == 1 {
-            list[0].clone()
+            list.children.into_iter().next().unwrap()
         } else {
             VNode::VList(list)
         }
@@ -49,15 +49,14 @@ pub fn view_text(mut text: &str) -> Html {
 }
 
 pub fn home_button() -> Html {
-    let classes: Classes = "button".into();
     html! {
-        <RouterLink to={AppRoute::Index} classes={classes}>{fa_home()}</RouterLink>
+        <RouterButton route=AppRoute::Index>{fa_home()}</RouterButton>
     }
 }
 
 pub fn maybe_link<T: Display>(text: &str, link_base: &str, opt_rest: Option<T>) -> Html {
     match opt_rest {
-        Some(id) => html! { <li><a href={format!("{}{}", link_base, id)}>{text}</a></li> },
+        Some(id) => html! { <li><a href=format!("{}{}", link_base, id)>{text}</a></li> },
         None => html! {},
     }
 }
