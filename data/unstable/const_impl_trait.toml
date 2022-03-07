@@ -1,0 +1,4 @@
+title = "`const fn` returning `impl Trait`"
+flag = "const_impl_trait"
+tracking_issue_id = 77463
+stabilization_pr_id = 93827

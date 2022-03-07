@@ -1,0 +1,4 @@
+title = "Trait bounds on generics of a `const fn`"
+flag = "const_fn_trait_bound"
+tracking_issue_id = 93706
+stabilization_pr_id = 93827

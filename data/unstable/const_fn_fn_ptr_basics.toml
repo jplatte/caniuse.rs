@@ -1,0 +1,4 @@
+title = "`const fn` returning function pointers"
+flag = "const_fn_fn_ptr_basics"
+tracking_issue_id = 57563
+stabilization_pr_id = 93827
