@@ -1,0 +1,5 @@
+title = "`unix::net::SocketAddr::from_pathname`"
+flag = "unix_socket_creation"
+impl_pr_id = 93239
+tracking_issue_id = 93423
+stabilization_pr_id = 94356
