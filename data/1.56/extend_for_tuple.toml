@@ -1,4 +1,3 @@
 title = "`Extend<A, B>` implementation for `(Extend<A>, Extend<B>)`"
-flag = "extend_for_tuple"
 impl_pr_id = 85835
 doc_path = "std/iter/trait.Extend.html#impl-Extend<(A%2C%20B)>"
