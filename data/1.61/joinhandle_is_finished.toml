@@ -1,0 +1,3 @@
+title = "`JoinHandle::is_finished`"
+tracking_issue_id = 90470
+stabilization_pr_id = 95130
