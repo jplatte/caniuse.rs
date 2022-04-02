@@ -1,0 +1,5 @@
+title = "`#[derive(Default)]` on enums"
+flag = "derive_default_enum"
+tracking_issue_id = 87517
+impl_pr_id = 86735
+stabilization_pr_id = 94457
