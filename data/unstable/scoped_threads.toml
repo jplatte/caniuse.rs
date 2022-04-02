@@ -1,0 +1,11 @@
+title = "scoped threads"
+flag = "scoped_threads"
+tracking_issue_id = 93203
+impl_pr_id = 92555
+items = [
+    "std::thread::scope",
+    "std::thread::Scope",
+    "std::thread::ScopedJoinHandle",
+    "std::thread::Builder::spawn_scoped",
+]
+doc_path = "nightly/std/thread/fn.scope.html"
