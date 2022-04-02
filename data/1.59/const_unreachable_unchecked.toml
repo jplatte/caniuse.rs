@@ -1,0 +1,7 @@
+title = "`unreachable_unchecked` as `const fn`"
+flag = "const_unreachable_unchecked"
+tracking_issue_id = 53188
+impl_pr_id = 74459
+stabilization_pr_id = 89509
+items = ["core::hint::unreachable_unchecked"]
+doc_path = "core/hint/fn.unreachable_unchecked.html"
