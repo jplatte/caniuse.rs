@@ -1,0 +1,5 @@
+title = "`MaybeUninit::as_ptr` as `const fn`"
+flag = "const_maybe_uninit_as_ptr"
+stabilization_pr_id = 90896
+items = ["std::mem::MaybeUninit::as_ptr"]
+doc_path = "core/mem/union.MaybeUninit.html#method.as_ptr"
