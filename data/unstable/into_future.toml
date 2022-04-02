@@ -1,0 +1,6 @@
+title = "`IntoFuture` trait"
+flag = "into_future"
+tracking_issue_id = 67644
+impl_pr_id = 65244
+items = ["core::future::IntoFuture"]
+doc_path = "nightly/core/future/trait.IntoFuture.html"
