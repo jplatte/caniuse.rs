@@ -2,14 +2,9 @@ use std::rc::Rc;
 
 use gloo::{events::EventListener, utils::document};
 use wasm_bindgen::JsCast;
-use web_sys::{HtmlElement, KeyboardEvent};
-use yew::{
-    html, Bridge, Bridged, Component, ComponentLink, Html, InputData, NodeRef, ShouldRender,
-};
-use yew_router::{
-    agent::{RouteAgent, RouteRequest},
-    route::Route,
-};
+use web_sys::{HtmlElement, InputEvent, KeyboardEvent};
+use yew::{html, Component, Context, Html, NodeRef};
+use yew_router::{history::History, hooks::use_history, BrowserRouter};
 
 use crate::{
     components::{
@@ -20,16 +15,13 @@ use crate::{
 };
 
 pub struct App {
-    link: ComponentLink<Self>,
     input_ref: NodeRef,
-    router: Box<dyn Bridge<RouteAgent>>,
     search_query: Rc<String>,
 
     _key_listener: EventListener,
 }
 
 pub enum Msg {
-    Update,
     FocusInput,
     Search(Rc<String>),
 }
@@ -38,10 +30,8 @@ impl Component for App {
     type Message = Msg;
     type Properties = ();
 
-    fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-        let router = RouteAgent::bridge(link.callback(|_| Msg::Update));
-
-        let link2 = link.clone();
+    fn create(ctx: &Context<Self>) -> Self {
+        let link2 = ctx.link().clone();
         let _key_listener = EventListener::new(&document(), "keypress", move |event| {
             let event = event.dyn_ref::<KeyboardEvent>().expect("wrong event type");
             if event.key().as_str() == "s" {
@@ -49,25 +39,18 @@ impl Component for App {
             }
         });
 
-        Self {
-            link,
-            input_ref: NodeRef::default(),
-            router,
-            search_query: Rc::new(String::new()),
-            _key_listener,
-        }
+        Self { input_ref: NodeRef::default(), search_query: Rc::new(String::new()), _key_listener }
     }
 
-    fn update(&mut self, msg: Msg) -> ShouldRender {
+    fn update(&mut self, _: &Context<Self>, msg: Msg) -> bool {
         match msg {
-            Msg::Update => true,
             Msg::FocusInput => {
                 self.input_ref.cast::<HtmlElement>().unwrap().focus().unwrap();
                 false
             }
             Msg::Search(query) => {
                 self.search_query = query;
-                self.router.send(RouteRequest::ChangeRoute(Route::new_no_state("/")));
+                use_history().unwrap().push(AppRoute::Index);
 
                 // Re-render after routing, through Msg::Update
                 false
@@ -75,14 +58,15 @@ impl Component for App {
         }
     }
 
-    fn change(&mut self, _props: Self::Properties) -> ShouldRender {
+    fn changed(&mut self, _: &Context<Self>) -> bool {
         false
     }
 
-    fn view(&self) -> Html {
-        type Router = yew_router::router::Router<AppRoute>;
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        type Switch = yew_router::Switch<AppRoute>;
+
         let search_query = self.search_query.clone();
-        let render_route = Router::render(move |route| match &route {
+        let render_route = Switch::render(move |route| match &route {
             AppRoute::Index | AppRoute::RecentlyStabilized | AppRoute::Unstable => {
                 let show = if search_query.is_empty() {
                     IndexContents::Explore(match &route {
@@ -95,33 +79,34 @@ impl Component for App {
                     IndexContents::SearchResults { search_query: search_query.clone() }
                 };
 
-                html! { <Index show=show /> }
+                html! { <Index show={show} /> }
             }
             AppRoute::About => html! { <About /> },
-            AppRoute::Feature(slug) => match FEATURES.iter().find(|f| f.slug == slug) {
-                Some(&data) => html! { <FeaturePage data=data /> },
+            AppRoute::Feature { name: slug } => match FEATURES.iter().find(|f| f.slug == slug) {
+                Some(&data) => html! { <FeaturePage data={data} /> },
                 None => html! { "error: feature not found!" },
             },
-            AppRoute::Version(number) => match VERSIONS.iter().find(|v| v.number == number) {
-                Some(&data) => html! { <VersionPage data=data /> },
+            AppRoute::Version { number } => match VERSIONS.iter().find(|v| v.number == number) {
+                Some(&data) => html! { <VersionPage data={data} /> },
                 None => html! { "error: version not found!" },
             },
         });
 
+        let oninput = ctx.link().callback(|e: InputEvent| Msg::Search(Rc::new(e.data().unwrap())));
+
         html! {
-            <>
-                <Header input_ref=self.input_ref.clone()
-                    oninput=self.link.callback(|e: InputData| Msg::Search(Rc::new(e.value))) />
+            <BrowserRouter>
+                <Header input_ref={self.input_ref.clone()} oninput={oninput} />
                 <div class="page">
-                    <Router render=render_route />
+                    <Switch render={render_route} />
                 </div>
-            </>
+            </BrowserRouter>
         }
     }
 
-    fn rendered(&mut self, first_render: bool) {
+    fn rendered(&mut self, ctx: &Context<Self>, first_render: bool) {
         if first_render {
-            self.link.send_message(Msg::FocusInput);
+            ctx.link().send_message(Msg::FocusInput);
         }
     }
 }

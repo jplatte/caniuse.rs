@@ -126,7 +126,7 @@ h3 {
     font-weight: 600;
 }
 
-button {
+button, a.button {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -149,17 +149,21 @@ button {
 }
 
 button:hover,
-button.active {
+button.active,
+a.button:hover,
+a.button.active {
     background-color: var(--button-hover-bg);
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
-button svg {
+button svg,
+a.button svg {
     width: 1.15rem;
     height: 1.15rem;
 }
 
-button svg path {
+button svg path,
+a.button svg path {
     fill: var(--text-color);
 }
 
@@ -377,7 +381,7 @@ a, button {
     margin-bottom: 0;
 }
 
-.page > button {
+.page > .button {
     margin-bottom: 1em;
 }
 
