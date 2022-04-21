@@ -1,0 +1,5 @@
+title = "`Stdin::lines`"
+flag = "stdin_forwarders"
+impl_pr_id = 86847
+tracking_issue_id = 87096
+stabilization_pr_id = 95185
