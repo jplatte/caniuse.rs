@@ -19,16 +19,16 @@ changes.
 Pre-requisites:
 
 - cargo
-- Python 3
-- [wasm-pack][] (website has install instructions, to build from source use `cargo install wasm-pack`)
+- [wasm-pack][] (website has install instructions, to build from source use
+  `cargo install wasm-pack`)
 - [rollup][] (`npm install --global rollup` if you have [npm installed][npm])
 
 [wasm-pack]: https://rustwasm.github.io/wasm-pack/installer/
 [rollup]: https://www.rollupjs.org/guide/en/
 [npm]: https://www.npmjs.com/get-npm
 
-Once those are installed, just run `./x.py serve` and the site will be built
-and served at <http://localhost:8000/>.
+Once those are installed, just run `cargo xtask serve` and the site will be
+built and served at <http://localhost:8000/>.
 
 ### Adding data
 
@@ -62,4 +62,5 @@ specified for a feature:
 
 ## Related Projects
 
-- [alfred-caniuse-rs](https://github.com/robjtede/alfred-caniuse-rs): caniuse.rs lookups as an Alfred workflow (macOS)
+- [alfred-caniuse-rs](https://github.com/robjtede/alfred-caniuse-rs): caniuse.rs
+  lookups as an Alfred workflow (macOS)
