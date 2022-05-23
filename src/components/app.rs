@@ -2,7 +2,7 @@ use std::rc::Rc;
 
 use gloo::{events::EventListener, utils::document};
 use wasm_bindgen::JsCast;
-use web_sys::{HtmlElement, InputEvent, KeyboardEvent};
+use web_sys::{HtmlElement, HtmlInputElement, InputEvent, KeyboardEvent};
 use yew::{html, Component, Context, Html, NodeRef};
 use yew_router::BrowserRouter;
 
@@ -23,7 +23,7 @@ pub struct App {
 
 pub enum Msg {
     FocusInput,
-    Search(Rc<String>),
+    Search(String),
 }
 
 impl Component for App {
@@ -49,9 +49,9 @@ impl Component for App {
                 false
             }
             Msg::Search(query) => {
-                self.search_query = query;
+                self.search_query = Rc::new(query);
                 // Re-render after routing, through Msg::Update
-                false
+                true
             }
         }
     }
@@ -90,7 +90,12 @@ impl Component for App {
             },
         });
 
-        let oninput = ctx.link().callback(|e: InputEvent| Msg::Search(Rc::new(e.data().unwrap())));
+        let oninput = {
+            let input_ref = self.input_ref.clone();
+            ctx.link().callback(move |_: InputEvent| {
+                Msg::Search(input_ref.cast::<HtmlInputElement>().unwrap().value())
+            })
+        };
 
         html! {
             <BrowserRouter>

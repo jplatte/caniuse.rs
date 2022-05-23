@@ -1,10 +1,6 @@
 use std::rc::Rc;
 
-use gloo::{
-    events::EventListener,
-    timers::callback::Timeout,
-    utils::{body, window},
-};
+use gloo::{events::EventListener, timers::callback::Timeout, utils::window};
 use yew::{html, html::Scope, Classes, Component, Context, Html, Properties};
 
 use crate::{
@@ -97,11 +93,7 @@ impl Component for Index {
     fn update(&mut self, ctx: &Context<Self>, msg: Msg) -> bool {
         match msg {
             Msg::Update => {
-                let inner_height = window().inner_height().unwrap().as_f64().unwrap();
-                let scroll_y = window().scroll_y().unwrap();
-                let distance_to_bottom = body().scroll_height() as f64 - scroll_y - inner_height;
-
-                if distance_to_bottom < inner_height {
+                if self.items_visible < self.current_search_results.len() {
                     self.items_visible += BATCH_SIZE;
                     self._timeout = create_timeout(ctx.link().clone());
 
@@ -193,7 +185,7 @@ impl Component for Index {
                 }
             }
             ContentsToRender::SearchResults => {
-                let list = self.current_search_results.iter().map(|&f| {
+                let list = self.current_search_results.iter().take(self.items_visible).map(|&f| {
                     html! { <FeatureEntry key={f.slug} data={f} /> }
                 });
 
