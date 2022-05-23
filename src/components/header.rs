@@ -7,6 +7,10 @@ use gloo::{
 use wasm_bindgen::JsCast;
 use web_sys::{HtmlElement, InputEvent, MouseEvent};
 use yew::{html, Callback, Component, Context, Html, NodeRef, Properties};
+use yew_router::{
+    history::{History, Location},
+    scope_ext::RouterScopeExt,
+};
 
 use crate::{
     icons::{fa_bars, fa_moon, fa_question_circle, fa_sun},
@@ -118,13 +122,22 @@ impl Component for Header {
             }
         };
 
+        let history = ctx.link().history().unwrap();
+        let cb = ctx.props().oninput.clone();
+        let oninput = move |ev| {
+            if history.location().route::<AppRoute>() != Some(AppRoute::Index) {
+                history.push(AppRoute::Index);
+            }
+            cb.emit(ev);
+        };
+
         html! {
             <header>
                 <div class="inner">
                     <div class="caniuse">
                         <label for="query">{"Can I use"}</label>
                         <input ref={ctx.props().input_ref.clone()} id="query" type="search"
-                            oninput={ctx.props().oninput.clone()} />
+                            oninput={oninput} />
                         {"?"}
                     </div>
                     <nav aria-label="Site navigation">

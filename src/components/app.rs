@@ -4,7 +4,7 @@ use gloo::{events::EventListener, utils::document};
 use wasm_bindgen::JsCast;
 use web_sys::{HtmlElement, InputEvent, KeyboardEvent};
 use yew::{html, Component, Context, Html, NodeRef};
-use yew_router::{history::History, hooks::use_history, BrowserRouter};
+use yew_router::BrowserRouter;
 
 use crate::{
     components::{
@@ -50,8 +50,6 @@ impl Component for App {
             }
             Msg::Search(query) => {
                 self.search_query = query;
-                use_history().unwrap().push(AppRoute::Index);
-
                 // Re-render after routing, through Msg::Update
                 false
             }
