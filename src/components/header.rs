@@ -5,21 +5,20 @@ use gloo::{
     utils::{body, document_element, window},
 };
 use wasm_bindgen::JsCast;
-use web_sys::{HtmlElement, MouseEvent};
-use yew::{
-    html, Callback, Component, ComponentLink, Html, InputData, NodeRef, Properties, ShouldRender,
+use web_sys::{HtmlElement, InputEvent, MouseEvent};
+use yew::{html, Callback, Component, Context, Html, NodeRef, Properties};
+use yew_router::{
+    history::{History, Location},
+    scope_ext::RouterScopeExt,
 };
 
 use crate::{
     icons::{fa_bars, fa_moon, fa_question_circle, fa_sun},
-    AppRoute, RouterAnchor,
+    AppRoute, RouterLink,
 };
 
 pub struct Header {
-    link: ComponentLink<Self>,
-    props: Props,
     is_menu_open: bool,
-
     document_click_listener: Option<EventListener>,
 }
 
@@ -29,27 +28,27 @@ pub enum Msg {
     UpdateTheme(&'static str),
 }
 
-#[derive(Clone, Properties)]
+#[derive(Clone, PartialEq, Properties)]
 pub struct Props {
     #[prop_or_default]
     pub input_ref: NodeRef,
-    pub oninput: Callback<InputData>,
+    pub oninput: Callback<InputEvent>,
 }
 
 impl Component for Header {
     type Message = Msg;
     type Properties = Props;
 
-    fn create(props: Props, link: ComponentLink<Self>) -> Self {
-        Self { link, props, is_menu_open: false, document_click_listener: None }
+    fn create(_: &Context<Self>) -> Self {
+        Self { is_menu_open: false, document_click_listener: None }
     }
 
-    fn update(&mut self, msg: Msg) -> ShouldRender {
+    fn update(&mut self, ctx: &Context<Self>, msg: Msg) -> bool {
         match msg {
             Msg::OpenMenu => {
                 if !self.is_menu_open {
                     self.document_click_listener = Some(EventListener::new(&body(), "click", {
-                        let link = self.link.clone();
+                        let link = ctx.link().clone();
                         move |_| link.send_message(Msg::CloseMenu)
                     }));
                 }
@@ -80,12 +79,11 @@ impl Component for Header {
         }
     }
 
-    fn change(&mut self, props: Props) -> ShouldRender {
-        self.props = props;
+    fn changed(&mut self, _: &Context<Self>) -> bool {
         true
     }
 
-    fn view(&self) -> Html {
+    fn view(&self, ctx: &Context<Self>) -> Html {
         let (menu_button, menu_classes) = if self.is_menu_open {
             (
                 html! {
@@ -96,14 +94,14 @@ impl Component for Header {
                 "menu active",
             )
         } else {
-            let open_menu = self.link.callback(|ev: MouseEvent| {
+            let open_menu = ctx.link().callback(|ev: MouseEvent| {
                 ev.stop_propagation();
                 Msg::OpenMenu
             });
 
             (
                 html! {
-                    <button type="button" onclick=open_menu>
+                    <button type="button" onclick={open_menu}>
                         {fa_bars()}
                     </button>
                 },
@@ -111,17 +109,26 @@ impl Component for Header {
             )
         };
 
-        let set_theme = |theme: &'static str| self.link.callback(move |_| Msg::UpdateTheme(theme));
+        let set_theme = |theme: &'static str| ctx.link().callback(move |_| Msg::UpdateTheme(theme));
 
         let root: HtmlElement = document_element().dyn_into().unwrap();
         let theme_anchor = if root.dataset().get("theme").unwrap() == "dark" {
             html! {
-                <a onclick=set_theme("light")>{fa_sun()}{"Light theme"}</a>
+                <a onclick={set_theme("light")}>{fa_sun()}{"Light theme"}</a>
             }
         } else {
             html! {
-                <a onclick=set_theme("dark")>{fa_moon()}{"Dark theme"}</a>
+                <a onclick={set_theme("dark")}>{fa_moon()}{"Dark theme"}</a>
             }
+        };
+
+        let history = ctx.link().history().unwrap();
+        let cb = ctx.props().oninput.clone();
+        let oninput = move |ev| {
+            if history.location().route::<AppRoute>() != Some(AppRoute::Index) {
+                history.push(AppRoute::Index);
+            }
+            cb.emit(ev);
         };
 
         html! {
@@ -129,8 +136,8 @@ impl Component for Header {
                 <div class="inner">
                     <div class="caniuse">
                         <label for="query">{"Can I use"}</label>
-                        <input ref=self.props.input_ref.clone() id="query" type="search"
-                            oninput=self.props.oninput.clone() />
+                        <input ref={ctx.props().input_ref.clone()} id="query" type="search"
+                            oninput={oninput} />
                         {"?"}
                     </div>
                     <nav aria-label="Site navigation">
@@ -138,9 +145,9 @@ impl Component for Header {
                         <ul class={"menu ".to_owned() + menu_classes}>
                             <li>{theme_anchor}</li>
                             <li>
-                                <RouterAnchor route=AppRoute::About>
+                                <RouterLink to={AppRoute::About}>
                                     {fa_question_circle()}{"About"}
-                                </RouterAnchor>
+                                </RouterLink>
                             </li>
                         </ul>
                     </nav>
