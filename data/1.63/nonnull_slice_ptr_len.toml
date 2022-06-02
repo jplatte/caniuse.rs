@@ -1,0 +1,4 @@
+title = "`NonNull<[T]>::len`"
+impl_pr_id = 71940
+tracking_issue_id = 71146
+stabilization_pr_id = 94640
