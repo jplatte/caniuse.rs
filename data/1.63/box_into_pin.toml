@@ -1,0 +1,5 @@
+title = "`Box::into_pin`"
+flag = "box_into_pin"
+impl_pr_id = 57313
+tracking_issue_id = 62370
+stabilization_pr_id = 97397
