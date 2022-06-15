@@ -1,0 +1,5 @@
+title = "`array::from_ref` as `const fn`"
+impl_pr_id = 90162
+tracking_issue_id = 90206
+stabilization_pr_id = 97366
+doc_path = "std/array/fn.from_ref.html"
