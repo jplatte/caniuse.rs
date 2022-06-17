@@ -1,0 +1,2 @@
+title = "`io::Write` implementation for `VecDeque<u8>`"
+impl_pr_id = 95632
