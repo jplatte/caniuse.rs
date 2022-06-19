@@ -1,0 +1,3 @@
+title = "`Mutex::new` as `const fn`"
+impl_pr_id = 97791
+tracking_issue_id = 93740
