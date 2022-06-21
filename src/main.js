@@ -21,7 +21,6 @@ document.documentElement.dataset.theme = theme;
 if ('WebAssembly' in window) {
     var noscript_tag = document.body.querySelector("noscript");
     noscript_tag.parentElement.removeChild(noscript_tag);
-    document.body.appendChild(document.createElement("main"));
 
     // Load main app
     async function main() {
