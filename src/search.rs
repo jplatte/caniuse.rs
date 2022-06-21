@@ -21,10 +21,7 @@ pub fn extract_search_terms(query: &str) -> Result<Vec<String>, InvalidSearchQue
         .collect()
 }
 
-pub fn run_search(
-    search_terms: &[String],
-    search_scores: &mut Vec<(u16, f64)>,
-) -> Vec<FeatureData> {
+pub fn run_search(search_terms: &[String], search_scores: &mut [(u16, f64)]) -> Vec<FeatureData> {
     for (i, (idx, score)) in search_scores.iter_mut().enumerate() {
         *idx = i as u16;
         *score = 0.0;
