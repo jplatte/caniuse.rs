@@ -213,7 +213,7 @@ fn show(
     props: &Props,
     current_search_terms: &mut Vec<String>,
     current_search_results: &mut Vec<FeatureData>,
-    search_scores: &mut Vec<(u16, f64)>,
+    search_scores: &mut [(u16, f64)],
 ) -> ContentsToRender {
     match &props.show {
         IndexContents::Explore(ex) => ContentsToRender::Explore(*ex),
