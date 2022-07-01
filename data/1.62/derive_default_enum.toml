@@ -3,3 +3,4 @@ rfc_id = 3107
 impl_pr_id = 86735
 tracking_issue_id = 87517
 stabilization_pr_id = 94457
+doc_path = "std/default/trait.Default.html#enums"

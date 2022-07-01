@@ -3,3 +3,4 @@ flag = "bool_to_option"
 impl_pr_id = 64255
 tracking_issue_id = 80967
 stabilization_pr_id = 96628
+doc_path = "std/primitive.bool.html#method.then_some"
