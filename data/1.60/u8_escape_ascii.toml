@@ -2,3 +2,4 @@ title = "`u8::escape_ascii`"
 flag = "inherent_ascii_escape"
 tracking_issue_id = 77174
 stabilization_pr_id = 93886
+doc_path = "std/primitive.u8.html#method.escape_ascii"

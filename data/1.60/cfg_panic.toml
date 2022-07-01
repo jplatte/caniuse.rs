@@ -2,3 +2,4 @@ title = "`#[cfg(panic = ...)]`"
 impl_pr_id = 74754
 tracking_issue_id = 77443
 stabilization_pr_id = 93658
+doc_path = "reference/conditional-compilation.html#panic"

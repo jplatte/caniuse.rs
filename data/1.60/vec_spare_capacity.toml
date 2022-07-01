@@ -3,3 +3,4 @@ flag = "vec_spare_capacity"
 impl_pr_id = 75015
 tracking_issue_id = 75017
 stabilization_pr_id = 93016
+doc_path = "std/vec/struct.Vec.html#method.spare_capacity_mut"

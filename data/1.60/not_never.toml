@@ -1,2 +1,3 @@
 title = "`Not` implementation for `!`"
 impl_pr_id = 91122
+doc_path = "std/primitive.never.html#impl-Not"
