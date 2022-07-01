@@ -2,3 +2,4 @@ title = "`Vec::retain_mut`"
 impl_pr_id = 90772
 tracking_issue_id = 90829
 stabilization_pr_id = 95491
+doc_path = "std/vec/struct.Vec.html#method.retain_mut"

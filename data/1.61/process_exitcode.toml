@@ -2,3 +2,4 @@ title = "`process::ExitCode`"
 impl_pr_id = 48497
 tracking_issue_id = 48711
 stabilization_pr_id = 93840
+doc_path = "std/process/struct.ExitCode.html"

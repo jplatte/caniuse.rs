@@ -1,3 +1,4 @@
 title = "`JoinHandle::is_finished`"
 tracking_issue_id = 90470
 stabilization_pr_id = 95130
+doc_path = "std/thread/struct.JoinHandle.html#method.is_finished"

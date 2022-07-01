@@ -3,3 +3,4 @@ flag = "unix_socket_creation"
 impl_pr_id = 93239
 tracking_issue_id = 93423
 stabilization_pr_id = 94356
+doc_path = "std/os/unix/net/struct.SocketAddr.html#method.from_pathname"

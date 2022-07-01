@@ -2,3 +2,4 @@ title = "`VecDeque::retain_mut`"
 impl_pr_id = 91215
 tracking_issue_id = 90829
 stabilization_pr_id = 95491
+doc_path = "std/collections/struct.VecDeque.html#method.retain_mut"

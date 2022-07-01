@@ -2,3 +2,4 @@ title = "the `Termination` trait"
 impl_pr_id = 46479
 tracking_issue_id = 43301
 stabilization_pr_id = 93840
+doc_path = "std/process/trait.Termination.html"
