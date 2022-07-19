@@ -1,0 +1,9 @@
+title = "`CStr` in `core`"
+flag = "core_c_str"
+impl_pr_id = 94079
+tracking_issue_id = 98314
+stabilization_pr_id = 99277
+doc_path = "core/ffi/struct.CStr.html"
+items = [
+    "core::ffi::CStr",
+]

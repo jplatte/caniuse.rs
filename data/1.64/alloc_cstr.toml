@@ -1,0 +1,9 @@
+title = "`CString` in `alloc`"
+flag = "alloc_c_str"
+impl_pr_id = 94079
+tracking_issue_id = 98314
+stabilization_pr_id = 99277
+doc_path = "alloc/ffi/struct.CString.html"
+items = [
+    "alloc::ffi::CString",
+]
