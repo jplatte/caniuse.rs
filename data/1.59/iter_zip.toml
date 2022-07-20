@@ -1,3 +1,4 @@
 title = "`core::iter::zip`"
 flag = "iter_zip"
 tracking_issue_id = 83574
+stabilization_pr_id = 91881
