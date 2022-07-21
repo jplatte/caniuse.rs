@@ -1,0 +1,20 @@
+title = "type aliases for C's arithmetic types in `core::ffi`"
+flag = "core_ffi_c"
+impl_pr_id = 94503
+tracking_issue_id = 94501
+stabilization_pr_id = 98315
+items = [
+    "core::ffi::c_char",
+    "core::ffi::c_double",
+    "core::ffi::c_float",
+    "core::ffi::c_int",
+    "core::ffi::c_long",
+    "core::ffi::c_longlong",
+    "core::ffi::c_schar",
+    "core::ffi::c_short",
+    "core::ffi::c_uchar",
+    "core::ffi::c_uint",
+    "core::ffi::c_ulong",
+    "core::ffi::c_ulonglong",
+    "core::ffi::c_ushort",
+]
