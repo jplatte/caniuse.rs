@@ -139,7 +139,7 @@ fn main() -> anyhow::Result<()> {
 
     let mut features_rs =
         BufWriter::new(File::create(Path::new(&env::var("OUT_DIR").unwrap()).join("features.rs"))?);
-    write!(features_rs, "{}", code).context("writing features.rs")?;
+    write!(features_rs, "{code}").context("writing features.rs")?;
 
     let features_json = BufWriter::new(File::create("public/features.json")?);
     serde_json::to_writer_pretty(features_json, &json)?;
@@ -173,7 +173,7 @@ fn collect_data() -> anyhow::Result<Data> {
             _ => {
                 let (number, mut version_data) = versions
                     .remove_entry(&dir_name)
-                    .unwrap_or_else(|| panic!("version {} not defined in versions.toml", dir_name));
+                    .unwrap_or_else(|| panic!("version {dir_name} not defined in versions.toml"));
                 version_data.number = number;
 
                 data.versions
@@ -207,12 +207,12 @@ fn collect_features(
         let slug = match file_name.strip_suffix(".toml") {
             Some(basename) => basename.to_owned(),
             None => {
-                panic!("expected only .toml files in data/*, found `{}`", file_name,)
+                panic!("expected only .toml files in data/*, found `{file_name}`")
             }
         };
 
         let feature = toml::from_str(&fs::read_to_string(file.path())?)
-            .with_context(|| format!("deserializing data/{}/{}", dir_name, file_name))?;
+            .with_context(|| format!("deserializing data/{dir_name}/{file_name}"))?;
 
         features.push(FeatureData { slug, ..feature });
     }
