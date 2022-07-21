@@ -3,4 +3,4 @@ flag = "into_future"
 tracking_issue_id = 67644
 impl_pr_id = 65244
 stabilization_pr_id = 98718
-doc_path = "nightly/core/future/trait.IntoFuture.html"
+doc_path = "core/future/trait.IntoFuture.html"
