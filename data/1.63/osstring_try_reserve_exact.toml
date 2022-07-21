@@ -1,0 +1,6 @@
+title = "`OsString::try_reserve_exact`"
+flag = "try_reserve_2"
+impl_pr_id = 92338
+tracking_issue_id = 91789
+stabilization_pr_id = 95392
+doc_path = "std/ffi/struct.OsString.html#method.try_reserve_exact"
