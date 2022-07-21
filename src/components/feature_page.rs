@@ -1,9 +1,7 @@
-use std::fmt::Display;
-
 use yew::{html, Component, Context, Html, Properties};
 
 use crate::{
-    util::{home_button, view_text, Void},
+    util::{home_button, maybe_link, view_text, Void},
     AppRoute, FeatureData, RouterLink,
 };
 
@@ -52,13 +50,6 @@ impl Component for FeaturePage {
             },
             None => html! {},
         };
-
-        fn maybe_link<T: Display>(text: &str, link_base: &str, opt_rest: Option<T>) -> Html {
-            match opt_rest {
-                Some(id) => html! { <li><a href={format!("{}{}", link_base, id)}>{text}</a></li> },
-                None => html! {},
-            }
-        }
 
         let maybe_rfc_link =
             maybe_link("RFC", "https://github.com/rust-lang/rfcs/issues/", f.rfc_id);
