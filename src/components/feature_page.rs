@@ -1,7 +1,8 @@
 use yew::{html, Component, Context, Html, Properties};
 
 use crate::{
-    util::{home_button, maybe_link, view_text, Void},
+    data::Channel,
+    util::{home_button, link, maybe_link, view_text, Void},
     AppRoute, FeatureData, RouterLink,
 };
 
@@ -68,7 +69,17 @@ impl Component for FeaturePage {
             "https://github.com/rust-lang/rust/pull/",
             f.stabilization_pr_id,
         );
-        let maybe_doc_link = maybe_link("Documentation", "https://doc.rust-lang.org/", f.doc_path);
+        let maybe_doc_link = match f.doc_path {
+            Some(path) => {
+                let prefix = match f.version.map_or(Channel::Nightly, |v| v.channel) {
+                    Channel::Nightly => "nightly/",
+                    Channel::Beta => "beta/",
+                    Channel::Stable => "",
+                };
+                link("Documentation", "https://doc.rust-lang.org/", format_args!("{prefix}{path}"))
+            }
+            None => html! {},
+        };
         let maybe_edition_guide_link = maybe_link(
             "Edition Guide",
             "https://doc.rust-lang.org/edition-guide/",

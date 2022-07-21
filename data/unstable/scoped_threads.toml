@@ -8,4 +8,4 @@ items = [
     "std::thread::ScopedJoinHandle",
     "std::thread::Builder::spawn_scoped",
 ]
-doc_path = "nightly/std/thread/fn.scope.html"
+doc_path = "std/thread/fn.scope.html"

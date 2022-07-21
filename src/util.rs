@@ -55,9 +55,13 @@ pub fn home_button() -> Html {
     }
 }
 
+pub fn link<T: Display>(text: &str, link_base: &str, rest: T) -> Html {
+    html! { <li><a href={format!("{link_base}{rest}")}>{text}</a></li> }
+}
+
 pub fn maybe_link<T: Display>(text: &str, link_base: &str, opt_rest: Option<T>) -> Html {
     match opt_rest {
-        Some(id) => html! { <li><a href={format!("{link_base}{id}")}>{text}</a></li> },
+        Some(rest) => link(text, link_base, rest),
         None => html! {},
     }
 }
