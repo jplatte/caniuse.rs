@@ -1,0 +1,3 @@
+title = "`AsFd` implementation for `Arc<T>`"
+impl_pr_id = 97437
+doc_path = "std/os/unix/io/trait.AsFd.html#impl-AsFd-for-Arc<T>"
