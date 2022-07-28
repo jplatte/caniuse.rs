@@ -1,0 +1,5 @@
+title = "`ToOwned::clone_into`"
+flag = "toowned_clone_into"
+impl_pr_id = 41009
+tracking_issue_id = 41263
+stabilization_pr_id = 97455
