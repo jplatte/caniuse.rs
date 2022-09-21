@@ -270,7 +270,7 @@ fn generate_output(data: Data) -> (TokenStream, serde_json::Value) {
             json["features"][&f.slug] = {
                 let mut feat_json = serde_json::to_value(&f).unwrap();
                 feat_json["version"] =
-                    serde_json::to_value(&v.version.as_ref().map(|d| &d.number)).unwrap();
+                    serde_json::to_value(v.version.as_ref().map(|d| &d.number)).unwrap();
                 feat_json.as_object_mut().unwrap().remove("slug");
                 feat_json
             };

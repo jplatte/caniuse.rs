@@ -78,6 +78,7 @@ impl Component for App {
 
                 html! { <Index show={show} /> }
             }
+            #[allow(clippy::let_unit_value)] // buggy lint
             AppRoute::About => html! { <About /> },
             AppRoute::Feature { name: slug } => match FEATURES.iter().find(|f| f.slug == slug) {
                 Some(&data) => html! { <FeaturePage data={data} /> },
