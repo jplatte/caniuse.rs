@@ -1,7 +1,9 @@
 title = "scoped threads"
 flag = "scoped_threads"
+rfc_id = 3151
 tracking_issue_id = 93203
 impl_pr_id = 92555
+stabilization_pr_id = 97992
 items = [
     "std::thread::scope",
     "std::thread::Scope",
