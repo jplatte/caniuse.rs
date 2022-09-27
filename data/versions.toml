@@ -367,13 +367,15 @@ blog_post_path = "2022/06/30/Rust-1.62.0.html"
 ["1.63"]
 release_date = "2022-08-11"
 release_notes = "version-1630-2022-08-11"
-channel = "beta"
 gh_milestone_id = 94
+blog_post_path = "2022/08/11/Rust-1.63.0.html"
 
 ["1.64"]
-channel = "nightly"
+release_date = "2022-09-22"
+release_notes = "version-1640-2022-09-22"
 gh_milestone_id = 95
+blog_post_path = "2022/09/22/Rust-1.64.0.html"
 
 ["1.65"]
-channel = "nightly"
+channel = "beta"
 gh_milestone_id = 97
