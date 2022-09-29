@@ -1,0 +1,4 @@
+title = "`Iterator::intersperse`"
+flag = "iter_intersperse"
+impl_pr_id = 79479
+tracking_issue_id = 79524
