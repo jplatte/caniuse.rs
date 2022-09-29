@@ -1,0 +1,5 @@
+title = "turbofish syntax on generic functions with an `impl Trait` argument"
+flag = "explicit_generic_args_with_impl_trait"
+impl_pr_id = 86176
+tracking_issue_id = 83701
+stabilization_pr_id = 96868
