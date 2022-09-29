@@ -379,3 +379,7 @@ blog_post_path = "2022/09/22/Rust-1.64.0.html"
 ["1.65"]
 channel = "beta"
 gh_milestone_id = 97
+
+["1.66"]
+channel = "nightly"
+gh_milestone_id = 98
