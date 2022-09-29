@@ -1,0 +1,3 @@
+title = "Cargo workspace inheritance"
+rfc_id = 2906
+doc_path = "cargo/reference/workspaces.html#the-package-table"
