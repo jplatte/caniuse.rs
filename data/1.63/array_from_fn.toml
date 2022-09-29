@@ -1,0 +1,5 @@
+title = "`array::from_fn`"
+flag = "array_from_fn"
+impl_pr_id = 75644
+tracking_issue_id = 89379
+stabilization_pr_id = 94119
