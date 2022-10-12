@@ -1,4 +1,4 @@
-use gloo::utils::window;
+use gloo_utils::window;
 use yew::{html, Component, Context, Html, Properties};
 
 use crate::{
