@@ -1,6 +1,6 @@
 #![allow(clippy::derive_partial_eq_without_eq)]
 
-use gloo::utils::document;
+use gloo_utils::document;
 use wasm_bindgen::prelude::wasm_bindgen;
 use yew_router::Routable;
 

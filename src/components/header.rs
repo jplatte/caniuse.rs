@@ -1,9 +1,7 @@
 use std::mem;
 
-use gloo::{
-    events::EventListener,
-    utils::{body, document_element, window},
-};
+use gloo_events::EventListener;
+use gloo_utils::{body, document_element, window};
 use wasm_bindgen::JsCast;
 use web_sys::{HtmlElement, InputEvent, MouseEvent};
 use yew::{html, Callback, Component, Context, Html, NodeRef, Properties};

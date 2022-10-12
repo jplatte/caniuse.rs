@@ -1,10 +1,8 @@
 use std::rc::Rc;
 
-use gloo::{
-    events::EventListener,
-    timers::callback::Timeout,
-    utils::{body, window},
-};
+use gloo_events::EventListener;
+use gloo_timers::callback::Timeout;
+use gloo_utils::{body, window};
 use yew::{html, html::Scope, Classes, Component, Context, Html, Properties};
 
 use crate::{
