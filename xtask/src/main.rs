@@ -25,14 +25,11 @@ enum Command {
 
 fn main() -> anyhow::Result<()> {
     let args = CliArgs::parse();
-
-    let handler = match args.command {
-        Command::Build => build,
-        Command::Serve => serve,
-        Command::Deploy => deploy,
-    };
-
-    handler()
+    match args.command {
+        Command::Build => build(),
+        Command::Serve => serve(),
+        Command::Deploy => deploy(),
+    }
 }
 
 fn build() -> anyhow::Result<()> {
