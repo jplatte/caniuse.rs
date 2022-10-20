@@ -1,0 +1,5 @@
+title = "`BTreeMap::pop_first`"
+flag = "map_first_last"
+tracking_issue_id = 62924
+stabilization_pr_id = 101727
+doc_path = "std/collections/struct.BTreeMap.html#method.pop_first"
