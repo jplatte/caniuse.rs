@@ -1,0 +1,5 @@
+title = "`proc_macro::Span::source_text`"
+flag = "proc_macro_span"
+doc_path = "proc_macro/struct.Span.html#method.source_text"
+tracking_issue_id = 54725
+stabilization_pr_id = 103197
