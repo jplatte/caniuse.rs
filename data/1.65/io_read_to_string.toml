@@ -1,0 +1,6 @@
+title = "`io::read_to_string`"
+flag = "io_read_to_string"
+impl_pr_id = 80217
+tracking_issue_id = 80218
+stabilization_pr_id = 100337
+doc_path = "std/io/fn.read_to_string.html"
