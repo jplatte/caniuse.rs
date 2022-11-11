@@ -1,0 +1,5 @@
+title = "`ops::Bound::as_mut`"
+flag = "bound_as_ref"
+impl_pr_id = 80444
+tracking_issue_id = 80996
+doc_path = "std/ops/enum.Bound.html#method.as_mut"

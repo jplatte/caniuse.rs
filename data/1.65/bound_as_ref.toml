@@ -1,0 +1,6 @@
+title = "`ops::Bound::as_ref`"
+flag = "bound_as_ref"
+impl_pr_id = 80444
+tracking_issue_id = 80996
+stabilization_pr_id = 99736
+doc_path = "std/ops/enum.Bound.html#method.as_ref"
