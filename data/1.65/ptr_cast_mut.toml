@@ -1,0 +1,6 @@
+title = "`<*const T>::cast_mut"
+flag = "ptr_const_cast"
+impl_pr_id = 92657
+tracking_issue_id = 92675
+stabilization_pr_id = 100184
+doc_path = "std/primitive.pointer.html#method.cast_mut"
