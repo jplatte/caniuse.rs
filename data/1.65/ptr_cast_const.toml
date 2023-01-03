@@ -1,4 +1,4 @@
-title = "`<*mut T>::cast_const"
+title = "`<*mut T>::cast_const`"
 flag = "ptr_const_cast"
 impl_pr_id = 92657
 tracking_issue_id = 92675
