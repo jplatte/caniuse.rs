@@ -1,0 +1,5 @@
+title = "`hint::black_box`"
+flag = "bench_black_box"
+tracking_issue_id = 64102
+stabilization_pr_id = 102232
+doc_path = "std/hint/fn.black_box.html"
