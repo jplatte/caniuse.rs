@@ -2,13 +2,11 @@ use std::mem;
 
 use gloo_events::EventListener;
 use gloo_utils::{body, document_element, window};
+use urlencoding::encode;
 use wasm_bindgen::JsCast;
 use web_sys::{HtmlElement, HtmlInputElement, InputEvent, MouseEvent};
 use yew::{html, Callback, Component, Context, Html, NodeRef, Properties, TargetCast};
-use yew_router::{
-    history::{History, Location},
-    scope_ext::RouterScopeExt,
-};
+use yew_router::{history::History, scope_ext::RouterScopeExt};
 
 use crate::{
     icons::{fa_bars, fa_moon, fa_question_circle, fa_sun},
@@ -126,7 +124,7 @@ impl Component for Header {
         let oninput = move |ev: InputEvent| {
             let search_query = ev.target_unchecked_into::<HtmlInputElement>().value();
             if !search_query.is_empty() {
-                history.replace(AppRoute::SearchIndex { query: search_query });
+                history.replace(AppRoute::SearchIndex { query: encode(&search_query).to_string() });
             } else {
                 history.push(AppRoute::Index)
             }
