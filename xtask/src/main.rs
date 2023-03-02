@@ -35,11 +35,20 @@ fn main() -> anyhow::Result<()> {
 fn build() -> anyhow::Result<()> {
     cmd!("wasm-pack build --no-typescript --target web").run()?;
     fs::copy("pkg/caniuse_rs_bg.wasm", "public/caniuse_rs.wasm")?;
+    #[cfg(target_os = "linux")]
     cmd!("rollup src/main.js --format iife --file public/caniuse_rs.js").run()?;
+    #[cfg(target_os = "windows")]
+    cmd!("rollup.cmd src/main.js --format iife --file public/caniuse_rs.js").run()?;
+
 
     let static_files: Vec<_> =
         fs::read_dir("static")?.map(|entry| Ok(entry?.path())).collect::<io::Result<_>>()?;
+    #[cfg(target_os = "linux")]
     cmd!("cp -r {static_files...} public/").run()?;
+    #[cfg(target_os = "windows")]
+    for file in static_files.iter() {
+        cmd!("xcopy {file} public /i /s /y /q").run()?;
+    }
 
     Ok(())
 }
