@@ -3,8 +3,8 @@ use std::mem;
 use gloo_events::EventListener;
 use gloo_utils::{body, document_element, window};
 use wasm_bindgen::JsCast;
-use web_sys::{HtmlElement, InputEvent, MouseEvent};
-use yew::{html, Callback, Component, Context, Html, NodeRef, Properties};
+use web_sys::{HtmlElement, HtmlInputElement, InputEvent, MouseEvent};
+use yew::{html, Callback, Component, Context, Html, NodeRef, Properties, TargetCast};
 use yew_router::{
     history::{History, Location},
     scope_ext::RouterScopeExt,
@@ -31,6 +31,7 @@ pub struct Props {
     #[prop_or_default]
     pub input_ref: NodeRef,
     pub oninput: Callback<InputEvent>,
+    pub inputval: String,
 }
 
 impl Component for Header {
@@ -122,9 +123,12 @@ impl Component for Header {
 
         let history = ctx.link().history().unwrap();
         let cb = ctx.props().oninput.clone();
-        let oninput = move |ev| {
-            if history.location().route::<AppRoute>() != Some(AppRoute::Index) {
-                history.push(AppRoute::Index);
+        let oninput = move |ev: InputEvent| {
+            let search_query = ev.target_unchecked_into::<HtmlInputElement>().value();
+            if !search_query.is_empty() {
+                history.replace(AppRoute::SearchIndex { query: search_query });
+            } else {
+                history.push(AppRoute::Index)
             }
             cb.emit(ev);
         };
@@ -135,6 +139,7 @@ impl Component for Header {
                     <div class="caniuse">
                         <label for="query">{"Can I use"}</label>
                         <input ref={ctx.props().input_ref.clone()} id="query" type="search"
+                            value={ctx.props().inputval.clone()}
                             oninput={oninput} />
                         {"?"}
                     </div>

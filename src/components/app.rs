@@ -40,7 +40,19 @@ impl Component for App {
             }
         });
 
-        Self { input_ref: NodeRef::default(), search_query: Rc::new(String::new()), _key_listener }
+        let search_query = Rc::new(
+            web_sys::window()
+                .expect("cannot access window object")
+                .location()
+                .pathname()
+                .expect("unable to get location")
+                .split("search/")
+                .skip(1)
+                .next()
+                .unwrap_or(String::new().as_str())
+                .to_string(),
+        );
+        Self { input_ref: NodeRef::default(), search_query, _key_listener }
     }
 
     fn update(&mut self, _: &Context<Self>, msg: Msg) -> bool {
@@ -65,6 +77,9 @@ impl Component for App {
 
         let search_query = self.search_query.clone();
         let render_route = Switch::render(move |route| match &route {
+            AppRoute::SearchIndex { query: slug } => {
+                html! { <Index show={IndexContents::SearchResults { search_query: Rc::new(slug.clone()) }} /> }
+            }
             AppRoute::Index | AppRoute::RecentlyStabilized | AppRoute::Unstable => {
                 let show = if search_query.is_empty() {
                     IndexContents::Explore(match &route {
@@ -98,7 +113,7 @@ impl Component for App {
 
         html! {
             <BrowserRouter>
-                <Header input_ref={self.input_ref.clone()} oninput={oninput} />
+                <Header input_ref={self.input_ref.clone()} oninput={oninput} inputval={self.search_query.to_string()} />
                 <div class="page">
                     <Switch render={render_route} />
                 </div>
