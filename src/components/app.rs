@@ -83,9 +83,6 @@ impl Component for App {
 
         let search_query = self.search_query.clone();
         let render_route = Switch::render(move |route| match &route {
-            AppRoute::SearchIndex { query: slug } => {
-                html! { <Index show={IndexContents::SearchResults { search_query: Rc::new(slug.clone()) }} /> }
-            }
             AppRoute::Index | AppRoute::RecentlyStabilized | AppRoute::Unstable => {
                 let show = if search_query.is_empty() {
                     IndexContents::Explore(match &route {

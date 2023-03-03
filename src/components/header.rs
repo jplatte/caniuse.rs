@@ -2,11 +2,10 @@ use std::mem;
 
 use gloo_events::EventListener;
 use gloo_utils::{body, document_element, window};
-use percent_encoding::{percent_encode, NON_ALPHANUMERIC};
 use wasm_bindgen::JsCast;
-use web_sys::{HtmlElement, HtmlInputElement, InputEvent, MouseEvent};
-use yew::{html, Callback, Component, Context, Html, NodeRef, Properties, TargetCast};
-use yew_router::{history::History, scope_ext::RouterScopeExt};
+use web_sys::{HtmlElement, InputEvent, MouseEvent};
+use yew::{html, Callback, Component, Context, Html, NodeRef, Properties};
+use yew_router::{history::History, scope_ext::RouterScopeExt, prelude::Location};
 
 use crate::{
     icons::{fa_bars, fa_moon, fa_question_circle, fa_sun},
@@ -122,13 +121,8 @@ impl Component for Header {
         let history = ctx.link().history().unwrap();
         let cb = ctx.props().oninput.clone();
         let oninput = move |ev: InputEvent| {
-            let search_query = ev.target_unchecked_into::<HtmlInputElement>().value();
-            if !search_query.is_empty() {
-                history.replace(AppRoute::SearchIndex {
-                    query: percent_encode(search_query.as_bytes(), NON_ALPHANUMERIC).to_string(),
-                });
-            } else {
-                history.push(AppRoute::Index)
+            if history.location().route::<AppRoute>() != Some(AppRoute::Index) {
+                history.push(AppRoute::Index);
             }
             cb.emit(ev);
         };

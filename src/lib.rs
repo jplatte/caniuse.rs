@@ -39,8 +39,6 @@ enum AppRoute {
     Unstable,
     #[at("/")]
     Index,
-    #[at("/#q=:query")]
-    SearchIndex { query: String },
 }
 
 type RouterLink = yew_router::components::Link<AppRoute>;
