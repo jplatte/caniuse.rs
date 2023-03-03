@@ -44,13 +44,13 @@ impl Component for App {
         let search_query = web_sys::window()
             .expect("cannot access window object")
             .location()
-            .pathname()
+            .hash()
             .expect("unable to get location")
-            .split("/search/")
-            .skip(1)
-            .next()
-            .unwrap_or(String::new().as_str())
+            .split("#q=")
+            .nth(1)
+            .unwrap_or("")
             .to_string();
+
         let search_query = Rc::new(
             percent_decode(search_query.as_bytes())
                 .decode_utf8()

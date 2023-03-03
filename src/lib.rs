@@ -39,7 +39,7 @@ enum AppRoute {
     Unstable,
     #[at("/")]
     Index,
-    #[at("/search/:query")]
+    #[at("/#q=:query")]
     SearchIndex { query: String },
 }
 
