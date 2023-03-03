@@ -2,7 +2,7 @@ use std::rc::Rc;
 
 use gloo_events::EventListener;
 use gloo_utils::document;
-use urlencoding::decode;
+use percent_encoding::percent_decode;
 use wasm_bindgen::JsCast;
 use web_sys::{HtmlInputElement, KeyboardEvent};
 use yew::{html, Component, Context, Html, NodeRef};
@@ -51,8 +51,12 @@ impl Component for App {
             .next()
             .unwrap_or(String::new().as_str())
             .to_string();
-        let search_query =
-            Rc::new(decode(&search_query).expect("Cannot decode search_query").to_string());
+        let search_query = Rc::new(
+            percent_decode(search_query.as_bytes())
+                .decode_utf8()
+                .expect("Cannot decode search_query")
+                .to_string(),
+        );
 
         Self { input_ref: NodeRef::default(), search_query, _key_listener }
     }

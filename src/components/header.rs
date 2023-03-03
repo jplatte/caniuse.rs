@@ -2,7 +2,7 @@ use std::mem;
 
 use gloo_events::EventListener;
 use gloo_utils::{body, document_element, window};
-use urlencoding::encode;
+use percent_encoding::{percent_encode, NON_ALPHANUMERIC};
 use wasm_bindgen::JsCast;
 use web_sys::{HtmlElement, HtmlInputElement, InputEvent, MouseEvent};
 use yew::{html, Callback, Component, Context, Html, NodeRef, Properties, TargetCast};
@@ -124,7 +124,9 @@ impl Component for Header {
         let oninput = move |ev: InputEvent| {
             let search_query = ev.target_unchecked_into::<HtmlInputElement>().value();
             if !search_query.is_empty() {
-                history.replace(AppRoute::SearchIndex { query: encode(&search_query).to_string() });
+                history.replace(AppRoute::SearchIndex {
+                    query: percent_encode(search_query.as_bytes(), NON_ALPHANUMERIC).to_string(),
+                });
             } else {
                 history.push(AppRoute::Index)
             }
