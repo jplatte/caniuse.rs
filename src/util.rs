@@ -1,5 +1,6 @@
 use std::fmt::Display;
 
+use percent_encoding::{percent_decode, NON_ALPHANUMERIC, percent_encode, utf8_percent_encode};
 use yew::{
     html,
     virtual_dom::{VList, VNode, VTag, VText},
@@ -64,4 +65,29 @@ pub fn maybe_link<T: Display>(text: &str, link_base: &str, opt_rest: Option<T>) 
         Some(rest) => link(text, link_base, rest),
         None => html! {},
     }
+}
+
+pub fn get_searchquery() -> String {
+    let search_query = web_sys::window()
+        .expect("cannot access window object")
+        .location()
+        .hash()
+        .expect("unable to get location")
+        .split("#q=")
+        .nth(1)
+        .unwrap_or("")
+        .to_string();
+
+    percent_decode(search_query.as_bytes())
+        .decode_utf8()
+        .expect("Cannot decode search_query")
+        .to_string()
+}
+
+pub fn set_searchquery(search_query: &str) -> bool {
+    web_sys::window()
+    .expect("cannot access window object")
+    .location()
+    .replace(&format!("/#q={}", utf8_percent_encode(search_query, NON_ALPHANUMERIC).to_string()))
+    .is_ok()
 }

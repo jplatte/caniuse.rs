@@ -1,4 +1,4 @@
-use std::mem;
+use std::{mem, rc::Rc};
 
 use gloo_events::EventListener;
 use gloo_utils::{body, document_element, window};
@@ -28,7 +28,7 @@ pub struct Props {
     #[prop_or_default]
     pub input_ref: NodeRef,
     pub oninput: Callback<InputEvent>,
-    pub inputval: String,
+    pub input_val: String
 }
 
 impl Component for Header {
@@ -133,7 +133,7 @@ impl Component for Header {
                     <div class="caniuse">
                         <label for="query">{"Can I use"}</label>
                         <input ref={ctx.props().input_ref.clone()} id="query" type="search"
-                            value={ctx.props().inputval.clone()}
+                            value={ctx.props().input_val.to_string()}
                             oninput={oninput} />
                         {"?"}
                     </div>

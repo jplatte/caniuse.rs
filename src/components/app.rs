@@ -2,7 +2,6 @@ use std::rc::Rc;
 
 use gloo_events::EventListener;
 use gloo_utils::document;
-use percent_encoding::percent_decode;
 use wasm_bindgen::JsCast;
 use web_sys::{HtmlInputElement, KeyboardEvent};
 use yew::{html, Component, Context, Html, NodeRef};
@@ -13,6 +12,7 @@ use crate::{
         index::{Explore, IndexContents},
         About, FeaturePage, Header, Index, VersionPage,
     },
+    util::{get_searchquery, set_searchquery},
     AppRoute, FEATURES, VERSIONS,
 };
 
@@ -41,22 +41,7 @@ impl Component for App {
             }
         });
 
-        let search_query = web_sys::window()
-            .expect("cannot access window object")
-            .location()
-            .hash()
-            .expect("unable to get location")
-            .split("#q=")
-            .nth(1)
-            .unwrap_or("")
-            .to_string();
-
-        let search_query = Rc::new(
-            percent_decode(search_query.as_bytes())
-                .decode_utf8()
-                .expect("Cannot decode search_query")
-                .to_string(),
-        );
+        let search_query = Rc::new(get_searchquery());
 
         Self { input_ref: NodeRef::default(), search_query, _key_listener }
     }
@@ -116,7 +101,7 @@ impl Component for App {
 
         html! {
             <BrowserRouter>
-                <Header input_ref={self.input_ref.clone()} oninput={oninput} inputval={self.search_query.to_string()} />
+                <Header input_ref={self.input_ref.clone()} input_val={self.search_query.to_string()} oninput={oninput} />
                 <div class="page">
                     <Switch render={render_route} />
                 </div>
