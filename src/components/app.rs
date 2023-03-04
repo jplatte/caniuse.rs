@@ -12,7 +12,7 @@ use crate::{
         index::{Explore, IndexContents},
         About, FeaturePage, Header, Index, VersionPage,
     },
-    util::{get_searchquery, set_searchquery},
+    util::get_searchquery,
     AppRoute, FEATURES, VERSIONS,
 };
 
@@ -42,6 +42,14 @@ impl Component for App {
         });
 
         let search_query = Rc::new(get_searchquery());
+
+        if !search_query.is_empty() {
+            web_sys::window()
+                .expect("cannot access window object")
+                .location()
+                .set_hash("")
+                .expect("cannot set location");
+        }
 
         Self { input_ref: NodeRef::default(), search_query, _key_listener }
     }
