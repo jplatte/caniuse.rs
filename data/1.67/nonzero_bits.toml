@@ -1,0 +1,19 @@
+title = "`NonZero*::BITS`"
+flag = "nonzero_bits"
+tracking_issue_id = 94881
+impl_pr_id = 93292
+stabilization_pr_id = 101514
+items = [
+    "NonZeroU8::BITS",
+    "NonZeroU16::BITS",
+    "NonZeroU32::BITS",
+    "NonZeroU64::BITS",
+    "NonZeroU128::BITS",
+
+    "NonZeroI8::BITS",
+    "NonZeroI16::BITS",
+    "NonZeroI32::BITS",
+    "NonZeroI64::BITS",
+    "NonZeroI128::BITS",
+]
+doc_path = "std/num/struct.NonZeroU32.html#associatedconstant.BITS"

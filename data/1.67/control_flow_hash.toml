@@ -1,0 +1,3 @@
+title = "`Hash` implementation for `ControlFlow`"
+impl_pr_id = 103084
+doc_path = "std/ops/enum.ControlFlow.html#impl-Hash-for-ControlFlow<B%2C%20C>"
