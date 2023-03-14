@@ -1,0 +1,92 @@
+title = "integer logarithm methods on integers"
+flag = "int_log"
+tracking_issue_id = 70887
+impl_pr_id = 80918
+stabilization_pr_id = 103570
+items = [
+    "u8::ilog",
+    "u8::ilog2",
+    "u8::ilog10",
+    "u8::checked_ilog",
+    "u8::checked_ilog2",
+    "u8::checked_ilog10",
+
+    "i8::ilog",
+    "i8::ilog2",
+    "i8::ilog10",
+    "i8::checked_ilog",
+    "i8::checked_ilog2",
+    "i8::checked_ilog10",
+
+    "u16::ilog",
+    "u16::ilog2",
+    "u16::ilog10",
+    "u16::checked_ilog",
+    "u16::checked_ilog2",
+    "u16::checked_ilog10",
+
+    "i16::ilog",
+    "i16::ilog2",
+    "i16::ilog10",
+    "i16::checked_ilog",
+    "i16::checked_ilog2",
+    "i16::checked_ilog10",
+
+    "u32::ilog",
+    "u32::ilog2",
+    "u32::ilog10",
+    "u32::checked_ilog",
+    "u32::checked_ilog2",
+    "u32::checked_ilog10",
+
+    "i32::ilog",
+    "i32::ilog2",
+    "i32::ilog10",
+    "i32::checked_ilog",
+    "i32::checked_ilog2",
+    "i32::checked_ilog10",
+
+    "u64::ilog",
+    "u64::ilog2",
+    "u64::ilog10",
+    "u64::checked_ilog",
+    "u64::checked_ilog2",
+    "u64::checked_ilog10",
+
+    "i64::ilog",
+    "i64::ilog2",
+    "i64::ilog10",
+    "i64::checked_ilog",
+    "i64::checked_ilog2",
+    "i64::checked_ilog10",
+
+    "u128::ilog",
+    "u128::ilog2",
+    "u128::ilog10",
+    "u128::checked_ilog",
+    "u128::checked_ilog2",
+    "u128::checked_ilog10",
+
+    "i128::ilog",
+    "i128::ilog2",
+    "i128::ilog10",
+    "i128::checked_ilog",
+    "i128::checked_ilog2",
+    "i128::checked_ilog10",
+
+    "NonZeroU8::ilog2",
+    "NonZeroU8::ilog10",
+
+    "NonZeroU16::ilog2",
+    "NonZeroU16::ilog10",
+
+    "NonZeroU32::ilog2",
+    "NonZeroU32::ilog10",
+
+    "NonZeroU64::ilog2",
+    "NonZeroU64::ilog10",
+
+    "NonZeroU128::ilog2",
+    "NonZeroU128::ilog10",
+]
+doc_path = "std/primitive.u32.html#method.ilog"

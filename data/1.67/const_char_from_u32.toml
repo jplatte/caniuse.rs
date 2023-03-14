@@ -1,0 +1,3 @@
+title = "`char::from_u32` as `const fn`"
+impl_pr_id = 102470
+doc_path = "std/primitive.char.html#method.from_u32"
