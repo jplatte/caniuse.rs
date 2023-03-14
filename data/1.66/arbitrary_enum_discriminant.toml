@@ -1,0 +1,6 @@
+title = "allow arbitary enums to have explicit discriminants"
+flag = "arbitrary_enum_discriminant"
+tracking_issue_id = 60553
+rfc_id = 2363
+impl_pr_id = 60732
+stabilization_pr_id = 86860
