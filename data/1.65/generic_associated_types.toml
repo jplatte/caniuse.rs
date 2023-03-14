@@ -1,5 +1,6 @@
 title = "generic associated types"
 flag = "generic_associated_types"
-rfc_id = 1598
 tracking_issue_id = 44265
+rfc_id = 1598
+stabilization_pr_id = 96709
 aliases = ["GAT"]
