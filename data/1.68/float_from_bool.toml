@@ -1,0 +1,8 @@
+title = "`From<bool> implementation for floats"
+flag = "float_from_bool"
+impl_pr_id = 100390
+items = [
+    "impl From<bool> for f32",
+    "impl From<bool> for f64",
+]
+doc_path = "std/primitive.f32.html#impl-From<bool>-for-f32"

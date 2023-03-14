@@ -1,0 +1,6 @@
+title = "`std::pin::pin!`"
+flag = "pin_macro"
+tracking_issue_id = 93178
+impl_pr_id = 93176
+stabilization_pr_id = 103800
+doc_path = "std/pin/macro.pin.html"
