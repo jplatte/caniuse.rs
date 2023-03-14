@@ -1,0 +1,7 @@
+title = "break out of labelled blocks with value"
+flag = "label_break_value"
+tracking_issue_id = 48594
+rfc_id = 2046
+impl_pr_id = 50045
+stabilization_pr_id = 99332
+doc_path = ["reference/expressions/loop-expr.html#labelled-block-expressions"]
