@@ -1,0 +1,6 @@
+title = "half-open range patterns"
+flag = "half_open_range_patterns"
+tracking_issue_id = 67264
+impl_pr_id = 67258
+stabilization_pr_id = 102275
+doc_path = "reference/patterns.html?highlight=half open#range-patterns"

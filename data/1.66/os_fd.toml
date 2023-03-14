@@ -1,0 +1,5 @@
+title = "`std::os::fd` module"
+flag = "os_fd"
+tracking_issue_id = 98699
+impl_pr_id = 98368
+doc_path = "std/os/fd/index.html"
