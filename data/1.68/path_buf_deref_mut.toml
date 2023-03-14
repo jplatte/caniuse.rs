@@ -1,0 +1,4 @@
+title = "`DerefMut` implementation for `PathBuf`"
+flag = "path_buf_deref_mut"
+impl_pr_id = 105018
+doc_path = "std/path/struct.PathBuf.html#impl-DerefMut-for-PathBuf"

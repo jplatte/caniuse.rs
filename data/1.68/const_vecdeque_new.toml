@@ -1,0 +1,5 @@
+title = "`VecDeque::new` as `const fn`"
+flag = "const_vec_deque_new"
+tracking_issue_id = 93178
+impl_pr_id = 105127
+doc_path = "std/collections/struct.VecDeque.html#method.new"

@@ -1,0 +1,6 @@
+title = "`std::path::MAIN_SEPARATOR_STR`"
+flag = "main_separator_str"
+tracking_issue_id = 94071
+impl_pr_id = 93976
+stabilization_pr_id = 103104
+doc_path = "std/path/constant.MAIN_SEPARATOR_STR.html"
