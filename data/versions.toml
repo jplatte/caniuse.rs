@@ -401,5 +401,7 @@ gh_milestone_id = 100
 blog_post_path = "2023/03/09/Rust-1.68.0.html"
 
 ["1.69"]
-channel = "nightly"
+release_date = "2023-04-20"
+release_notes = "version-1690-2023-04-20"
 gh_milestone_id = 102
+blog_post_path = "2023/04/20/Rust-1.69.0.html"
