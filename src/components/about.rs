@@ -34,6 +34,11 @@ impl Component for About {
                         {"You can find the code for this site on "}
                         <a href="https://github.com/jplatte/caniuse.rs">{"GitHub"}</a>{"."}
                     </p>
+                    <h3>{"Features"}</h3>
+                    <p>
+                    {"You can add the page to your browser searchbar. The syntax is: "}
+                    <a href="#">{"https://caniuse.rs/#q=%s"}</a>
+                    </p>
                     <h3>{"About the creator"}</h3>
                     <p>
                         {"I'm Jonas and I work on free software in my spare time, usually on "}

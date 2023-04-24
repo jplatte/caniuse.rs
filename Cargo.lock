@@ -86,6 +86,7 @@ dependencies = [
  "gloo-timers",
  "gloo-utils",
  "once_cell",
+ "percent-encoding",
  "proc-macro2",
  "quote",
  "serde",

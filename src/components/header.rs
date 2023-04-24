@@ -1,14 +1,11 @@
-use std::mem;
+use std::{mem, rc::Rc};
 
 use gloo_events::EventListener;
 use gloo_utils::{body, document_element, window};
 use wasm_bindgen::JsCast;
 use web_sys::{HtmlElement, InputEvent, MouseEvent};
 use yew::{html, Callback, Component, Context, Html, NodeRef, Properties};
-use yew_router::{
-    history::{History, Location},
-    scope_ext::RouterScopeExt,
-};
+use yew_router::{history::History, scope_ext::RouterScopeExt, prelude::Location};
 
 use crate::{
     icons::{fa_bars, fa_moon, fa_question_circle, fa_sun},
@@ -31,6 +28,7 @@ pub struct Props {
     #[prop_or_default]
     pub input_ref: NodeRef,
     pub oninput: Callback<InputEvent>,
+    pub input_val: String
 }
 
 impl Component for Header {
@@ -122,7 +120,7 @@ impl Component for Header {
 
         let history = ctx.link().history().unwrap();
         let cb = ctx.props().oninput.clone();
-        let oninput = move |ev| {
+        let oninput = move |ev: InputEvent| {
             if history.location().route::<AppRoute>() != Some(AppRoute::Index) {
                 history.push(AppRoute::Index);
             }
@@ -135,6 +133,7 @@ impl Component for Header {
                     <div class="caniuse">
                         <label for="query">{"Can I use"}</label>
                         <input ref={ctx.props().input_ref.clone()} id="query" type="search"
+                            value={ctx.props().input_val.to_string()}
                             oninput={oninput} />
                         {"?"}
                     </div>

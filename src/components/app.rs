@@ -12,6 +12,7 @@ use crate::{
         index::{Explore, IndexContents},
         About, FeaturePage, Header, Index, VersionPage,
     },
+    util::get_searchquery,
     AppRoute, FEATURES, VERSIONS,
 };
 
@@ -40,7 +41,17 @@ impl Component for App {
             }
         });
 
-        Self { input_ref: NodeRef::default(), search_query: Rc::new(String::new()), _key_listener }
+        let search_query = Rc::new(get_searchquery());
+
+        if !search_query.is_empty() {
+            web_sys::window()
+                .expect("cannot access window object")
+                .location()
+                .set_hash("")
+                .expect("cannot set location");
+        }
+
+        Self { input_ref: NodeRef::default(), search_query, _key_listener }
     }
 
     fn update(&mut self, _: &Context<Self>, msg: Msg) -> bool {
@@ -98,7 +109,7 @@ impl Component for App {
 
         html! {
             <BrowserRouter>
-                <Header input_ref={self.input_ref.clone()} oninput={oninput} />
+                <Header input_ref={self.input_ref.clone()} input_val={self.search_query.to_string()} oninput={oninput} />
                 <div class="page">
                     <Switch render={render_route} />
                 </div>
