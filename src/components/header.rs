@@ -5,10 +5,7 @@ use gloo_utils::{body, document_element, window};
 use wasm_bindgen::JsCast;
 use web_sys::{HtmlElement, InputEvent, MouseEvent};
 use yew::{html, Callback, Component, Context, Html, NodeRef, Properties};
-use yew_router::{
-    history::{History, Location},
-    scope_ext::RouterScopeExt,
-};
+use yew_router::scope_ext::RouterScopeExt;
 
 use crate::{
     icons::{fa_bars, fa_moon, fa_question_circle, fa_sun},
@@ -77,7 +74,7 @@ impl Component for Header {
         }
     }
 
-    fn changed(&mut self, _: &Context<Self>) -> bool {
+    fn changed(&mut self, _: &Context<Self>, _old_props: &Self::Properties) -> bool {
         true
     }
 
@@ -120,11 +117,11 @@ impl Component for Header {
             }
         };
 
-        let history = ctx.link().history().unwrap();
+        let link = ctx.link().to_owned();
         let cb = ctx.props().oninput.clone();
         let oninput = move |ev| {
-            if history.location().route::<AppRoute>() != Some(AppRoute::Index) {
-                history.push(AppRoute::Index);
+            if link.route::<AppRoute>() != Some(AppRoute::Index) {
+                link.navigator().unwrap().push(&AppRoute::Index);
             }
             cb.emit(ev);
         };

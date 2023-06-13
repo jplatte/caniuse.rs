@@ -31,7 +31,7 @@ impl Component for VersionPage {
         match void {}
     }
 
-    fn changed(&mut self, _: &Context<Self>) -> bool {
+    fn changed(&mut self, _: &Context<Self>, _old_props: &Self::Properties) -> bool {
         true
     }
 

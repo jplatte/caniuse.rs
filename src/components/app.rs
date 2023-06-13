@@ -56,7 +56,7 @@ impl Component for App {
         }
     }
 
-    fn changed(&mut self, _: &Context<Self>) -> bool {
+    fn changed(&mut self, _: &Context<Self>, _old_props: &Self::Properties) -> bool {
         false
     }
 
@@ -64,7 +64,7 @@ impl Component for App {
         type Switch = yew_router::Switch<AppRoute>;
 
         let search_query = self.search_query.clone();
-        let render_route = Switch::render(move |route| match &route {
+        let render_route = move |route| match &route {
             AppRoute::Index | AppRoute::RecentlyStabilized | AppRoute::Unstable => {
                 let show = if search_query.is_empty() {
                     IndexContents::Explore(match &route {
@@ -89,7 +89,7 @@ impl Component for App {
                 Some(&data) => html! { <VersionPage data={data} /> },
                 None => html! { "error: version not found!" },
             },
-        });
+        };
 
         let input = self.input_ref.clone();
         let oninput = ctx.link().callback(move |_e| {

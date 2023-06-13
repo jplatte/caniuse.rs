@@ -154,7 +154,7 @@ fn collect_data() -> anyhow::Result<Data> {
     };
 
     let mut versions: BTreeMap<String, VersionData> =
-        toml::from_slice(&fs::read("data/versions.toml")?)?;
+        toml::from_str(&fs::read_to_string("data/versions.toml")?)?;
 
     for entry in fs::read_dir("data")? {
         let dir = entry?;

@@ -46,5 +46,5 @@ type RouterLink = yew_router::components::Link<AppRoute>;
 #[wasm_bindgen]
 pub fn run() {
     let page = document().query_selector("main").unwrap().unwrap();
-    yew::start_app_in_element::<components::App>(page);
+    yew::Renderer::<components::App>::with_root(page).render();
 }
