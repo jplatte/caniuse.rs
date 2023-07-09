@@ -34,8 +34,16 @@ pub struct FeatureData {
 }
 
 impl FeatureData {
-    pub fn is_on_channel(&self, chan: Channel) -> bool {
-        self.version.map(|v| v.channel == chan).unwrap_or(false)
+    pub fn is_stable(&self) -> bool {
+        self.version.is_some_and(|v| v.channel == Channel::Stable)
+    }
+
+    pub fn is_recently_stabilized(&self) -> bool {
+        self.version.is_some_and(|v| v.channel != Channel::Stable)
+    }
+
+    pub fn is_unstable(&self) -> bool {
+        self.version.is_none()
     }
 }
 
@@ -56,6 +64,7 @@ pub struct VersionData {
 }
 
 #[derive(Copy, Clone, Debug, PartialEq)]
+#[allow(dead_code)]
 pub enum Channel {
     Nightly,
     Beta,

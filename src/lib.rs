@@ -1,50 +1,74 @@
-#![allow(clippy::derive_partial_eq_without_eq)]
-
+use data::FEATURES;
 use gloo_utils::document;
 use wasm_bindgen::prelude::wasm_bindgen;
-use yew_router::Routable;
+use xilem_html::{
+    elements::{div, main},
+    App, OneOf4, View,
+};
 
 mod data;
-mod icons;
+mod router;
 mod search;
 mod util;
+
 mod components {
     mod about;
-    mod app;
     mod feature_entry;
     mod feature_page;
     mod header;
     mod index;
-    mod version_page;
 
-    pub use self::{
-        about::About, app::App, feature_entry::FeatureEntry, feature_page::FeaturePage,
-        header::Header, index::Index, version_page::VersionPage,
+    pub(crate) use self::{
+        about::about, feature_entry::feature_entry, feature_page::feature_page, header::header,
+        index::index,
     };
 }
 
-use data::{Channel, FeatureData, VersionData, FEATURES, VERSIONS};
+use self::router::AppRoute;
 
-#[derive(Clone, Debug, PartialEq, Routable)]
-enum AppRoute {
-    #[at("/features/:name")]
-    Feature { name: String },
-    #[at("/versions/:number")]
-    Version { number: String },
-    #[at("/about")]
-    About,
-    #[at("/recent")]
-    RecentlyStabilized,
-    #[at("/unstable")]
-    Unstable,
-    #[at("/")]
-    Index,
+//enum Theme {
+//    Light,
+//    Dark,
+//}
+
+struct AppState {
+    route: AppRoute,
+    //theme: Theme,
+    is_menu_open: bool,
+    search_scores: Vec<(u16, f64)>,
 }
 
-type RouterLink = yew_router::components::Link<AppRoute>;
+impl AppState {
+    fn new() -> Self {
+        Self {
+            route: AppRoute::new(),
+            // TODO: Use body data attr
+            //theme: Theme::Dark,
+            is_menu_open: false,
+            search_scores: vec![(0, 0.0); FEATURES.len()],
+        }
+    }
+}
+
+fn app(state: &mut AppState) -> impl View<AppState> {
+    let page_content = match &mut state.route {
+        AppRoute::List(list_route) => {
+            OneOf4::A(components::index(list_route, &mut state.search_scores))
+        }
+        AppRoute::Feature { slug } => match FEATURES.iter().find(|f| f.slug == slug) {
+            Some(data) => OneOf4::B(components::feature_page(data)),
+            None => OneOf4::C("error: feature not found!"),
+        },
+        AppRoute::Version { .. } // TODO
+        | AppRoute::About => OneOf4::D(components::about()),
+    };
+    main((components::header(state), div(page_content).attr("class", "page")))
+}
 
 #[wasm_bindgen]
 pub fn run() {
-    let page = document().query_selector("main").unwrap().unwrap();
-    yew::Renderer::<components::App>::with_root(page).render();
+    #[cfg(debug_assertions)]
+    std::panic::set_hook(Box::new(console_error_panic_hook::hook));
+    let page = document().body().unwrap();
+    App::new(AppState::new(), app).run(&page);
 }
