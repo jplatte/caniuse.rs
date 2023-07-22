@@ -18,22 +18,28 @@ struct CliArgs {
 
 #[derive(Subcommand)]
 enum Command {
-    Build,
-    Serve,
+    Build {
+        #[clap(long)]
+        dev: bool,
+    },
+    Serve {
+        #[clap(long)]
+        release: bool,
+    },
     Deploy,
 }
 
 fn main() -> anyhow::Result<()> {
     let args = CliArgs::parse();
     match args.command {
-        Command::Build => build(),
-        Command::Serve => serve(),
+        Command::Build { dev } => build(dev),
+        Command::Serve { release } => serve(release),
         Command::Deploy => deploy(),
     }
 }
 
-fn build() -> anyhow::Result<()> {
-    cmd!("wasm-pack build --no-typescript --target web").run()?;
+fn build(dev: bool) -> anyhow::Result<()> {
+    cmd!("wasm-pack build --no-typescript --target web").args(dev.then_some("--dev")).run()?;
     fs::copy("pkg/caniuse_rs_bg.wasm", "public/caniuse_rs.wasm")?;
     cmd!("rollup src/main.js --format iife --file public/caniuse_rs.js").run()?;
 
@@ -45,8 +51,8 @@ fn build() -> anyhow::Result<()> {
 }
 
 #[tokio::main]
-async fn serve() -> anyhow::Result<()> {
-    build()?;
+async fn serve(release: bool) -> anyhow::Result<()> {
+    build(!release)?;
 
     println!("Starting development server on http://localhost:8000");
 
@@ -62,7 +68,7 @@ async fn serve() -> anyhow::Result<()> {
 }
 
 fn deploy() -> anyhow::Result<()> {
-    build()?;
+    build(false)?;
 
     cmd!("rsync -rzz public caniuse.rs:/tmp/caniuse/").run()?;
     let ssh_cmds = r#"
