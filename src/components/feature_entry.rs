@@ -7,8 +7,11 @@ use crate::{
     AppState,
 };
 
-pub(crate) fn feature_entry(data: &FeatureData) -> impl View<AppState> + ViewMarker {
-    let version = match data.version {
+pub(crate) fn feature_entry(
+    data: &FeatureData,
+    show_version: ShowVersion,
+) -> impl View<AppState> + ViewMarker {
+    let version = matches!(show_version, ShowVersion::Yes).then(|| match data.version {
         None => OneOf2::A(div("Unstable").attr("class", "version none")),
         Some(version) => {
             let classes = match version.channel {
@@ -25,7 +28,7 @@ pub(crate) fn feature_entry(data: &FeatureData) -> impl View<AppState> + ViewMar
                 .attr("class", classes),
             )
         }
-    };
+    });
 
     div((
         div(route_link(AppRoute::Feature { slug: data.slug.into() }, view_text(data.title))
@@ -34,4 +37,9 @@ pub(crate) fn feature_entry(data: &FeatureData) -> impl View<AppState> + ViewMar
         version,
     ))
     .attr("class", "feature-entry")
+}
+
+pub(crate) enum ShowVersion {
+    Yes,
+    No,
 }

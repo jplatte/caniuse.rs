@@ -3,7 +3,7 @@ use xilem_html::{
     OneOf3, SetAttr, ViewExt, ViewSequence,
 };
 
-use super::feature_entry;
+use super::{feature_entry, feature_entry::ShowVersion};
 use crate::{
     data::FEATURES,
     router::{route_link, AppRoute, ListRoute},
@@ -27,7 +27,7 @@ pub(crate) fn index(
                 div(FEATURES
                     .iter()
                     .take_while(|f| f.is_stable())
-                    .map(feature_entry)
+                    .map(|f| feature_entry(f, ShowVersion::Yes))
                     .collect::<Vec<_>>())
                 .attr("class", "feature-list"),
             )
@@ -39,7 +39,7 @@ pub(crate) fn index(
                     .iter()
                     .skip_while(|f| !f.is_recently_stabilized())
                     .take_while(|f| f.is_recently_stabilized())
-                    .map(feature_entry)
+                    .map(|f| feature_entry(f, ShowVersion::Yes))
                     .collect())
                 .attr("class", "feature-list"),
             )
@@ -47,8 +47,12 @@ pub(crate) fn index(
         ListRoute::Unstable => {
             unstable_link = unstable_link.attr("class", "active");
             OneOf3::A(
-                div(FEATURES.iter().skip_while(|f| !f.is_unstable()).map(feature_entry).collect())
-                    .attr("class", "feature-list"),
+                div(FEATURES
+                    .iter()
+                    .skip_while(|f| !f.is_unstable())
+                    .map(|f| feature_entry(f, ShowVersion::Yes))
+                    .collect())
+                .attr("class", "feature-list"),
             )
         }
         ListRoute::SearchResults { input } => match extract_search_terms(input) {
@@ -58,8 +62,11 @@ pub(crate) fn index(
                     OneOf3::C(div("Nothing found, sorry.").attr("class", "box muted"))
                 } else {
                     OneOf3::B(
-                        div(results.iter().map(feature_entry).collect::<Vec<_>>())
-                            .attr("class", "feature-list"),
+                        div(results
+                            .iter()
+                            .map(|f| feature_entry(f, ShowVersion::Yes))
+                            .collect::<Vec<_>>())
+                        .attr("class", "feature-list"),
                     )
                 }
             }

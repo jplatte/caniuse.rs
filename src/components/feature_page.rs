@@ -1,14 +1,14 @@
-use std::{fmt::Display, ops::Not};
+use std::ops::Not;
 
 use xilem_html::{
-    elements::{a, code, div, h3, li, pre, span, ul},
+    elements::{code, div, h3, li, pre, span, ul},
     OneOf2, ViewSequence,
 };
 
 use crate::{
     data::{Channel, FeatureData},
     router::{route_link, AppRoute},
-    util::view_text,
+    util::{list_link, maybe_list_link, view_text},
     AppState,
 };
 
@@ -67,22 +67,6 @@ pub(crate) fn feature_page(data: &FeatureData) -> impl ViewSequence<AppState> {
         data.items.is_empty().not().then(|| view_items(data.items)),
     ))
     .attr("class", "box")
-}
-
-fn list_link<T: Display>(
-    text: &'static str,
-    link_base: &str,
-    rest: T,
-) -> impl ViewSequence<AppState> {
-    li(a(text).attr("href", format!("{link_base}{rest}")))
-}
-
-fn maybe_list_link<T: Display>(
-    text: &'static str,
-    link_base: &str,
-    opt_rest: Option<T>,
-) -> impl ViewSequence<AppState> {
-    opt_rest.map(|rest| list_link(text, link_base, rest))
 }
 
 fn view_items(items: &'static [&str]) -> impl ViewSequence<AppState> {

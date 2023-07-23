@@ -1,7 +1,11 @@
+use std::fmt::Display;
+
 use xilem_html::{
-    elements::{code, Code},
-    OneOf2,
+    elements::{a, code, li, Code},
+    OneOf2, ViewSequence,
 };
+
+use crate::AppState;
 
 pub fn view_text(mut text: &str) -> Vec<OneOf2<&str, Code<&str>>> {
     let mut res = Vec::new();
@@ -27,6 +31,22 @@ pub fn view_text(mut text: &str) -> Vec<OneOf2<&str, Code<&str>>> {
     // Use the rest of the text verbatim
     res.push(OneOf2::A(text));
     res
+}
+
+pub(crate) fn list_link<T: Display>(
+    text: &'static str,
+    link_base: &str,
+    rest: T,
+) -> impl ViewSequence<AppState> {
+    li(a(text).attr("href", format!("{link_base}{rest}")))
+}
+
+pub(crate) fn maybe_list_link<T: Display>(
+    text: &'static str,
+    link_base: &str,
+    opt_rest: Option<T>,
+) -> impl ViewSequence<AppState> {
+    opt_rest.map(|rest| list_link(text, link_base, rest))
 }
 
 /* pub fn home_button() -> Html {

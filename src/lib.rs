@@ -1,9 +1,9 @@
-use data::FEATURES;
+use data::{FEATURES, VERSIONS};
 use gloo_utils::document;
 use wasm_bindgen::prelude::wasm_bindgen;
 use xilem_html::{
     elements::{div, main},
-    App, OneOf4, View,
+    App, OneOf5, View,
 };
 
 mod data;
@@ -17,10 +17,11 @@ mod components {
     mod feature_page;
     mod header;
     mod index;
+    mod version_page;
 
     pub(crate) use self::{
         about::about, feature_entry::feature_entry, feature_page::feature_page, header::header,
-        index::index,
+        index::index, version_page::version_page,
     };
 }
 
@@ -53,14 +54,17 @@ impl AppState {
 fn app(state: &mut AppState) -> impl View<AppState> {
     let page_content = match &mut state.route {
         AppRoute::List(list_route) => {
-            OneOf4::A(components::index(list_route, &mut state.search_scores))
+            OneOf5::A(components::index(list_route, &mut state.search_scores))
         }
         AppRoute::Feature { slug } => match FEATURES.iter().find(|f| f.slug == slug) {
-            Some(data) => OneOf4::B(components::feature_page(data)),
-            None => OneOf4::C("error: feature not found!"),
+            Some(data) => OneOf5::B(components::feature_page(data)),
+            None => OneOf5::E("error: feature not found!"),
         },
-        AppRoute::Version { .. } // TODO
-        | AppRoute::About => OneOf4::D(components::about()),
+        AppRoute::Version { number } => match VERSIONS.iter().find(|f| f.number == number) {
+            Some(data) => OneOf5::C(components::version_page(data)),
+            None => OneOf5::E("error: version not found!"),
+        },
+        AppRoute::About => OneOf5::D(components::about()),
     };
     main((components::header(state), div(page_content).attr("class", "page")))
 }
