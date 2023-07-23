@@ -3,7 +3,7 @@ use gloo_utils::document;
 use wasm_bindgen::prelude::wasm_bindgen;
 use xilem_html::{
     elements::{div, main},
-    App, OneOf5, View,
+    App, Memoize, OneOf5, View,
 };
 
 mod data;
@@ -66,7 +66,10 @@ fn app(state: &mut AppState) -> impl View<AppState> {
         },
         AppRoute::About => OneOf5::D(components::about()),
     };
-    main((components::header(state), div(page_content).attr("class", "page")))
+    main((
+        Memoize::new(state.is_menu_open, |&is_menu_open| components::header(is_menu_open)),
+        div(page_content).attr("class", "page"),
+    ))
 }
 
 #[wasm_bindgen]

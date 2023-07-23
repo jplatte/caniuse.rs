@@ -1,6 +1,6 @@
 use xilem_html::{
     elements::{self as html, a, button, div, input, label, li, nav, ul},
-     View, ViewExt, ViewMarker,
+    View, ViewExt, ViewMarker,
 };
 
 use crate::{
@@ -8,7 +8,7 @@ use crate::{
     AppState,
 };
 
-pub(crate) fn header(state: &mut AppState) -> impl View<AppState> + ViewMarker {
+pub(crate) fn header(is_menu_open: bool) -> impl View<AppState> + ViewMarker {
     let menu_button =
         button("\u{2630}").attr("type", "button").on_click(|state: &mut AppState, _| {
             state.is_menu_open ^= true;
@@ -30,7 +30,7 @@ pub(crate) fn header(state: &mut AppState) -> impl View<AppState> + ViewMarker {
             nav((
                 menu_button,
                 ul((li(a("<light / dark>")), li(route_link(AppRoute::About, "About"))))
-                    .attr("class", if state.is_menu_open { "menu active" } else { "menu" }),
+                    .attr("class", if is_menu_open { "menu active" } else { "menu" }),
             ))
             .attr("aria-label", "Site navigation"),
         ))
