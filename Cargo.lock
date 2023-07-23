@@ -1416,12 +1416,12 @@ dependencies = [
 [[package]]
 name = "xilem_core"
 version = "0.1.0"
-source = "git+https://github.com/linebender/xilem?rev=be30a5a25575e084b24f640940933df620033ed7#be30a5a25575e084b24f640940933df620033ed7"
+source = "git+https://github.com/linebender/xilem?rev=33d4b08989e7cd6f4f5576c311440dc20cb2d351#33d4b08989e7cd6f4f5576c311440dc20cb2d351"
 
 [[package]]
 name = "xilem_html"
 version = "0.1.0"
-source = "git+https://github.com/linebender/xilem?rev=be30a5a25575e084b24f640940933df620033ed7#be30a5a25575e084b24f640940933df620033ed7"
+source = "git+https://github.com/linebender/xilem?rev=33d4b08989e7cd6f4f5576c311440dc20cb2d351#33d4b08989e7cd6f4f5576c311440dc20cb2d351"
 dependencies = [
  "bitflags 2.3.3",
  "gloo",

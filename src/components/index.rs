@@ -1,12 +1,12 @@
 use xilem_html::{
-    elements::{a, div, nav},
-    OneOf3, ViewExt, ViewSequence,
+    elements::{div, nav},
+    OneOf3, SetAttr, ViewExt, ViewSequence,
 };
 
 use super::feature_entry;
 use crate::{
     data::FEATURES,
-    router::{AppRoute, ListRoute},
+    router::{route_link, AppRoute, ListRoute},
     search::{extract_search_terms, run_search, InvalidSearchQuery},
     AppState,
 };
@@ -15,9 +15,10 @@ pub(crate) fn index(
     route: &ListRoute,
     search_scores: &mut [(u16, f64)],
 ) -> impl ViewSequence<AppState> {
-    let mut stable_link = a("Stable").attr("href", "/");
-    let mut recently_stabilized_link = a("Recently Stabilized").attr("href", "/recent");
-    let mut unstable_link = a("Unstable").attr("href", "/unstable");
+    let mut stable_link = route_link(AppRoute::List(ListRoute::Stable), "Stable");
+    let mut recently_stabilized_link =
+        route_link(AppRoute::List(ListRoute::RecentlyStabilized), "Recently Stabilized");
+    let mut unstable_link = route_link(AppRoute::List(ListRoute::Unstable), "Unstable");
 
     let contents = match route {
         ListRoute::Stable => {

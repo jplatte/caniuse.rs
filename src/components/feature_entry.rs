@@ -1,7 +1,4 @@
-use xilem_html::{
-    elements::{a, div},
-    OneOf2, View, ViewExt, ViewMarker,
-};
+use xilem_html::{elements::div, OneOf2, SetAttr, View, ViewMarker};
 
 use crate::{
     data::{Channel, FeatureData},
@@ -31,13 +28,8 @@ pub(crate) fn feature_entry(data: &FeatureData) -> impl View<AppState> + ViewMar
     };
 
     div((
-        div(a(view_text(data.title))
-            .attr("class", "title")
-            .on_click(|state: &mut AppState, evt| {
-                state.route = AppRoute::Feature { slug: data.slug.into() };
-                evt.prevent_default();
-            })
-            .passive(false))
+        div(route_link(AppRoute::Feature { slug: data.slug.into() }, view_text(data.title))
+            .attr("class", "title"))
         .attr("class", "box"),
         version,
     ))
