@@ -1,5 +1,6 @@
 use std::borrow::Cow;
 
+use gloo_history::{BrowserHistory, History};
 use gloo_utils::window;
 use xilem_html::{elements::a, Adapt, View, ViewExt, ViewMarker, ViewSequence};
 
@@ -52,6 +53,8 @@ impl AppRoute {
             p => {
                 if let Some(feature_name) = p.strip_prefix("/features/") {
                     AppRoute::Feature { slug: feature_name.to_owned().into() }
+                } else if let Some(version_number) = p.strip_prefix("/versions/") {
+                    AppRoute::Version { number: version_number.to_owned().into() }
                 } else {
                     AppRoute::List(ListRoute::Stable)
                 }
@@ -80,9 +83,11 @@ pub fn route_link_generic<T: Route, A, ViewSeq>(
 where
     ViewSeq: ViewSequence<T, A>,
 {
+    let history = BrowserHistory::new();
     a(children)
         .attr("href", route.to_path())
         .on_click(move |state: &mut T, evt| {
+            history.push(route.to_path());
             *state = route.clone();
             evt.prevent_default();
         })

@@ -5,7 +5,7 @@ use xilem_html::{
 
 use crate::{
     data::{Channel, FeatureData},
-    router::AppRoute,
+    router::{route_link, AppRoute},
     util::view_text,
     AppState,
 };
@@ -21,7 +21,11 @@ pub(crate) fn feature_entry(data: &FeatureData) -> impl View<AppState> + ViewMar
             };
 
             OneOf2::B(
-                div(a(format!("Rust {}", version.number)).attr("href", "#")).attr("class", classes),
+                div(route_link(
+                    AppRoute::Version { number: version.number.into() },
+                    format!("Rust {}", version.number),
+                ))
+                .attr("class", classes),
             )
         }
     };
