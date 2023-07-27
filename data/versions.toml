@@ -405,3 +405,15 @@ release_date = "2023-04-20"
 release_notes = "version-1690-2023-04-20"
 gh_milestone_id = 102
 blog_post_path = "2023/04/20/Rust-1.69.0.html"
+
+["1.70"]
+release_date = "2023-06-01"
+release_notes = "version-1700-2023-06-01"
+gh_milestone_id = 104
+blog_post_path = "2023/06/01/Rust-1.70.0.html"
+
+["1.71"]
+release_date = "2023-07-13"
+release_notes = "version-1700-2023-07-13"
+gh_milestone_id = 107
+blog_post_path = "2023/07/13/Rust-1.71.0.html"
