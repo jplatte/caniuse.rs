@@ -1,5 +1,0 @@
-title = "`Poll::ready` / `task::Ready`"
-flag = "poll_ready"
-tracking_issue_id = 89780
-impl_pr_id = 89651
-doc_path = "core/task/enum.Poll.html#method.ready"
