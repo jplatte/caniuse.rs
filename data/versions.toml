@@ -414,6 +414,20 @@ blog_post_path = "2023/06/01/Rust-1.70.0.html"
 
 ["1.71"]
 release_date = "2023-07-13"
-release_notes = "version-1700-2023-07-13"
+release_notes = "version-1710-2023-07-13"
 gh_milestone_id = 107
 blog_post_path = "2023/07/13/Rust-1.71.0.html"
+
+["1.72"]
+release_date = "2023-08-24"
+release_notes = "version-1720-2023-08-24"
+gh_milestone_id = 108
+blog_post_path = "2023/08/24/Rust-1.72.0.html"
+
+["1.73"]
+channel = "beta"
+gh_milestone_id = 109
+
+["1.74"]
+channel = "nightly"
+gh_milestone_id = 111
