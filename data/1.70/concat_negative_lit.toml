@@ -1,0 +1,2 @@
+title = "negative literals in `concat!`"
+impl_pr_id = 106844

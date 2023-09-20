@@ -1,0 +1,4 @@
+title = "`Option::is_some_and`"
+impl_pr_id = 93051
+tracking_issue_id = 93050
+stabilization_pr_id = 110019

@@ -1,0 +1,18 @@
+title = "`as_ptr` method for atomics"
+stabilization_pr_id = 108419
+items = [
+    "AtomicBool::as_ptr",
+    "AtomicPtr::as_ptr",
+
+    "AtomicI8::as_ptr",
+    "AtomicI16::as_ptr",
+    "AtomicI32::as_ptr",
+    "AtomicI64::as_ptr",
+    "AtomicIsize::as_ptr",
+
+    "AtomicU8::as_ptr",
+    "AtomicU16::as_ptr",
+    "AtomicU32::as_ptr",
+    "AtomicU64::as_ptr",
+    "AtomicUsize::as_ptr",
+]
