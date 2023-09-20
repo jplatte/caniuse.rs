@@ -1,0 +1,4 @@
+title = "`efiapi` calling convention"
+flag = "abi_efiapi"
+tracking_issue_id = 65815
+stabilization_pr_id = 105795
