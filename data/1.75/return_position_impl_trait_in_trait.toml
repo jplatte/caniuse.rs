@@ -1,0 +1,4 @@
+title = "return-position `impl Trait` in traits"
+aliases = ["RPITIT"]
+tracking_issue_id = 91611
+stabilization_pr_id = 115822

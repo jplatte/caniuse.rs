@@ -433,3 +433,7 @@ blog_post_path = "2023/10/05/Rust-1.73.0.html"
 ["1.74"]
 channel = "beta"
 gh_milestone_id = 111
+
+["1.75"]
+channel = "nightly"
+gh_milestone_id = 113
