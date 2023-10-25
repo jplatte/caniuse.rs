@@ -1,4 +1,4 @@
-title = "allow arbitary enums to have explicit discriminants"
+title = "allow arbitrary enums to have explicit discriminants"
 flag = "arbitrary_enum_discriminant"
 tracking_issue_id = 60553
 rfc_id = 2363
