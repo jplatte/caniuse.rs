@@ -1,0 +1,6 @@
+title = "the `Saturating` integer wrapper type"
+flag = "saturating_int_impl"
+rfc_id = 928
+impl_pr_id = 87921
+tracking_issue_id = 87920
+stabilization_pr_id = 89381
