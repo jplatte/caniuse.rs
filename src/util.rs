@@ -8,7 +8,7 @@ use xilem_html::{
 
 use crate::AppState;
 
-pub fn view_text(mut text: &str) -> Vec<OneOf2<&str, Code<AppState, (), &str>>> {
+pub fn view_text<T>(mut text: &'static str) -> Vec<OneOf2<&str, Code<T, (), &str>>> {
     let mut res = Vec::new();
 
     while let Some(backtick_pos) = text.find('`') {

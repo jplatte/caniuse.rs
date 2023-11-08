@@ -1422,12 +1422,12 @@ dependencies = [
 [[package]]
 name = "xilem_core"
 version = "0.1.0"
-source = "git+https://github.com/Philipp-M/xilem?branch=xilem_html-dom-interfaces#4e1fbce2be1f322e3b33eef724a301b4e836e595"
+source = "git+https://github.com/Philipp-M/xilem?branch=xilem_html-dom-interfaces-one-of-changes#724a5b45efbc82cba7abdf79358fd1a11fd317f6"
 
 [[package]]
 name = "xilem_html"
 version = "0.1.0"
-source = "git+https://github.com/Philipp-M/xilem?branch=xilem_html-dom-interfaces#4e1fbce2be1f322e3b33eef724a301b4e836e595"
+source = "git+https://github.com/Philipp-M/xilem?branch=xilem_html-dom-interfaces-one-of-changes#724a5b45efbc82cba7abdf79358fd1a11fd317f6"
 dependencies = [
  "bitflags 2.3.3",
  "gloo",

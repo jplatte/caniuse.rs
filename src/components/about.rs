@@ -1,12 +1,11 @@
 use xilem_html::{
     elements::{a, div, h3, li, p, ul},
-    interfaces::Element as _,
-    ViewSequence,
+    interfaces::Element,
 };
 
 use crate::AppState;
 
-pub(crate) fn about() -> impl ViewSequence<AppState> {
+pub(crate) fn about() -> impl Element<AppState> {
     // TODO: home button
     div((
         h3("About caniuse.rs"),

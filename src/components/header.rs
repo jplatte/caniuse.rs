@@ -1,7 +1,8 @@
+use wasm_bindgen::JsCast;
 use xilem_html::{
     elements::{self as html, a, button, div, input, label, li, nav, ul},
     interfaces::Element as _,
-    View, ViewExt, ViewMarker,
+    View, ViewMarker,
 };
 
 use crate::{
@@ -21,9 +22,13 @@ pub(crate) fn header(is_menu_open: bool) -> impl View<AppState> + ViewMarker {
                 label("Can I use").attr("for", "query"),
                 input("?").attr("id", "query").attr("type", "search").on_input(
                     |state: &mut AppState, evt| {
-                        state.route = AppRoute::List(ListRoute::SearchResults {
-                            input: evt.target().value(),
-                        });
+                        if let Some(input) = evt
+                            .target()
+                            .and_then(|t| t.dyn_into::<web_sys::HtmlInputElement>().ok())
+                        {
+                            state.route =
+                                AppRoute::List(ListRoute::SearchResults { input: input.value() });
+                        }
                     },
                 ),
             ))

@@ -67,25 +67,31 @@ pub(crate) fn index(
                 .attr("class", "feature-list"),
             )
         }
-        ListRoute::SearchResults { input } => match extract_search_terms(input) {
-            Ok(search_terms) => {
-                let results = run_search(&search_terms, search_scores);
-                if results.is_empty() {
-                    OneOf3::C(div("Nothing found, sorry.").attr("class", "box muted"))
-                } else {
-                    OneOf3::B(
-                        div(results
-                            .iter()
-                            .map(|f| feature_entry(f, ShowVersion::Yes))
-                            .collect::<Vec<_>>())
-                        .attr("class", "feature-list"),
-                    )
+        ListRoute::SearchResults { input } => {
+            stable_link = OneOf2::A(stable_link_b);
+            recently_stabilized_link = OneOf2::A(recently_stabilized_link_b);
+            unstable_link = OneOf2::B(unstable_link_b.attr("class", "active"));
+
+            match extract_search_terms(input) {
+                Ok(search_terms) => {
+                    let results = run_search(&search_terms, search_scores);
+                    if results.is_empty() {
+                        OneOf3::C(div("Nothing found, sorry.").attr("class", "box muted"))
+                    } else {
+                        OneOf3::B(
+                            div(results
+                                .iter()
+                                .map(|f| feature_entry(f, ShowVersion::Yes))
+                                .collect::<Vec<_>>())
+                            .attr("class", "feature-list"),
+                        )
+                    }
+                }
+                Err(InvalidSearchQuery) => {
+                    OneOf3::C(div("Invalid search terms.").attr("class", "box muted"))
                 }
             }
-            Err(InvalidSearchQuery) => {
-                OneOf3::C(div("Invalid search terms.").attr("class", "box muted"))
-            }
-        },
+        }
     };
 
     (

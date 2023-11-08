@@ -18,8 +18,8 @@ gloo-timers = "0.2.6"
 gloo-utils = "0.1.6"
 once_cell = "1.18.0"
 wasm-bindgen = "0.2.87"
-xilem_core = { git = "https://github.com/Philipp-M/xilem", branch = "xilem_html-dom-interfaces" }
-xilem_html = { git = "https://github.com/Philipp-M/xilem", branch = "xilem_html-dom-interfaces" }
+xilem_core = { git = "https://github.com/Philipp-M/xilem", branch = "xilem_html-dom-interfaces-one-of-changes" }
+xilem_html = { git = "https://github.com/Philipp-M/xilem", branch = "xilem_html-dom-interfaces-one-of-changes" }
 
 # fixup gloo-history's serde feature set
 # https://github.com/rustwasm/gloo/pull/357

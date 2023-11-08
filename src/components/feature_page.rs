@@ -2,8 +2,8 @@ use std::ops::Not;
 
 use xilem_html::{
     elements::{code, div, h3, li, pre, span, ul},
-    interfaces::Element as _,
-    OneOf2, ViewSequence,
+    interfaces::Element,
+    OneOf2,
 };
 
 use crate::{
@@ -13,7 +13,7 @@ use crate::{
     AppState,
 };
 
-pub(crate) fn feature_page(data: &FeatureData) -> impl ViewSequence<AppState> {
+pub(crate) fn feature_page(data: &FeatureData) -> impl Element<AppState> {
     // TODO: Home button
     div((
         h3(view_text(data.title)).attr("class", "title"),
@@ -70,7 +70,7 @@ pub(crate) fn feature_page(data: &FeatureData) -> impl ViewSequence<AppState> {
     .attr("class", "box")
 }
 
-fn view_items(items: &'static [&str]) -> impl ViewSequence<AppState> {
+fn view_items(items: &'static [&str]) -> impl Element<AppState> {
     let items: Vec<_> = items
         .iter()
         .map(|&item| {
