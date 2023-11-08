@@ -4,7 +4,7 @@ use wasm_bindgen::prelude::wasm_bindgen;
 use xilem_html::{
     elements::{div, main},
     interfaces::Element as _,
-    App, Memoize, OneOf5, View,
+    App, Memoize, OneSeqOf5, View,
 };
 
 mod data;
@@ -55,17 +55,17 @@ impl AppState {
 fn app(state: &mut AppState) -> impl View<AppState> {
     let page_content = match &mut state.route {
         AppRoute::List(list_route) => {
-            OneOf5::A(components::index(list_route, &mut state.search_scores))
+            OneSeqOf5::A(components::index(list_route, &mut state.search_scores))
         }
         AppRoute::Feature { slug } => match FEATURES.iter().find(|f| f.slug == slug) {
-            Some(data) => OneOf5::B(components::feature_page(data)),
-            None => OneOf5::E("error: feature not found!"),
+            Some(data) => OneSeqOf5::B(components::feature_page(data)),
+            None => OneSeqOf5::E("error: feature not found!"),
         },
         AppRoute::Version { number } => match VERSIONS.iter().find(|f| f.number == number) {
-            Some(data) => OneOf5::C(components::version_page(data)),
-            None => OneOf5::E("error: version not found!"),
+            Some(data) => OneSeqOf5::C(components::version_page(data)),
+            None => OneSeqOf5::E("error: version not found!"),
         },
-        AppRoute::About => OneOf5::D(components::about()),
+        AppRoute::About => OneSeqOf5::D(components::about()),
     };
     main((
         Memoize::new(state.is_menu_open, |&is_menu_open| components::header(is_menu_open)),
