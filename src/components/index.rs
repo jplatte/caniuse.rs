@@ -1,6 +1,7 @@
 use xilem_html::{
     elements::{div, nav},
-    OneOf3, SetAttr, ViewExt, ViewSequence,
+    interfaces::Element as _,
+    OneOf2, OneOf3, ViewSequence,
 };
 
 use super::{feature_entry, feature_entry::ShowVersion};
@@ -15,14 +16,20 @@ pub(crate) fn index(
     route: &ListRoute,
     search_scores: &mut [(u16, f64)],
 ) -> impl ViewSequence<AppState> {
-    let mut stable_link = route_link(AppRoute::List(ListRoute::Stable), "Stable");
-    let mut recently_stabilized_link =
+    let stable_link_b = route_link(AppRoute::List(ListRoute::Stable), "Stable");
+    let recently_stabilized_link_b =
         route_link(AppRoute::List(ListRoute::RecentlyStabilized), "Recently Stabilized");
-    let mut unstable_link = route_link(AppRoute::List(ListRoute::Unstable), "Unstable");
+    let unstable_link_b = route_link(AppRoute::List(ListRoute::Unstable), "Unstable");
+
+    let stable_link;
+    let recently_stabilized_link;
+    let unstable_link;
 
     let contents = match route {
         ListRoute::Stable => {
-            stable_link = stable_link.attr("class", "active");
+            stable_link = OneOf2::B(stable_link_b.attr("class", "active"));
+            recently_stabilized_link = OneOf2::A(recently_stabilized_link_b);
+            unstable_link = OneOf2::A(unstable_link_b);
             OneOf3::A(
                 div(FEATURES
                     .iter()
@@ -33,7 +40,10 @@ pub(crate) fn index(
             )
         }
         ListRoute::RecentlyStabilized => {
-            recently_stabilized_link = recently_stabilized_link.attr("class", "active");
+            stable_link = OneOf2::A(stable_link_b);
+            recently_stabilized_link =
+                OneOf2::B(recently_stabilized_link_b.attr("class", "active"));
+            unstable_link = OneOf2::A(unstable_link_b);
             OneOf3::A(
                 div(FEATURES
                     .iter()
@@ -45,7 +55,9 @@ pub(crate) fn index(
             )
         }
         ListRoute::Unstable => {
-            unstable_link = unstable_link.attr("class", "active");
+            stable_link = OneOf2::A(stable_link_b);
+            recently_stabilized_link = OneOf2::A(recently_stabilized_link_b);
+            unstable_link = OneOf2::B(unstable_link_b.attr("class", "active"));
             OneOf3::A(
                 div(FEATURES
                     .iter()

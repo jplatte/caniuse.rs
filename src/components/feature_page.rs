@@ -2,6 +2,7 @@ use std::ops::Not;
 
 use xilem_html::{
     elements::{code, div, h3, li, pre, span, ul},
+    interfaces::Element as _,
     OneOf2, ViewSequence,
 };
 

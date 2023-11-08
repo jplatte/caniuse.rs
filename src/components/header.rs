@@ -1,5 +1,6 @@
 use xilem_html::{
     elements::{self as html, a, button, div, input, label, li, nav, ul},
+    interfaces::Element as _,
     View, ViewExt, ViewMarker,
 };
 

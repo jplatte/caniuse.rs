@@ -685,6 +685,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dd8b5dd2ae5ed71462c540258bedcb51965123ad7e7ccf4b9a8cafaa4a63576d"
 
 [[package]]
+name = "paste"
+version = "1.0.14"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "de3145af08024dea9fa9914f381a17b8fc6034dfb00f3a84013f7ff43f29ed4c"
+
+[[package]]
 name = "percent-encoding"
 version = "2.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1416,17 +1422,18 @@ dependencies = [
 [[package]]
 name = "xilem_core"
 version = "0.1.0"
-source = "git+https://github.com/linebender/xilem?rev=33d4b08989e7cd6f4f5576c311440dc20cb2d351#33d4b08989e7cd6f4f5576c311440dc20cb2d351"
+source = "git+https://github.com/Philipp-M/xilem?branch=xilem_html-dom-interfaces#4e1fbce2be1f322e3b33eef724a301b4e836e595"
 
 [[package]]
 name = "xilem_html"
 version = "0.1.0"
-source = "git+https://github.com/linebender/xilem?rev=33d4b08989e7cd6f4f5576c311440dc20cb2d351#33d4b08989e7cd6f4f5576c311440dc20cb2d351"
+source = "git+https://github.com/Philipp-M/xilem?branch=xilem_html-dom-interfaces#4e1fbce2be1f322e3b33eef724a301b4e836e595"
 dependencies = [
  "bitflags 2.3.3",
  "gloo",
  "kurbo",
  "log",
+ "paste",
  "wasm-bindgen",
  "web-sys",
  "xilem_core",

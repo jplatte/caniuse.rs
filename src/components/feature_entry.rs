@@ -1,4 +1,4 @@
-use xilem_html::{elements::div, OneOf2, SetAttr, View, ViewMarker};
+use xilem_html::{elements::div, interfaces::Element as _, OneOf2, View, ViewMarker};
 
 use crate::{
     data::{Channel, FeatureData},

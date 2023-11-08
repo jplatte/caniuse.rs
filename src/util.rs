@@ -2,12 +2,13 @@ use std::fmt::Display;
 
 use xilem_html::{
     elements::{a, code, li, Code},
+    interfaces::Element as _,
     OneOf2, ViewSequence,
 };
 
 use crate::AppState;
 
-pub fn view_text(mut text: &str) -> Vec<OneOf2<&str, Code<&str>>> {
+pub fn view_text(mut text: &str) -> Vec<OneOf2<&str, Code<AppState, (), &str>>> {
     let mut res = Vec::new();
 
     while let Some(backtick_pos) = text.find('`') {

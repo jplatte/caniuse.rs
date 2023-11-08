@@ -1,5 +1,6 @@
 use xilem_html::{
     elements::{a, div, h3, li, p, ul},
+    interfaces::Element as _,
     ViewSequence,
 };
 

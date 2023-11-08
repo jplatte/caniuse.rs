@@ -3,6 +3,7 @@ use gloo_utils::document;
 use wasm_bindgen::prelude::wasm_bindgen;
 use xilem_html::{
     elements::{div, main},
+    interfaces::Element as _,
     App, Memoize, OneOf5, View,
 };
 

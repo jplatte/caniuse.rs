@@ -2,7 +2,7 @@ use std::borrow::Cow;
 
 use gloo_history::{BrowserHistory, History};
 use gloo_utils::window;
-use xilem_html::{elements::a, SetAttr, View, ViewExt, ViewMarker, ViewSequence};
+use xilem_html::{elements::a, interfaces::Element, ViewExt, ViewSequence};
 
 use crate::AppState;
 
@@ -63,20 +63,14 @@ impl AppRoute {
     }
 }
 
-pub(crate) fn route_link<ViewSeq>(
-    route: AppRoute,
-    children: ViewSeq,
-) -> impl View<AppState> + ViewMarker + SetAttr
+pub(crate) fn route_link<ViewSeq>(route: AppRoute, children: ViewSeq) -> impl Element<AppState>
 where
     ViewSeq: ViewSequence<AppRoute>,
 {
     route_link_generic(route, children).adapt_state(|data: &mut AppState| &mut data.route)
 }
 
-pub fn route_link_generic<T: Route, A, ViewSeq>(
-    route: T,
-    children: ViewSeq,
-) -> impl View<T, A> + ViewMarker + SetAttr
+pub fn route_link_generic<T: Route, A, ViewSeq>(route: T, children: ViewSeq) -> impl Element<T, A>
 where
     ViewSeq: ViewSequence<T, A>,
 {
