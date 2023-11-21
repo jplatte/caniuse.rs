@@ -1406,7 +1406,7 @@ dependencies = [
 [[package]]
 name = "tower-http"
 version = "0.5.0"
-source = "git+https://github.com/tower-rs/tower-http?branch=david/0.5.0#a8716546cc959b78c491125f47f8b70d99a798f7"
+source = "git+https://github.com/tower-rs/tower-http?rev=a8716546cc959#a8716546cc959b78c491125f47f8b70d99a798f7"
 dependencies = [
  "bitflags 2.4.1",
  "bytes",
