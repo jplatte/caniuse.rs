@@ -6,8 +6,10 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.71"
 clap = { version = "4.3.3", features = ["derive"] }
-hyper = { version = "0.14.26", features = ["http1", "http2", "server", "tcp"] }
+http = "1.0"
+hyper = { version = "1.0.0", features = ["http1", "http2", "server"] }
+hyper-util = { version = "0.1.0", features = ["server-auto", "http1", "http2", "tokio"] }
 tokio = { version = "1.28.2", features = ["macros", "rt-multi-thread", "signal"] }
 tower = { version = "0.4.13", default-features = false, features = ["make"] }
-tower-http = { version = "0.4.0", features = ["fs"] }
+tower-http = { git = "https://github.com/tower-rs/tower-http", branch = "david/0.5.0", features = ["fs"] }
 xshell = "0.1.17"

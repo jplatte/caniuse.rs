@@ -4,7 +4,9 @@ use std::{
 };
 
 use clap::{Parser, Subcommand};
-use graceful_shutdown::shutdown_signal;
+use http::Request;
+use hyper::body::Incoming;
+use tower::ServiceExt;
 use tower_http::services::{ServeDir, ServeFile};
 use xshell::cmd;
 
@@ -57,14 +59,30 @@ async fn serve(release: bool) -> anyhow::Result<()> {
     println!("Starting development server on http://localhost:8000");
 
     let addr = SocketAddr::from((Ipv6Addr::LOCALHOST, 8000));
-    let service = ServeDir::new("public").fallback(ServeFile::new("public/index.html"));
+    let listener = tokio::net::TcpListener::bind(addr).await?;
 
-    hyper::Server::bind(&addr)
-        .serve(tower::make::Shared::new(service))
-        .with_graceful_shutdown(shutdown_signal())
-        .await?;
+    loop {
+        let (socket, _remote_addr) = listener.accept().await?;
 
-    Ok(())
+        tokio::spawn(async move {
+            let socket = hyper_util::rt::TokioIo::new(socket);
+            let hyper_service = hyper::service::service_fn(|request: Request<Incoming>| {
+                let tower_service =
+                    ServeDir::new("public").fallback(ServeFile::new("public/index.html"));
+                tower_service.oneshot(request)
+            });
+
+            // no idea how to do graceful shutdown with hyper 1.0 :(
+
+            if let Err(err) =
+                hyper_util::server::conn::auto::Builder::new(hyper_util::rt::TokioExecutor::new())
+                    .serve_connection(socket, hyper_service)
+                    .await
+            {
+                eprintln!("failed to serve connection: {err:#}");
+            }
+        });
+    }
 }
 
 fn deploy() -> anyhow::Result<()> {

@@ -1,5 +1,6 @@
 use tokio::signal;
 
+#[allow(dead_code)]
 pub async fn shutdown_signal() {
     let ctrl_c = async {
         signal::ctrl_c().await.expect("failed to install Ctrl+C handler");
