@@ -11,5 +11,5 @@ hyper = { version = "1.0.0", features = ["http1", "http2", "server"] }
 hyper-util = { version = "0.1.0", features = ["server-auto", "http1", "http2", "tokio"] }
 tokio = { version = "1.28.2", features = ["macros", "rt-multi-thread", "signal"] }
 tower = { version = "0.4.13", default-features = false, features = ["make"] }
-tower-http = { git = "https://github.com/tower-rs/tower-http", rev = "a8716546cc959", features = ["fs"] }
+tower-http = { version = "0.5.0", features = ["fs"] }
 xshell = "0.1.17"
