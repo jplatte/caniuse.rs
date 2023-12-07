@@ -10,8 +10,6 @@ use tower::ServiceExt;
 use tower_http::services::{ServeDir, ServeFile};
 use xshell::cmd;
 
-mod graceful_shutdown;
-
 #[derive(Parser)]
 struct CliArgs {
     #[clap(subcommand)]
@@ -71,8 +69,6 @@ async fn serve(release: bool) -> anyhow::Result<()> {
                     ServeDir::new("public").fallback(ServeFile::new("public/index.html"));
                 tower_service.oneshot(request)
             });
-
-            // no idea how to do graceful shutdown with hyper 1.0 :(
 
             if let Err(err) =
                 hyper_util::server::conn::auto::Builder::new(hyper_util::rt::TokioExecutor::new())
