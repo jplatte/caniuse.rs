@@ -4,9 +4,7 @@ use std::{
 };
 
 use clap::{Parser, Subcommand};
-use http::Request;
-use hyper::body::Incoming;
-use tower::ServiceExt;
+use hyper_util::service::TowerToHyperService;
 use tower_http::services::{ServeDir, ServeFile};
 use xshell::cmd;
 
@@ -64,15 +62,13 @@ async fn serve(release: bool) -> anyhow::Result<()> {
 
         tokio::spawn(async move {
             let socket = hyper_util::rt::TokioIo::new(socket);
-            let hyper_service = hyper::service::service_fn(|request: Request<Incoming>| {
-                let tower_service =
-                    ServeDir::new("public").fallback(ServeFile::new("public/index.html"));
-                tower_service.oneshot(request)
-            });
+            let service = TowerToHyperService::new(
+                ServeDir::new("public").fallback(ServeFile::new("public/index.html")),
+            );
 
             if let Err(err) =
                 hyper_util::server::conn::auto::Builder::new(hyper_util::rt::TokioExecutor::new())
-                    .serve_connection(socket, hyper_service)
+                    .serve_connection(socket, service)
                     .await
             {
                 eprintln!("failed to serve connection: {err:#}");
