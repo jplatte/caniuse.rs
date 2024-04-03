@@ -3,7 +3,6 @@
 use std::{
     cmp::Reverse,
     collections::{BTreeMap, BTreeSet},
-    default::Default,
     env,
     fmt::Debug,
     io::{BufWriter, Write},
