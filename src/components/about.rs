@@ -38,7 +38,7 @@ impl Component for About {
                     <p>
                         {"I'm Jonas and I work on free software in my spare time, usually on "}
                         {"projects written in Rust and / or for the Linux desktop. I am a "}
-                        {"maintainer of the "}<a href="https://ruma.io/">{"ruma"}</a>{" project "}
+                        {"maintainer of the "}<a href="https://ruma.dev/">{"ruma"}</a>{" project "}
                         {" and have made minor contributions to many other open-source projects "}
                         {"over the course of the years."}
                     </p>
