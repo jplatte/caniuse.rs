@@ -431,9 +431,33 @@ gh_milestone_id = 109
 blog_post_path = "2023/10/05/Rust-1.73.0.html"
 
 ["1.74"]
-channel = "beta"
+release_date = "2023-11-16"
+release_notes = "version-1740-2023-11-16"
 gh_milestone_id = 111
+blog_post_path = "2023/11/16/Rust-1.74.0.html"
 
 ["1.75"]
-channel = "nightly"
+release_date = "2023-12-28"
+release_notes = "version-1750-2023-12-28"
 gh_milestone_id = 113
+blog_post_path = "2023/12/28/Rust-1.75.0.html"
+
+["1.76"]
+release_date = "2024-02-08"
+release_notes = "version-1760-2024-02-08"
+gh_milestone_id = 114
+blog_post_path = "2024/02/08/Rust-1.76.0.html"
+
+["1.77"]
+release_date = "2024-03-21"
+release_notes = "version-1770-2024-03-21"
+gh_milestone_id = 116
+blog_post_path = "2024/03/21/Rust-1.77.0.html"
+
+["1.78"]
+channel = "beta"
+gh_milestone_id = 117
+
+["1.79"]
+channel = "nightly"
+gh_milestone_id = 118
