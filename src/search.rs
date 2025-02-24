@@ -35,7 +35,7 @@ pub fn run_search(search_terms: &[String], search_scores: &mut [(u16, f64)]) -> 
         .map(|t| {
             (t.as_bytes().windows(3).count() * 12) as f64
                 + (t.as_bytes().windows(2).count() * 4) as f64
-                + t.as_bytes().len() as f64
+                + t.len() as f64
         })
         .sum();
 
