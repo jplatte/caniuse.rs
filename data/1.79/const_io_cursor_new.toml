@@ -2,3 +2,6 @@ title = "`io::Cursor::new` as `const fn`"
 flag = "const_io_structs"
 impl_pr_id = 78811
 tracking_issue_id = 78812
+stabilization_pr_id = 124049
+items = ["std::io::Cursor::new"]
+doc_path = "std/io/struct.Cursor.html#method.new"
