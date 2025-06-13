@@ -455,9 +455,11 @@ gh_milestone_id = 116
 blog_post_path = "2024/03/21/Rust-1.77.0.html"
 
 ["1.78"]
-channel = "beta"
+release_date = "2024-05-02"
 gh_milestone_id = 117
+blog_post_path = "2024/05/02/Rust-1.78.0/"
 
 ["1.79"]
-channel = "nightly"
+release_date = "2024-06-13"
 gh_milestone_id = 118
+blog_post_path = "2024/06/13/Rust-1.79.0/"
