@@ -1,6 +1,7 @@
 use std::{
     fs, io,
     net::{Ipv6Addr, SocketAddr},
+    time::{SystemTime, UNIX_EPOCH},
 };
 
 use clap::{Parser, Subcommand};
@@ -39,13 +40,27 @@ fn main() -> anyhow::Result<()> {
 fn build(dev: bool) -> anyhow::Result<()> {
     let sh = Shell::new()?;
 
-    cmd!(sh, "wasm-pack build --no-typescript --target web").args(dev.then_some("--dev")).run()?;
-    fs::copy("pkg/caniuse_rs_bg.wasm", "public/caniuse_rs.wasm")?;
-    cmd!(sh, "rollup src/main.js --format iife --file public/caniuse_rs.js").run()?;
+    let build_id = SystemTime::now().duration_since(UNIX_EPOCH)?.as_secs();
+    let build_id = &build_id.to_string();
+
+    cmd!(sh, "wasm-pack build --no-typescript --target web")
+        .args(dev.then_some("--dev"))
+        .env("BUILD_ID", build_id)
+        .run()?;
+    fs::copy("pkg/caniuse_rs_bg.wasm", format!("public/caniuse_rs.{build_id}.wasm"))?;
+    cmd!(
+        sh,
+        "rollup src/main.js
+        --format iife
+        --outro 'function build_id() { return \"'{build_id}'\"; }'
+        --file public/caniuse_rs.{build_id}.js"
+    )
+    .run()?;
 
     let static_files: Vec<_> =
         fs::read_dir("static")?.map(|entry| Ok(entry?.path())).collect::<io::Result<_>>()?;
     cmd!(sh, "cp -r {static_files...} public/").run()?;
+    cmd!(sh, "mv public/style.css public/style.{build_id}.css").run()?;
 
     Ok(())
 }
