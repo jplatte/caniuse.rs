@@ -24,7 +24,7 @@ if ('WebAssembly' in window) {
 
     // Load main app
     async function main() {
-        await init('/caniuse_rs.wasm');
+        await init(`/caniuse_rs.${build_id()}.wasm`);
         run();
     }
     main()

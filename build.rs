@@ -22,6 +22,7 @@ use tera::{Context, Tera};
 struct Data {
     versions: Vec<FeatureList>,
     unstable: FeatureList,
+    build_id: String,
 }
 
 #[derive(Deserialize, Serialize)]
@@ -150,6 +151,7 @@ fn collect_data() -> anyhow::Result<Data> {
     let mut data = Data {
         versions: Vec::new(),
         unstable: FeatureList { version: None, features: Vec::new() },
+        build_id: std::env::var("BUILD_ID").context("expected BUILD_ID env var")?,
     };
 
     let mut versions: BTreeMap<String, VersionData> =
