@@ -1,0 +1,14 @@
+title = "`BITS`, `to_bits`, and `from_bits` for IP addresses"
+flag = "ip_bits"
+tracking_issue_id = 113744
+stabilization_pr_id = 125551
+items = [
+    "Ipv4Addr::BITS",
+    "Ipv4Addr::to_bits",
+    "Ipv4Addr::from_bits",
+    "Ipv6Addr::BITS",
+    "Ipv6Addr::to_bits",
+    "Ipv6Addr::from_bits",
+]
+doc_path = "std/net/struct.Ipv4Addr.html#associatedconstant.BITS"
+

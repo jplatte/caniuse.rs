@@ -1,0 +1,7 @@
+title = "`<[T]>::last_chunk` as `const fn`"
+flag = "slice_first_last_chunk"
+impl_pr_id = 95198
+tracking_issue_id = 111774
+stabilization_pr_id = 124836
+items = ["<[T]>::last_chunk"]
+doc_path = "std/primitive.slice.html#method.last_chunk"

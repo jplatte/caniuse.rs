@@ -1,0 +1,7 @@
+title = "`LazyCell`"
+flag = "lazy_cell"
+rfc_id = 2788
+impl_pr_id = 72414
+tracking_issue_id = 109736
+stabilization_pr_id = 121377
+doc_path = "std/cell/struct.LazyCell.html"

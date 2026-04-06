@@ -1,0 +1,31 @@
+title = "convenience methods on `NonNull`"
+flag = "non_null_convenience"
+tracking_issue_id = 117691
+stabilization_pr_id = 124498
+items = [
+    "NonNull::offset",
+    "NonNull::byte_offset",
+    "NonNull::add",
+    "NonNull::byte_add",
+    "NonNull::sub",
+    "NonNull::byte_sub",
+    "NonNull::offset_from",
+    "NonNull::byte_offset_from",
+    "NonNull::read",
+    "NonNull::read_volatile",
+    "NonNull::read_unaligned",
+    "NonNull::write",
+    "NonNull::write_volatile",
+    "NonNull::write_unaligned",
+    "NonNull::write_bytes",
+    "NonNull::copy_to",
+    "NonNull::copy_to_nonoverlapping",
+    "NonNull::copy_from",
+    "NonNull::copy_from_nonoverlapping",
+    "NonNull::replace",
+    "NonNull::swap",
+    "NonNull::drop_in_place",
+    "NonNull::align_offset",
+]
+doc_path = "std/ptr/struct.NonNull.html"
+

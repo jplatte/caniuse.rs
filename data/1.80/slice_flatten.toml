@@ -1,0 +1,11 @@
+title = "slice flattening methods for slices of arrays"
+flag = "slice_flatten"
+tracking_issue_id = 95629
+stabilization_pr_id = 125561
+items = [
+    "Vec::<[T; N]>::into_flattened",
+    "<[[T; N]]>::as_flattened",
+    "<[[T; N]]>::as_flattened_mut",
+]
+doc_path = "std/primitive.slice.html#method.as_flattened"
+

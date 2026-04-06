@@ -1,0 +1,7 @@
+title = "`Option::take_if`"
+flag = "option_take_if"
+impl_pr_id = 98935
+tracking_issue_id = 98934
+stabilization_pr_id = 126089
+doc_path = "std/option/enum.Option.html#method.take_if"
+

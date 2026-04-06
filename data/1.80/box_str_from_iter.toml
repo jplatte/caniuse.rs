@@ -1,0 +1,9 @@
+title = "`FromIterator` implementations for `Box<str>`"
+flag = "boxed_str_from_iter"
+impl_pr_id = 99969
+items = [
+    "impl FromIterator<String> for Box<str>",
+    "impl FromIterator<char> for Box<str>",
+]
+doc_path = "alloc/boxed/struct.Box.html#impl-FromIterator%3CString%3E-for-Box%3Cstr%3E"
+

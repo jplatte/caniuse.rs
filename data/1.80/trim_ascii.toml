@@ -1,0 +1,14 @@
+title = "ASCII trimming on `str` and byte slices"
+flag = "byte_slice_trim_ascii"
+tracking_issue_id = 94035
+stabilization_pr_id = 124928
+items = [
+    "str::trim_ascii",
+    "str::trim_ascii_start",
+    "str::trim_ascii_end",
+    "<[u8]>::trim_ascii",
+    "<[u8]>::trim_ascii_start",
+    "<[u8]>::trim_ascii_end",
+]
+doc_path = "std/primitive.str.html#method.trim_ascii"
+

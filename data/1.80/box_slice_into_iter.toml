@@ -1,0 +1,6 @@
+title = "`IntoIterator` implementation for `Box<[T]>`"
+flag = "boxed_slice_into_iter"
+impl_pr_id = 124097
+items = ["impl IntoIterator for Box<[T]>"]
+doc_path = "alloc/boxed/struct.Box.html#impl-IntoIterator-for-Box%3C%5BI%5D,+A%3E"
+

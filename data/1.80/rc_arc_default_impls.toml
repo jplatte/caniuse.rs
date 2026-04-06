@@ -1,0 +1,12 @@
+title = "`Default` implementations for `Rc` and `Arc` string and slice types"
+flag = "more_rc_default_impls"
+impl_pr_id = 124640
+items = [
+    "impl Default for Rc<CStr>",
+    "impl Default for Rc<str>",
+    "impl Default for Rc<[T]>",
+    "impl Default for Arc<CStr>",
+    "impl Default for Arc<str>",
+    "impl Default for Arc<[T]>",
+]
+doc_path = "alloc/rc/struct.Rc.html#impl-Default-for-Rc%3Cstr%3E"

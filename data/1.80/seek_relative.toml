@@ -1,0 +1,7 @@
+title = "`Seek::seek_relative`"
+flag = "seek_seek_relative"
+impl_pr_id = 116750
+tracking_issue_id = 117374
+stabilization_pr_id = 123817
+doc_path = "std/io/trait.Seek.html#method.seek_relative"
+

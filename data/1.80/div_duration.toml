@@ -1,0 +1,10 @@
+title = "`Duration::div_duration_f32` and `Duration::div_duration_f64`"
+flag = "div_duration"
+tracking_issue_id = 63139
+stabilization_pr_id = 124667
+items = [
+    "std::time::Duration::div_duration_f32",
+    "std::time::Duration::div_duration_f64",
+]
+doc_path = "std/time/struct.Duration.html#method.div_duration_f64"
+

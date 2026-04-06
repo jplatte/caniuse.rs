@@ -1,0 +1,5 @@
+title = "`BinaryHeap::new` as `const fn`"
+flag = "const_binary_heap_constructor"
+stabilization_pr_id = 125211
+items = ["std::collections::BinaryHeap::new"]
+doc_path = "std/collections/struct.BinaryHeap.html#method.new"

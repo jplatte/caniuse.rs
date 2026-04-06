@@ -1,0 +1,13 @@
+title = "`split_at_checked` methods on slices and strings"
+flag = "split_at_checked"
+impl_pr_id = 118578
+tracking_issue_id = 119128
+stabilization_pr_id = 124678
+items = [
+    "<[T]>::split_at_checked",
+    "<[T]>::split_at_mut_checked",
+    "str::split_at_checked",
+    "str::split_at_mut_checked",
+]
+doc_path = "std/primitive.slice.html#method.split_at_checked"
+
